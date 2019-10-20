@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "blog-gin/conn"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
