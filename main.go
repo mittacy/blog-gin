@@ -1,16 +1,25 @@
 package main
 
 import (
-	_ "blog-gin/conn"
-	"net/http"
+	"blog-gin/controllers"
+	"blog-gin/models"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// 数据库连接
+	gormDb := models.GormDB()
+	defer gormDb.Close()
+	sqlDb := models.SQLDB()
+	defer sqlDb.Close()
+
 	router := gin.Default()
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "hello", "name": "gin"})
-	})
+	api := router.Group("/api")
+	{
+		api.POST("/admin", controllers.PostAdmin)
+		api.GET("/admin", controllers.GetAdmin)
+	}
+
 	router.Run(":5201")
 }
