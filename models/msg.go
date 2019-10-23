@@ -2,6 +2,7 @@ package models
 
 // 常见错误定义
 const (
+	NOKNOW_ERROR      string = "未知错误"
 	NO_EXIST          string = "资源不存在"
 	EXISTED           string = "数据已存在"
 	CATE_NO_EXIST     string = "分类不存在"

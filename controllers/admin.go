@@ -19,6 +19,7 @@ func GetAdmin(c *gin.Context) {
 // PostAdmin 登录管理员
 func PostAdmin(c *gin.Context) {
 	admin := &models.Admin{}
+	// 解析json数据到结构体admin
 	err := c.ShouldBindJSON(admin)
 	if !CheckErr(err) {
 		RejectResult(c, 400, ANALYSIS_ERROR)

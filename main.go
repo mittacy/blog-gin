@@ -9,9 +9,9 @@ import (
 
 func main() {
 	// 数据库连接
-	gormDb := models.GormDB()
-	defer gormDb.Close()
-	sqlDb := models.SQLDB()
+	db := models.GetDB()
+	defer db.Close()
+	sqlDb := models.GetSQLDB()
 	defer sqlDb.Close()
 
 	router := gin.Default()

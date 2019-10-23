@@ -19,11 +19,11 @@ type Admin struct {
 }
 
 // CreateAdmin 创建管理员信息
-func CreateAdmin() error {
+func CreateAdmin() (string, error) {
 	name, _ := GetAdminName()
 	if row := sqlDb.QueryRow("SELECT id FROM admin WHERE name = ?", name); row != nil {
 		fmt.Println("管理员已存在。")
-		return nil
+		return "管理员已存在", nil
 	}
 	password := Encryption("admin")
 	admin := Admin{
@@ -35,12 +35,10 @@ func CreateAdmin() error {
 		Github:    "https://github.com/crazychat",
 		Mail:      "mail@mittacy.com",
 	}
-	if err := gormDb.Create(&admin).Error; err != nil {
-		fmt.Println("创建管理员失败")
-		return err
+	if err := db.Create(&admin).Error; err != nil {
+		return "创建管理员失败", err
 	}
-	fmt.Println("创建管理员成功")
-	return nil
+	return "创建管理员成功", nil
 }
 
 // IsRightAdmin 检验密码是否正确
@@ -62,7 +60,7 @@ func GetAdmin() (*Admin, string, error) {
 		return nil, SQL_ERROR, err
 	}
 	admin := &Admin{}
-	err = gormDb.Where("name = ?", name).First(admin).Error
+	err = db.Where("name = ?", name).First(admin).Error
 	if err != nil {
 		return nil, SQL_ERROR, err
 	}
@@ -74,7 +72,7 @@ func GetAdmin() (*Admin, string, error) {
 func GetAdminName() (string, error) {
 	sec, err := cfg.GetSection("app")
 	if err != nil {
-		return "", err
+		return NOKNOW_ERROR, err
 	}
 	name := sec.Key("ADMIN").MustString("debug")
 	return name, nil
