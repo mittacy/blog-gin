@@ -20,11 +20,14 @@ func main() {
 	{
 		api.POST("/admin", controllers.PostAdmin)
 		api.GET("/admin", controllers.GetAdmin)
+		api.POST("/category", controllers.CreateCategory)
+		api.PUT("/category", controllers.UpdataCategory)
 	}
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")
 	apiAdmin.Use(controllers.CheckAdmin())
 	{
+
 	}
 
 	router.Run(":5201")

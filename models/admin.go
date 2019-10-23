@@ -2,6 +2,7 @@ package models
 
 import (
 	"crypto/md5"
+	"database/sql"
 	"errors"
 	"fmt"
 	"io"
@@ -20,8 +21,8 @@ type Admin struct {
 
 // CreateAdmin 创建管理员信息
 func CreateAdmin() (string, error) {
-	row := sqlDb.QueryRow("SELECT id FROM admin")
-	if row != nil {
+	row := sqlDb.QueryRow("SELECT id FROM admin limit 1")
+	if err := row.Scan(); !(err == sql.ErrNoRows) {
 		fmt.Println("管理员已存在")
 		return "管理员已存在", nil
 	}
@@ -85,7 +86,7 @@ func GetAdminPassword() (string, error) {
 		return "", err
 	}
 	var pwd string
-	row := sqlDb.QueryRow("SELECT password FROM admin where name = ?", name)
+	row := sqlDb.QueryRow("SELECT password FROM admin where name = ? limit 1", name)
 	err = row.Scan(&pwd)
 	return pwd, err
 }
