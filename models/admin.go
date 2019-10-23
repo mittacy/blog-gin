@@ -20,9 +20,9 @@ type Admin struct {
 
 // CreateAdmin 创建管理员信息
 func CreateAdmin() (string, error) {
-	name, _ := GetAdminName()
-	if row := sqlDb.QueryRow("SELECT id FROM admin WHERE name = ?", name); row != nil {
-		fmt.Println("管理员已存在。")
+	row := sqlDb.QueryRow("SELECT id FROM admin")
+	if row != nil {
+		fmt.Println("管理员已存在")
 		return "管理员已存在", nil
 	}
 	password := Encryption("admin")

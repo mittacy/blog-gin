@@ -6,3 +6,17 @@ type Category struct {
 	ArticleCount int    `gorm:"default:0"`
 	Articles     []Article
 }
+
+func CreateCate(title string) (string, error) {
+	stmt, err := sqlDb.Prepare("INSERT INTO category(title) values (?)")
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(title)
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	return "", nil
+}
