@@ -67,7 +67,7 @@ func CreateTables() {
 	// 创建表格
 	fmt.Println("创建表格...")
 	gormDb.SingularTable(true)
-	if err := gormDb.CreateTable(&Admin{}).Error; err != nil {
+	if err := gormDb.CreateTable(&Admin{}, &Category{}, &Article{}).Error; err != nil {
 		fmt.Println("表格以及存在")
 	} else {
 		fmt.Println("创建表格成功...")

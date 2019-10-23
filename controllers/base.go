@@ -34,17 +34,3 @@ func CheckErr(err error) bool {
 	}
 	return true
 }
-
-// CheckLogin 检查是否已经登录
-func CheckLogin() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// 检查cookie是否正确
-		if cookie, err := c.Request.Cookie("session_id"); err == nil {
-			value := cookie.Value
-			fmt.Println(value)
-			// ...
-		}
-		RejectResult(c, 401, "权限不足")
-		return
-	}
-}
