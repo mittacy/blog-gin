@@ -52,10 +52,35 @@ func CreateTables() {
 	// 创建表格
 	fmt.Println("创建表格...")
 	db.SingularTable(true)
-	if err := db.CreateTable(&Admin{}, &Category{}, &Article{}).Error; err != nil {
-		fmt.Println("表格以及存在")
+	// 创建Admin
+	if db.HasTable("Admin") {
+		fmt.Println("admin表格已存在")
 	} else {
-		fmt.Println("创建表格成功...")
+		if err := db.CreateTable(&Admin{}).Error; err != nil {
+			panic(err)
+		} else {
+			fmt.Println("创建Admin表格成功...")
+		}
+	}
+	// 创建Article
+	if db.HasTable("Article") {
+		fmt.Println("Article表格已存在")
+	} else {
+		if err := db.CreateTable(&Article{}).Error; err != nil {
+			panic(err)
+		} else {
+			fmt.Println("创建Article表格成功...")
+		}
+	}
+	// 创建Category
+	if db.HasTable("Category") {
+		fmt.Println("Category表格已存在")
+	} else {
+		if err := db.CreateTable(&Category{}).Error; err != nil {
+			panic(err)
+		} else {
+			fmt.Println("创建Category表格成功...")
+		}
 	}
 	// 创建管理员信息
 	if msg, err := CreateAdmin(); err != nil {

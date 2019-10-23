@@ -26,6 +26,16 @@ func RejectResult(c *gin.Context, code int, msg string) {
 	})
 }
 
+// AnalysisJSON 解析JSON数据
+func AnalysisJSON(c *gin.Context, obj interface{}) bool {
+	err := c.ShouldBindJSON(obj)
+	if !CheckErr(err) {
+		RejectResult(c, 400, ANALYSIS_ERROR)
+		return false
+	}
+	return true
+}
+
 // CheckErr 检查错误
 func CheckErr(err error) bool {
 	if err != nil {
