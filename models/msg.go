@@ -13,6 +13,7 @@ const (
 	NO_POWER          string = "权限不足"
 	SQL_ERROR         string = "数据库操作错误"
 	CONVERSIOIN_ERROR string = "数据转换出错"
-	ANALYSIS_ERROR    string = "JSON解析错误"
+	ANALYSIS_ERROR    string = "发送的JSON数据存在错误"
 	COMMITNONE        string = "提交数据为空"
+	NO_NULL           string = "数据不能为空"
 )

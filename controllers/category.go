@@ -39,3 +39,13 @@ func UpdataCategory(c *gin.Context) {
 	}
 	ResolveResult(c, 200, cate)
 }
+
+// GetCategories 获取所有分类title
+func GetCategories(c *gin.Context) {
+	data := make([]models.Category, 0)
+	data, msg, err := models.GetCategories(data)
+	if !CheckErr(err) {
+		RejectResult(c, 400, msg)
+	}
+	ResolveResult(c, 200, data)
+}

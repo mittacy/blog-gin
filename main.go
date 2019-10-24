@@ -20,8 +20,13 @@ func main() {
 	{
 		api.POST("/admin", controllers.PostAdmin)
 		api.GET("/admin", controllers.GetAdmin)
+		// 分类
 		api.POST("/category", controllers.CreateCategory)
 		api.PUT("/category", controllers.UpdataCategory)
+		api.GET("/category", controllers.GetCategories)
+		// 文章
+		api.POST("/article", controllers.CreateArticle)
+
 	}
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")

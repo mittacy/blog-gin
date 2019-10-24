@@ -6,9 +6,9 @@ import (
 
 type Category struct {
 	ID           int
-	Title        string `gorm:"unique;not ull;size:50"`
-	ArticleCount int    `gorm:"default:0"`
-	Articles     []Article
+	Title        string    `gorm:"unique;not null;size:50" binding:"required"`
+	ArticleCount int       `gorm:"default:0"`
+	Articles     []Article `gorm:"foreignkey:CategoryID"`
 }
 
 // CreateCate 创建分类
@@ -34,4 +34,23 @@ func UpdateCate(cate *Category) (string, error) {
 		return CATE_EXIST, err
 	}
 	return "", nil
+}
+
+// GetCategories 获取全部分类
+func GetCategories(cates []Category) ([]Category, string, error) {
+	rows, err := sqlDb.Query("SELECT id, title, article_count FROM category")
+	if err != nil {
+		return nil, SQL_ERROR, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var cate Category
+		if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
+			return nil, SQL_ERROR, err
+		}
+
+		cates = append(cates, cate)
+	}
+	return cates, "", nil
 }
