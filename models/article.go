@@ -1,6 +1,8 @@
 package models
 
 import (
+	"database/sql"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -19,4 +21,17 @@ func CreateArticle(article *Article) (string, error) {
 		return SQL_ERROR, err
 	}
 	return "", nil
+}
+
+// GetArticle 根据id获取文章
+func GetArticle(articleID int) (*Article, string, error) {
+	article := &Article{}
+	err := db.First(article).Error
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, ARTICLE_NO_EXIST, err
+		}
+		return nil, SQL_ERROR, err
+	}
+	return article, "", nil
 }
