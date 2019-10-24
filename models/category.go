@@ -27,6 +27,7 @@ func GetCategory(id int) ([]Article, string, error) {
 	if err != nil {
 		return nil, SQL_ERROR, err
 	}
+	defer rows.Close()
 
 	articles := make([]Article, 0)
 	for rows.Next() {

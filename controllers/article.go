@@ -28,7 +28,7 @@ func GetArticle(c *gin.Context) {
 		RejectResult(c, 400, NOKNOW_ERROR)
 	}
 	article, msg, err := models.GetArticle(articleID)
-	if err != nil {
+	if !CheckErr(err) {
 		RejectResult(c, 400, msg)
 		return
 	}
