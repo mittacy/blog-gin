@@ -2,6 +2,8 @@ package models
 
 import (
 	"database/sql"
+	"errors"
+	"time"
 )
 
 type Category struct {
@@ -17,6 +19,28 @@ func CreateCate(cate *Category) (string, error) {
 		return CATE_EXIST, err
 	}
 	return "", nil
+}
+
+// GetCategory 获取id分类的所有文章
+func GetCategory(id int) ([]Article, string, error) {
+	rows, err := sqlDb.Query("SELECT id, created_at, title FROM article WHERE category_id = ?", id)
+	if err != nil {
+		return nil, SQL_ERROR, err
+	}
+
+	articles := make([]Article, 0)
+	for rows.Next() {
+		article := Article{}
+		var timeStr string
+		if err := rows.Scan(&article.ID, &timeStr, &article.Title); err != nil {
+			return nil, SQL_ERROR, err
+		}
+		if article.CreatedAt, err = time.ParseInLocation("2006-01-02 15:04:05", timeStr, time.Local); err != nil {
+			return nil, SQL_ERROR, err
+		}
+		articles = append(articles, article)
+	}
+	return articles, "", nil
 }
 
 // IsCateExist 分类是否存在
@@ -53,4 +77,38 @@ func GetCategories(cates []Category) ([]Category, string, error) {
 		cates = append(cates, cate)
 	}
 	return cates, "", nil
+}
+
+// DeleteCategory 删除分类同时删除分类里的所有文章
+func DeleteCategory(cateID int) (string, error) {
+	cate := Category{ID: cateID}
+	tx := db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+	if err := tx.Error; err != nil {
+		return SQL_ERROR, err
+	}
+	// 分类是否存在
+	if !IsCateExist(&cate) {
+		return CATE_NO_EXIST, errors.New(CATE_NO_EXIST)
+	}
+	// 开始事务
+	// 删除分类
+	if err := tx.Delete(&cate).Error; err != nil {
+		tx.Rollback()
+		return SQL_ERROR, err
+	}
+	// 删除文章
+	if err := db.Where("category_id LIKE ?", cateID).Delete(Article{}).Error; err != nil {
+		tx.Rollback()
+		return SQL_ERROR, err
+	}
+	// 提交事务
+	if err := tx.Commit().Error; err != nil {
+		return SQL_ERROR, err
+	}
+	return "", nil
 }

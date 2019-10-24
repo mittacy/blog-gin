@@ -9,6 +9,7 @@ import (
 var (
 	ANALYSIS_ERROR string = "JSON解析错误"
 	NO_EXIST       string = "不存在"
+	NOKNOW_ERROR   string = "未知错误"
 )
 
 // ResolveResult 成功, 返回成功信息

@@ -21,9 +21,11 @@ func main() {
 		api.POST("/admin", controllers.PostAdmin)
 		api.GET("/admin", controllers.GetAdmin)
 		// 分类
+		api.GET("/categories", controllers.GetCategories)
 		api.POST("/category", controllers.CreateCategory)
 		api.PUT("/category", controllers.UpdataCategory)
-		api.GET("/category", controllers.GetCategories)
+		api.DELETE("/category/:id", controllers.DeleteCategory)
+		api.GET("/category/:id", controllers.GetCategoy)
 		// 文章
 		api.POST("/article", controllers.CreateArticle)
 
