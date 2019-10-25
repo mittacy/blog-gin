@@ -11,26 +11,24 @@ func main() {
 	// 数据库连接
 	db := models.GetDB()
 	defer db.Close()
-	sqlDb := models.GetSQLDB()
-	defer sqlDb.Close()
 
 	router := gin.Default()
 	// 不需要登录验证的api
-	api := router.Group("/api")
-	{
-		api.POST("/admin", controllers.PostAdmin)
-		api.GET("/admin", controllers.GetAdmin)
-		// 分类
-		api.GET("/categories", controllers.GetCategories)
-		api.POST("/category", controllers.CreateCategory)
-		api.PUT("/category", controllers.UpdataCategory)
-		api.DELETE("/category/:id", controllers.DeleteCategory)
-		api.GET("/category/:id", controllers.GetCategoy)
-		// 文章
-		api.POST("/article", controllers.CreateArticle)
-		api.GET("/article/:id", controllers.GetArticle)
+	// api := router.Group("/api")
+	// {
+	// 	// api.POST("/admin", controllers.PostAdmin)
+	// 	// api.GET("/admin", controllers.GetAdmin)
+	// 	// 分类
+	// 	// api.GET("/categories", controllers.GetCategories)
+	// 	// api.POST("/category", controllers.CreateCategory)
+	// 	// api.PUT("/category", controllers.UpdataCategory)
+	// 	// api.DELETE("/category/:id", controllers.DeleteCategory)
+	// 	// api.GET("/category/:id", controllers.GetCategoy)
+	// 	// 文章
+	// 	// api.POST("/article", controllers.CreateArticle)
+	// 	// api.GET("/article/:id", controllers.GetArticle)
 
-	}
+	// }
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")
 	apiAdmin.Use(controllers.CheckAdmin())

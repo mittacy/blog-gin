@@ -5,14 +5,53 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/jmoiron/sqlx"
+
 	"github.com/go-ini/ini"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 )
 
 var cfg *ini.File // 配置文件
-var db *gorm.DB   // gorm连接
-var sqlDb *sql.DB // sql连接
+var db *sqlx.DB   // gorm连接
+
+var (
+	adminTableSQL string = `CREATE TABLE admin (
+		id tinyint NOT NULL AUTO_INCREMENT,
+		name varchar(50) NOT NULL,
+		password varchar(255) NOT NULL,
+		views int unsigned DEFAULT "0",
+		cname varchar(50) DEFAULT NULL,
+		introduce varchar(255) DEFAULT NULL,
+		github varchar(100) DEFAULT NULL,
+		mail varchar(100) DEFAULT NULL,
+		PRIMARY KEY (id),
+		UNIQUE KEY name (name)
+	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+	categoryTableSQL string = `CREATE TABLE category (
+		id tinyint unsigned NOT NULL AUTO_INCREMENT,
+		title varchar(50) NOT NULL,
+		article_count smallint unsigned DEFAULT 0,
+		PRIMARY KEY (id),
+		UNIQUE KEY title (title)
+	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+	contentTableSQL string = `CREATE TABLE content (
+		id smallint unsigned NOT NULL AUTO_INCREMENT,
+		con text,
+		PRIMARY KEY (id)
+	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+	articleTableSQL string = `CREATE TABLE article (
+		id int(10) NOT NULL AUTO_INCREMENT,
+		created_at datetime NOT NULL,
+		category_id tinyint unsigned NOT NULL,
+		title varchar(100) NOT NULL,
+		content_id smallint unsigned NOT NULL,
+		views mediumint unsigned DEFAULT 0,
+		assists mediumint unsigned DEFAULT 0,
+		PRIMARY KEY (id),
+		foreign key(category_id) references category(id),
+		foreign key(content_id) references content(id)
+	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+)
 
 func init() {
 	var err error
@@ -26,7 +65,7 @@ func init() {
 	CreateTables()
 }
 
-// OpenConn gorm连接mysql数据库
+// OpenConn 连接mysql数据库
 func OpenConn() {
 	// 获取配置文件数据
 	sec, _ := cfg.GetSection("database")
@@ -38,70 +77,67 @@ func OpenConn() {
 	par := sqlName + ":" + sqlPassword + "@tcp(" + sqlHOST + ")/" + sqlDatabase + "?charset=utf8"
 
 	var err error
-	db, err = gorm.Open(sqlType, par)
+	db, err = sqlx.Open(sqlType, par)
 	if err != nil {
-		fmt.Println("gorm连接数据库失败", err.Error())
-		panic("gorm failed to connect database")
+		fmt.Println("连接数据库失败", err.Error())
+		panic("Failed to connect database")
 	}
-	sqlDb = db.DB()
-	fmt.Println("gorm连接数据库成功")
+	fmt.Println("连接数据库成功")
 }
 
 // CreateTables 创建表格
 func CreateTables() {
 	// 创建表格
 	fmt.Println("创建表格...")
-	db.SingularTable(true)
-	// 创建Admin
-	if db.HasTable("Admin") {
-		fmt.Println("admin表格已存在")
-	} else {
-		if err := db.CreateTable(&Admin{}).Error; err != nil {
+	tables := []string{"admin", "category", "content", "article"}
+	tableSQLs := []string{adminTableSQL, categoryTableSQL, contentTableSQL, articleTableSQL}
+	for i := 0; i <= 3; i++ {
+		if err := CreateTable(tables[i], tableSQLs[i]); err != nil {
 			panic(err)
-		} else {
-			fmt.Println("创建Admin表格成功...")
 		}
 	}
-	// 创建Article
-	if db.HasTable("Article") {
-		fmt.Println("Article表格已存在")
-	} else {
-		if err := db.CreateTable(&Article{}).Error; err != nil {
-			panic(err)
-		} else {
-			fmt.Println("创建Article表格成功...")
-		}
-	}
-	// 创建Category
-	if db.HasTable("Category") {
-		fmt.Println("Category表格已存在")
-	} else {
-		if err := db.CreateTable(&Category{}).Error; err != nil {
-			panic(err)
-		} else {
-			fmt.Println("创建Category表格成功...")
-		}
-	}
+	fmt.Println("创建表格成功")
 	// 创建管理员信息
-	if msg, err := CreateAdmin(); err != nil {
-		panic(msg)
-	}
+	// if msg, err := CreateAdmin(); err != nil {
+	// 	panic(msg)
+	// }
 }
 
-// GetDB 返回gorm.DB
-func GetDB() *gorm.DB {
+// IsTableExist 判断表格是否存在
+func IsTableExist(tableName string) bool {
+	row := db.QueryRow("select table_name from information_schema.TABLES WHERE table_name = ?;", tableName)
+	if err := row.Scan(); err == sql.ErrNoRows {
+		return false
+	}
+	return true
+}
+
+// CreateTable 创建单个表格
+func CreateTable(tableName, sql string) error {
+	if IsTableExist(tableName) {
+		fmt.Println(tableName, "表格已存在")
+		return nil
+	}
+	stmt, err := db.Prepare(sql)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec()
+	if err != nil {
+		return err
+	}
+	fmt.Println(tableName, "创建表格成功")
+	return nil
+}
+
+// GetDB 返回db
+func GetDB() *sqlx.DB {
 	if db != nil {
 		return db
 	}
 	return nil
-}
-
-// GetSQLDB 返回sql.DB
-func GetSQLDB() *sql.DB {
-	if sqlDb == nil {
-		sqlDb = db.DB()
-	}
-	return sqlDb
 }
 
 // GetCfg 获取配置文件连接
