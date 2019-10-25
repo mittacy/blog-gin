@@ -45,6 +45,12 @@ var (
 		foreign key(category_id) references category(id)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
 	// created_at datetime NOT NULL,
+	addArticleTrigger string = `create trigger tr_article_after_insert after insert
+	  	on article for each row
+	  	update category set article_count=article_count+1 where id = new.category_id;`
+	deleteArticleTrigger string = `create trigger tr_article_after_delete after delete
+	on article for each row
+	update category set article_count=article_count-1 where id = old.category_id;`
 )
 
 func init() {
@@ -57,6 +63,7 @@ func init() {
 	OpenConn()
 	// 创建表格
 	CreateTables()
+	CreateTriggers()
 }
 
 // OpenConn 连接mysql数据库
@@ -95,6 +102,28 @@ func CreateTables() {
 	// if msg, err := CreateAdmin(); err != nil {
 	// 	panic(msg)
 	// }
+}
+
+// CreateTriggers 创建触发器
+func CreateTriggers() {
+	stmt, err := db.Prepare(addArticleTrigger)
+	if err != nil {
+		panic(err)
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec()
+	if err != nil {
+		fmt.Println(err)
+	}
+	stmt, err = db.Prepare(deleteArticleTrigger)
+	if err != nil {
+		panic(err)
+	}
+	_, err = stmt.Exec()
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 // IsTableExist 判断表格是否存在
