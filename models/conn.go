@@ -34,23 +34,17 @@ var (
 		PRIMARY KEY (id),
 		UNIQUE KEY title (title)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
-	contentTableSQL string = `CREATE TABLE content (
-		id smallint unsigned NOT NULL AUTO_INCREMENT,
-		con text,
-		PRIMARY KEY (id)
-	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
 	articleTableSQL string = `CREATE TABLE article (
 		id int(10) NOT NULL AUTO_INCREMENT,
-		created_at datetime NOT NULL,
 		category_id tinyint unsigned NOT NULL,
 		title varchar(100) NOT NULL,
-		content_id smallint unsigned NOT NULL,
+		content text,
 		views mediumint unsigned DEFAULT 0,
 		assists mediumint unsigned DEFAULT 0,
 		PRIMARY KEY (id),
-		foreign key(category_id) references category(id),
-		foreign key(content_id) references content(id)
+		foreign key(category_id) references category(id)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+	// created_at datetime NOT NULL,
 )
 
 func init() {
@@ -89,9 +83,9 @@ func OpenConn() {
 func CreateTables() {
 	// 创建表格
 	fmt.Println("创建表格...")
-	tables := []string{"admin", "category", "content", "article"}
-	tableSQLs := []string{adminTableSQL, categoryTableSQL, contentTableSQL, articleTableSQL}
-	for i := 0; i <= 3; i++ {
+	tables := []string{"admin", "category", "article"}
+	tableSQLs := []string{adminTableSQL, categoryTableSQL, articleTableSQL}
+	for i := 0; i <= 2; i++ {
 		if err := CreateTable(tables[i], tableSQLs[i]); err != nil {
 			panic(err)
 		}
