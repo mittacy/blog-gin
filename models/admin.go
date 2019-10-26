@@ -1,66 +1,52 @@
 package models
 
-// import (
-// 	"crypto/md5"
-// 	"database/sql"
-// 	"errors"
-// 	"fmt"
-// 	"io"
-// )
+import (
+	"crypto/md5"
+	"database/sql"
+	"fmt"
+	"io"
+)
 
-// type Admin struct {
-// 	ID        int
-// 	Name      string `gorm:"unique;not null;size:10"`
-// 	Password  string `gorm:"not null"`
-// 	Views     int    `gorm:"default:0"`
-// 	Cname     string
-// 	Introduce string
-// 	Github    string
-// 	Mail      string
-// }
+type Admin struct {
+	ID        int
+	Name      string
+	Password  string
+	Views     int
+	Cname     string
+	Introduce string
+	Github    string
+	Mail      string
+}
 
-// CREATE TABLE admin (
-// 	id int(11) NOT NULL AUTO_INCREMENT,
-// 	name varchar(10) NOT NULL,
-// 	password varchar(255) NOT NULL,
-// 	views unsigned int(11) DEFAULT 0,
-// 	cname varchar(50) DEFAULT NULL,
-// 	introduce varchar(255) DEFAULT NULL,
-// 	github varchar(100) DEFAULT NULL,
-// 	mail varchar(100) DEFAULT NULL,
-// 	PRIMARY KEY (id),
-// 	UNIQUE KEY name (name)
-//   ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+// CreateAdmin 创建管理员信息
+func CreateAdmin() (string, error) {
+	row := db.QueryRow("SELECT id FROM admin limit 1")
+	if err := row.Scan(); !(err == sql.ErrNoRows) {
+		fmt.Println("管理员已存在")
+		return "管理员已存在", nil
+	}
+	password := Encryption("admin")
+	admin := Admin{
+		Name:      "mittacy",
+		Password:  password,
+		Views:     2352,
+		Cname:     "陈铭涛",
+		Introduce: "就读佛山大学 - 大三 - 计算机系",
+		Github:    "https://github.com/crazychat",
+		Mail:      "mail@mittacy.com",
+	}
+	stmt, err := db.Prepare("INSERT INTO admin(name, password, views, cname, introduce, github, mail) values (?,?,?,?,?,?,?)")
+	if err != nil {
+		return "创建管理员失败", err
+	}
+	defer stmt.Close()
 
-// // CreateAdmin 创建管理员信息
-// func CreateAdmin() (string, error) {
-// 	row := db.QueryRow("SELECT id FROM admin limit 1")
-// 	if err := row.Scan(); !(err == sql.ErrNoRows) {
-// 		fmt.Println("管理员已存在")
-// 		return "管理员已存在", nil
-// 	}
-// 	password := Encryption("admin")
-// 	admin := Admin{
-// 		Name:      "mittacy",
-// 		Password:  password,
-// 		Views:     2352,
-// 		Cname:     "陈铭涛",
-// 		Introduce: "就读佛山大学 - 大三 - 计算机系",
-// 		Github:    "https://github.com/crazychat",
-// 		Mail:      "mail@mittacy.com",
-// 	}
-// 	stmt, err := db.Prepare("INSERT INTO admin(name, password, views, cname, introduce, github, mail) values (?,?,?,?,?,?,?)")
-// 	if err != nil {
-// 		return "创建管理员失败", err
-// 	}
-// 	defer stmt.Close()
-
-// 	_, err = stmt.Exec(admin.Name, admin.Password, admin.Views, admin.Cname, admin.Introduce, admin.Github, admin.Mail)
-// 	if err != nil {
-// 		return "创建管理员失败", err
-// 	}
-// 	return "创建管理员成功", nil
-// }
+	_, err = stmt.Exec(admin.Name, admin.Password, admin.Views, admin.Cname, admin.Introduce, admin.Github, admin.Mail)
+	if err != nil {
+		return "创建管理员失败", err
+	}
+	return "创建管理员成功", nil
+}
 
 // // IsRightAdmin 检验密码是否正确
 // func IsRightAdmin(admin *Admin) (string, error) {
@@ -111,9 +97,9 @@ package models
 // 	return pwd, err
 // }
 
-// // Encryption 密码加密
-// func Encryption(data string) string {
-// 	h := md5.New()
-// 	io.WriteString(h, data)
-// 	return fmt.Sprintf("%x", h.Sum(nil))
-// }
+// Encryption 密码加密
+func Encryption(data string) string {
+	h := md5.New()
+	io.WriteString(h, data)
+	return fmt.Sprintf("%x", h.Sum(nil))
+}

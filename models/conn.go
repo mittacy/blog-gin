@@ -36,6 +36,7 @@ var (
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
 	articleTableSQL string = `CREATE TABLE article (
 		id int(10) NOT NULL AUTO_INCREMENT,
+		created_at datetime DEFAULT NOW(),
 		category_id tinyint unsigned NOT NULL,
 		title varchar(100) NOT NULL,
 		content text,
@@ -44,13 +45,6 @@ var (
 		PRIMARY KEY (id),
 		foreign key(category_id) references category(id)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
-	// created_at datetime NOT NULL,
-	addArticleTrigger string = `create trigger tr_article_after_insert after insert
-	  	on article for each row
-	  	update category set article_count=article_count+1 where id = new.category_id;`
-	deleteArticleTrigger string = `create trigger tr_article_after_delete after delete
-	on article for each row
-	update category set article_count=article_count-1 where id = old.category_id;`
 )
 
 func init() {
@@ -63,7 +57,6 @@ func init() {
 	OpenConn()
 	// 创建表格
 	CreateTables()
-	CreateTriggers()
 }
 
 // OpenConn 连接mysql数据库
@@ -99,30 +92,8 @@ func CreateTables() {
 	}
 	fmt.Println("创建表格成功")
 	// 创建管理员信息
-	// if msg, err := CreateAdmin(); err != nil {
-	// 	panic(msg)
-	// }
-}
-
-// CreateTriggers 创建触发器
-func CreateTriggers() {
-	stmt, err := db.Prepare(addArticleTrigger)
-	if err != nil {
-		panic(err)
-	}
-	defer stmt.Close()
-
-	_, err = stmt.Exec()
-	if err != nil {
-		fmt.Println(err)
-	}
-	stmt, err = db.Prepare(deleteArticleTrigger)
-	if err != nil {
-		panic(err)
-	}
-	_, err = stmt.Exec()
-	if err != nil {
-		fmt.Println(err)
+	if msg, err := CreateAdmin(); err != nil {
+		panic(msg)
 	}
 }
 
@@ -167,3 +138,11 @@ func GetDB() *sqlx.DB {
 func GetCfg() *ini.File {
 	return cfg
 }
+
+// 打开mysql创建strigger
+// create trigger tr_article_after_insert after insert
+// 	on article for each row
+// 	update category set article_count=article_count+1 where id = new.category_id;`
+// create trigger tr_article_after_delete after delete
+// 	on article for each row
+// 	update category set article_count=article_count-1 where id = old.category_id;`
