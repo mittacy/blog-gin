@@ -3,6 +3,7 @@ package models
 import (
 	"crypto/md5"
 	"database/sql"
+	"errors"
 	"fmt"
 	"io"
 )
@@ -48,54 +49,54 @@ func CreateAdmin() (string, error) {
 	return "创建管理员成功", nil
 }
 
-// // IsRightAdmin 检验密码是否正确
-// func IsRightAdmin(admin *Admin) (string, error) {
-// 	pwd, err := GetAdminPassword()
-// 	if err != nil {
-// 		return ADMIN_NO_EXIST, err
-// 	}
-// 	if Encryption(admin.Password) == pwd {
-// 		return "登录成功", nil
-// 	}
-// 	return "密码错误", errors.New("密码错误")
-// }
+// IsRightAdmin 检验密码是否正确
+func IsRightAdmin(admin *Admin) (string, error) {
+	var adminName, adminPwd string
+	row := db.QueryRow("SELECT name, password FROM admin limit 1")
+	err := row.Scan(&adminName, &adminPwd)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return ADMIN_NO_EXIST, err
+		}
+		return SQL_ERROR, err
+	}
+	if adminName != admin.Name || Encryption(admin.Password) != adminPwd {
+		return "密码错误", errors.New("密码错误")
+	}
+	return "登录成功", nil
+}
 
-// // GetAdmin 获取管理员信息
-// func GetAdmin() (*Admin, string, error) {
-// 	name, err := GetAdminName()
-// 	if err != nil {
-// 		return nil, SQL_ERROR, err
-// 	}
-// 	admin := &Admin{}
-// 	err = db.Where("name = ?", name).First(admin).Error
-// 	if err != nil {
-// 		return nil, SQL_ERROR, err
-// 	}
-// 	admin.Password = "**********"
-// 	return admin, "", nil
-// }
+// GetAdmin 获取管理员信息
+func GetAdmin() (*Admin, string, error) {
+	admin := Admin{}
+	row := db.QueryRow("SELECT name, views, cname, introduce, github, mail FROM admin limit 1")
+	err := row.Scan(&admin.Name, &admin.Views, &admin.Cname, &admin.Introduce, &admin.Github, &admin.Mail)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, ADMIN_NO_EXIST, err
+		}
+		return nil, SQL_ERROR, err
+	}
+	admin.Password = "**********"
+	return &admin, "", nil
+}
 
-// // GetAdminName 获取管理员名字
-// func GetAdminName() (string, error) {
-// 	sec, err := cfg.GetSection("app")
-// 	if err != nil {
-// 		return NOKNOW_ERROR, err
-// 	}
-// 	name := sec.Key("ADMIN").MustString("debug")
-// 	return name, nil
-// }
-
-// // GetAdminPassword 获取管理员密码
-// func GetAdminPassword() (string, error) {
-// 	name, err := GetAdminName()
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	var pwd string
-// 	row := sqlDb.QueryRow("SELECT password FROM admin where name = ? limit 1", name)
-// 	err = row.Scan(&pwd)
-// 	return pwd, err
-// }
+// SetAdmin 修改管理员信息
+func SetAdmin(admin *Admin) (string, error) {
+	stmt, err := db.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ? limit 1")
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return ADMIN_NO_EXIST, err
+		}
+		return SQL_ERROR, err
+	}
+	_, err = stmt.Exec(admin.Cname, admin.Introduce, admin.Github, admin.Mail)
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	admin.Password = "**********"
+	return "", nil
+}
 
 // Encryption 密码加密
 func Encryption(data string) string {

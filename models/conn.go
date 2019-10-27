@@ -12,7 +12,7 @@ import (
 )
 
 var cfg *ini.File // 配置文件
-var db *sqlx.DB   // gorm连接
+var db *sqlx.DB   // DB连接
 
 var (
 	adminTableSQL string = `CREATE TABLE admin (
