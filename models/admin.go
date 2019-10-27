@@ -46,7 +46,7 @@ func CreateAdmin() (string, error) {
 	if err != nil {
 		return "创建管理员失败", err
 	}
-	return "创建管理员成功", nil
+	return CONTROLLER_SUCCESS, nil
 }
 
 // IsRightAdmin 检验密码是否正确
@@ -66,7 +66,7 @@ func IsRightAdmin(admin *Admin) (string, error) {
 	if Encryption(admin.Password) != adminPwd {
 		return "密码错误", errors.New("密码错误")
 	}
-	return "登录成功", nil
+	return CONTROLLER_SUCCESS, nil
 }
 
 // GetAdmin 获取管理员信息
@@ -88,13 +88,13 @@ func GetAdmin() (*Admin, string, error) {
 func SetAdmin(admin *Admin) (string, error) {
 	stmt, err := db.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ? limit 1")
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return ADMIN_NO_EXIST, err
-		}
 		return SQL_ERROR, err
 	}
 	_, err = stmt.Exec(admin.Cname, admin.Introduce, admin.Github, admin.Mail)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return ADMIN_NO_EXIST, err
+		}
 		return SQL_ERROR, err
 	}
 	admin.Password = "**********"

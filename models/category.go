@@ -77,13 +77,20 @@ func GetCategories(cates []Category) ([]Category, string, error) {
 // 	return true
 // }
 
-// // UpdateCate 更新分类
-// func UpdateCate(cate *Category) (string, error) {
-// 	if err := db.Model(&cate).Update("title", cate.Title).Error; err != nil {
-// 		return CATE_EXIST, err
-// 	}
-// 	return "", nil
-// }
+// UpdateCate 更新分类
+func UpdateCate(cate *Category) (string, error) {
+	stmt, err := db.Prepare("UPDATE category SET title = ? WHERE id = ?")
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(cate.Title, cate.ID)
+	if err != nil {
+		return err.Error(), err
+	}
+	return CONTROLLER_SUCCESS, nil
+}
 
 // // DeleteCategory 删除分类同时删除分类里的所有文章
 // func DeleteCategory(cateID int) (string, error) {

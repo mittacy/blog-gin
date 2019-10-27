@@ -23,7 +23,7 @@ func main() {
 		// 分类
 		api.GET("/categories", controllers.GetCategories)
 		api.POST("/category", controllers.CreateCategory)
-		// api.PUT("/category", controllers.UpdataCategory)
+		api.PUT("/category", controllers.UpdataCategory)
 		// api.DELETE("/category/:id", controllers.DeleteCategory)
 		// api.GET("/category/:id", controllers.GetCategoy)
 		// 文章
