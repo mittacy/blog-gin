@@ -52,3 +52,18 @@ func PutAdmin(c *gin.Context) {
 	}
 	ResolveResult(c, 200, admin)
 }
+
+// PutAdminPwd 修改管理员密码
+func PutAdminPwd(c *gin.Context) {
+	admin := &models.Admin{}
+	// 解析json数据到结构体admin
+	if err := c.ShouldBindJSON(admin); !CheckErr(err) {
+		RejectResult(c, 400, ANALYSIS_ERROR)
+	}
+	msg, err := models.SetPassword(admin.Password)
+	if !CheckErr(err) {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, "修改成功")
+}

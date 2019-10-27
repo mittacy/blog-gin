@@ -60,7 +60,10 @@ func IsRightAdmin(admin *Admin) (string, error) {
 		}
 		return SQL_ERROR, err
 	}
-	if adminName != admin.Name || Encryption(admin.Password) != adminPwd {
+	if adminName != admin.Name {
+		return "用户名不存在", errors.New("用户名不存在")
+	}
+	if Encryption(admin.Password) != adminPwd {
 		return "密码错误", errors.New("密码错误")
 	}
 	return "登录成功", nil
@@ -95,6 +98,22 @@ func SetAdmin(admin *Admin) (string, error) {
 		return SQL_ERROR, err
 	}
 	admin.Password = "**********"
+	return "", nil
+}
+
+// SetPassword 修改管理员密码
+func SetPassword(password string) (string, error) {
+	pwd := Encryption(password)
+	stmt, err := db.Prepare("UPDATE admin SET password = ? limit 1")
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return ADMIN_NO_EXIST, err
+		}
+		return SQL_ERROR, err
+	}
+	if _, err = stmt.Exec(pwd); err != nil {
+		return SQL_ERROR, err
+	}
 	return "", nil
 }
 
