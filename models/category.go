@@ -1,5 +1,10 @@
 package models
 
+import (
+	"database/sql"
+	"time"
+)
+
 type Category struct {
 	ID           int
 	Title        string `binding:"required"`
@@ -45,37 +50,45 @@ func GetCategories(cates []Category) ([]Category, string, error) {
 	return cates, "", nil
 }
 
-// // GetCategory 获取id分类的所有文章
-// func GetCategory(id int) ([]Article, string, error) {
-// 	rows, err := sqlDb.Query("SELECT id, created_at, title FROM article WHERE category_id = ?", id)
-// 	if err != nil {
-// 		return nil, SQL_ERROR, err
-// 	}
-// 	defer rows.Close()
+// GetCategory 获取id分类及其所有文章
+func GetCategory(cate *Category) (map[string]interface{}, string, error) {
+	var result = make(map[string]interface{})
+	// 获取分类的ArticleCount
+	row := db.QueryRow("SELECT title, article_count FROM category WHERE id = ? limit 1", cate.ID)
+	if err := row.Scan(&cate.Title, &cate.ArticleCount); err != nil {
+		if err == sql.ErrNoRows {
+			return result, CATE_NO_EXIST, err
+		}
+		return result, SQL_ERROR, err
+	}
+	result["CateTitle"] = cate.Title
+	result["ArticleCount"] = cate.ArticleCount
 
-// 	articles := make([]Article, 0)
-// 	for rows.Next() {
-// 		article := Article{}
-// 		var timeStr string
-// 		if err := rows.Scan(&article.ID, &timeStr, &article.Title); err != nil {
-// 			return nil, SQL_ERROR, err
-// 		}
-// 		if article.CreatedAt, err = time.ParseInLocation("2006-01-02 15:04:05", timeStr, time.Local); err != nil {
-// 			return nil, SQL_ERROR, err
-// 		}
-// 		articles = append(articles, article)
-// 	}
-// 	return articles, "", nil
-// }
+	if cate.ArticleCount == 0 {
+		return result, "", nil
+	}
 
-// // IsCateExist 分类是否存在
-// func IsCateExist(cate *Category) bool {
-// 	row := sqlDb.QueryRow("SELECT id FROM category WHERE id = ? limit 1", cate.ID)
-// 	if err := row.Scan(); err == sql.ErrNoRows {
-// 		return false
-// 	}
-// 	return true
-// }
+	// 查找id为category_id的所有文章
+	var article Article
+	var articleTime string
+	articles := make([]Article, 0)
+	rows, err := db.Query("SELECT id, created_at, title, views, assists FROM article WHERE category_id = ?", cate.ID)
+	if err != nil {
+		return result, SQL_ERROR, err
+	}
+	defer rows.Close()
+
+	article.CategoryID = cate.ID
+	for rows.Next() {
+		if rows.Scan(&article.ID, &articleTime, &article.Title, &article.Views, &article.Assists); err != nil {
+			return result, SQL_ERROR, err
+		}
+		article.CreatedAt, _ = time.Parse("2006-01-02 15:04:05", articleTime)
+		articles = append(articles, article)
+	}
+	result["articles"] = articles
+	return result, "", nil
+}
 
 // UpdateCate 更新分类
 func UpdateCate(cate *Category) (string, error) {

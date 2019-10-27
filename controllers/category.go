@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"blog-gin/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,22 +44,23 @@ func UpdataCategory(c *gin.Context) {
 	ResolveResult(c, 200, msg)
 }
 
-// // GetCategoy 获取某个分类的所有文章
-// func GetCategoy(c *gin.Context) {
-// 	cateID, err := strconv.Atoi(c.Param("id"))
-// 	if !CheckErr(err) {
-// 		RejectResult(c, 400, NOKNOW_ERROR)
-// 		return
-// 	}
-// 	articles, msg, err := models.GetCategory(cateID)
-// 	if !CheckErr(err) {
-// 		RejectResult(c, 400, msg)
-// 		return
-// 	}
-// 	ResolveResult(c, 200, articles)
-// }
+// GetCategoy 获取某个分类及其所有文章
+func GetCategoy(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if !CheckErr(err) {
+		RejectResult(c, 400, NOKNOW_ERROR)
+		return
+	}
+	cate := models.Category{ID: id}
+	result, msg, err := models.GetCategory(&cate)
+	if !CheckErr(err) {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, result)
+}
 
-// // DeleteCategory 删除分类同时删除分类里的所有文章
+// DeleteCategory 删除分类同时删除分类里的所有文章
 // func DeleteCategory(c *gin.Context) {
 // 	cateID, err := strconv.Atoi(c.Param("id"))
 // 	msg, err := models.DeleteCategory(cateID)
