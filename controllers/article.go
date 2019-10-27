@@ -1,13 +1,6 @@
 package controllers
 
-// import (
-// 	"blog-gin/models"
-// 	"strconv"
-
-// 	"github.com/gin-gonic/gin"
-// )
-
-// // CreateArticle 创建文章controller
+// CreateArticle 创建文章controller
 // func CreateArticle(c *gin.Context) {
 // 	article := models.Article{}
 // 	if !AnalysisJSON(c, &article) {

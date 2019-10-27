@@ -1,33 +1,49 @@
 package models
 
-// import (
-// 	"database/sql"
-// 	"errors"
-// 	"time"
-// )
+type Category struct {
+	ID           int
+	Title        string `binding:"required"`
+	ArticleCount int
+}
 
-// type Category struct {
-// 	ID           int
-// 	Title        string    `gorm:"unique;not null;size:50" binding:"required"`
-// 	ArticleCount int       `gorm:"default:0"`
-// 	Articles     []Article `gorm:"foreignkey:CategoryID"`
-// }
+// CreateCate 创建分类
+func CreateCate(cate *Category) (string, error) {
+	stmt, err := db.Prepare("INSERT INTO category(title) values (?)")
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	defer stmt.Close()
 
-// CREATE TABLE category (
-// 	id int(11) NOT NULL AUTO_INCREMENT,
-// 	title varchar(50) NOT NULL,
-// 	article_count int(11) DEFAULT 0,
-// 	PRIMARY KEY (id),
-// 	UNIQUE KEY title (title)
-//   ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+	result, err := stmt.Exec(cate.Title)
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	cate.ID = int(id)
+	return "", nil
+}
 
-// // CreateCate 创建分类
-// func CreateCate(cate *Category) (string, error) {
-// 	if err := db.Create(&cate).Error; err != nil {
-// 		return CATE_EXIST, err
-// 	}
-// 	return "", nil
-// }
+// GetCategories 获取全部分类
+func GetCategories(cates []Category) ([]Category, string, error) {
+	rows, err := db.Query("SELECT id, title, article_count FROM category")
+	if err != nil {
+		return nil, SQL_ERROR, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var cate Category
+		if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
+			return nil, SQL_ERROR, err
+		}
+
+		cates = append(cates, cate)
+	}
+	return cates, "", nil
+}
 
 // // GetCategory 获取id分类的所有文章
 // func GetCategory(id int) ([]Article, string, error) {
@@ -67,25 +83,6 @@ package models
 // 		return CATE_EXIST, err
 // 	}
 // 	return "", nil
-// }
-
-// // GetCategories 获取全部分类
-// func GetCategories(cates []Category) ([]Category, string, error) {
-// 	rows, err := sqlDb.Query("SELECT id, title, article_count FROM category")
-// 	if err != nil {
-// 		return nil, SQL_ERROR, err
-// 	}
-// 	defer rows.Close()
-
-// 	for rows.Next() {
-// 		var cate Category
-// 		if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
-// 			return nil, SQL_ERROR, err
-// 		}
-
-// 		cates = append(cates, cate)
-// 	}
-// 	return cates, "", nil
 // }
 
 // // DeleteCategory 删除分类同时删除分类里的所有文章

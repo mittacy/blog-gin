@@ -1,34 +1,29 @@
 package models
 
-// import (
-// 	"database/sql"
-// 	"time"
-// )
+import (
+	"time"
+)
 
-// type Article struct {
-// 	ID         uint
-// 	CreatedAt  time.Time `gorm:"not null"`
-// 	CategoryID int       `gorm:"not null" binding:"required"`
-// 	Title      string    `gorm:"not null;size:100" binding:"required"`
-// 	Content    string
-// 	Views      int `gorm:"default:0"`
-// 	Assists    int `gorm:"default:0"`
-// }
+type Article struct {
+	ID         uint
+	CreatedAt  time.Time
+	CategoryID int    `binding:"required"`
+	Title      string `binding:"required"`
+	Content    string
+	Views      int
+	Assists    int
+}
 
-// CREATE TABLE article (
-// 	id int(10) unsigned NOT NULL AUTO_INCREMENT,
-// 	created_at datetime NOT NULL,
-// 	category_id int(11) NOT NULL,
-// 	title varchar(100) NOT NULL,
-// 	content varchar(255) DEFAULT NULL,
-// 	views int(11) unsigned DEFAULT 0,
-// 	assists int(11) unsigned DEFAULT 0,
-// 	PRIMARY KEY (id)
-//   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
-
-// // CreateArticle 创建文章model
+// CreateArticle 创建文章model
 // func CreateArticle(article *Article) (string, error) {
-// 	if err := db.Create(article).Error; err != nil {
+// 	stmt, err := db.Prepare("INSERT INTO article(category_id, title, content values (?,?,?)")
+// 	if err != nil {
+// 		return SQL_ERROR, err
+// 	}
+// 	defer stmt.Close()
+
+// 	_, err = stmt.Exec(article.CategoryID, article.Title, article.Content)
+// 	if err != nil {
 // 		return SQL_ERROR, err
 // 	}
 // 	return "", nil
