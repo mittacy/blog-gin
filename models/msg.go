@@ -14,7 +14,7 @@ const (
 	SQL_ERROR          string = "数据库操作错误"
 	CONVERSIOIN_ERROR  string = "数据转换出错"
 	ANALYSIS_ERROR     string = "发送的JSON数据存在错误"
-	COMMITNONE         string = "提交数据为空"
+	CHECKCONTENT       string = "请检查提交数据是否正确或分类是否存在"
 	NO_NULL            string = "数据不能为空"
 	CONTROLLER_SUCCESS string = "操作成功"
 )

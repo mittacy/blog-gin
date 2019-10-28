@@ -7,7 +7,7 @@ import (
 type Article struct {
 	ID         uint
 	CreatedAt  time.Time
-	CategoryID int    `binding:"required"`
+	CategoryID int    `json:"category_id" binding:"required"`
 	Title      string `binding:"required"`
 	Content    string
 	Views      int
@@ -15,19 +15,24 @@ type Article struct {
 }
 
 // CreateArticle 创建文章model
-// func CreateArticle(article *Article) (string, error) {
-// 	stmt, err := db.Prepare("INSERT INTO article(category_id, title, content values (?,?,?)")
-// 	if err != nil {
-// 		return SQL_ERROR, err
-// 	}
-// 	defer stmt.Close()
+func CreateArticle(article *Article) (string, error) {
+	stmt, err := db.Prepare("INSERT INTO article(category_id, title, content) values (?,?,?)")
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	defer stmt.Close()
 
-// 	_, err = stmt.Exec(article.CategoryID, article.Title, article.Content)
-// 	if err != nil {
-// 		return SQL_ERROR, err
-// 	}
-// 	return "", nil
-// }
+	result, err := stmt.Exec(article.CategoryID, article.Title, article.Content)
+	if err != nil {
+		return CHECKCONTENT, err
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	article.ID = uint(id)
+	return "", nil
+}
 
 // // GetArticles 获取全部文章
 // func GetArticles(startID, endID int) {

@@ -27,7 +27,7 @@ func main() {
 		// api.DELETE("/category/:id", controllers.DeleteCategory)
 		api.GET("/category/:id", controllers.GetCategoy)
 		// 文章
-		// api.POST("/article", controllers.CreateArticle)
+		api.POST("/article", controllers.CreateArticle)
 		// api.GET("/article/:id", controllers.GetArticle)
 
 	}
