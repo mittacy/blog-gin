@@ -142,7 +142,16 @@ func GetCfg() *ini.File {
 // 打开mysql创建strigger
 // create trigger tr_article_after_insert after insert
 // 	on article for each row
-// 	update category set article_count=article_count+1 where id = new.category_id;`
+// 	update category set article_count=article_count+1 where id = new.category_id;
+
 // create trigger tr_article_after_delete after delete
 // 	on article for each row
-// 	update category set article_count=article_count-1 where id = old.category_id;`
+// 	update category set article_count=article_count-1 where id = old.category_id;
+
+// DELIMITER ||
+// create trigger tr_article_after_update after update on article
+// for each row
+// BEGIN
+// 	update category set article_count=article_count-1 where id = old.category_id;
+// 	update category set article_count=article_count+1 where id = new.category_id;
+// END;

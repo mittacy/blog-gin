@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"time"
 )
 
@@ -52,19 +53,19 @@ func GetArticles(startID, endID int) {
 }
 
 // GetArticle 根据id获取文章
-// func GetArticle(articleID int) (*Article, string, error) {
-// 	article := Article{}
-// 	var createdAt string
-// 	row := sqlDb.QueryRow("SELECT * FROM article WHERE id = ?", articleID)
-// 	err := row.Scan(&article.ID, &createdAt, &article.CategoryID, &article.Title, &article.Content, &article.Views, &article.Assists)
-// 	if err == sql.ErrNoRows {
-// 		return nil, ARTICLE_NO_EXIST, err
-// 	}
-// 	if err != nil {
-// 		return nil, SQL_ERROR, err
-// 	}
-// 	if article.CreatedAt, err = time.ParseInLocation("2006-01-02 15:04:05", createdAt, time.Local); err != nil {
-// 		return nil, SQL_ERROR, err
-// 	}
-// 	return &article, "", nil
-// }
+func GetArticle(articleID int) (*Article, string, error) {
+	article := Article{}
+	var createdAt string
+	row := db.QueryRow("SELECT * FROM article WHERE id = ?", articleID)
+	err := row.Scan(&article.ID, &createdAt, &article.CategoryID, &article.Title, &article.Content, &article.Views, &article.Assists)
+	if err == sql.ErrNoRows {
+		return nil, ARTICLE_NO_EXIST, err
+	}
+	if err != nil {
+		return nil, SQL_ERROR, err
+	}
+	if article.CreatedAt, err = time.ParseInLocation("2006-01-02 15:04:05", createdAt, time.Local); err != nil {
+		return nil, SQL_ERROR, err
+	}
+	return &article, "", nil
+}

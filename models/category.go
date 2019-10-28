@@ -93,41 +93,27 @@ func UpdateCate(cate *Category) (string, error) {
 	defer stmt.Close()
 	_, err = stmt.Exec(cate.Title, cate.ID)
 	if err != nil {
-		return err.Error(), err
+		return CHECKCONTENT, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }
 
-// // DeleteCategory 删除分类同时删除分类里的所有文章
-// func DeleteCategory(cateID int) (string, error) {
-// 	cate := Category{ID: cateID}
-// 	tx := db.Begin()
-// 	defer func() {
-// 		if r := recover(); r != nil {
-// 			tx.Rollback()
-// 		}
-// 	}()
-// 	if err := tx.Error; err != nil {
-// 		return SQL_ERROR, err
-// 	}
-// 	// 分类是否存在
-// 	if !IsCateExist(&cate) {
-// 		return CATE_NO_EXIST, errors.New(CATE_NO_EXIST)
-// 	}
-// 	// 开始事务
-// 	// 删除分类
-// 	if err := tx.Delete(&cate).Error; err != nil {
-// 		tx.Rollback()
-// 		return SQL_ERROR, err
-// 	}
-// 	// 删除文章
-// 	if err := db.Where("category_id LIKE ?", cateID).Delete(Article{}).Error; err != nil {
-// 		tx.Rollback()
-// 		return SQL_ERROR, err
-// 	}
-// 	// 提交事务
-// 	if err := tx.Commit().Error; err != nil {
-// 		return SQL_ERROR, err
-// 	}
-// 	return "", nil
-// }
+// DeleteCategory 删除分类同时删除分类里的所有文章
+func DeleteCategory(cateID uint32) (string, error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	if _, err = tx.Exec("DELETE FROM article WHERE category_id = ?", cateID); err != nil {
+		tx.Rollback()
+		return SQL_ERROR, err
+	}
+	if _, err = tx.Exec("DELETE FROM category WHERE id = ?", cateID); err != nil {
+		tx.Rollback()
+		return SQL_ERROR, err
+	}
+	if err = tx.Commit(); err != nil {
+		return SQL_ERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
+}

@@ -12,6 +12,10 @@ var (
 	NOKNOW_ERROR   string = "未知错误"
 )
 
+type GetID struct {
+	ID uint32 `json:"id"`
+}
+
 // ResolveResult 成功, 返回成功信息
 func ResolveResult(c *gin.Context, code int, data interface{}) {
 	c.JSON(code, gin.H{

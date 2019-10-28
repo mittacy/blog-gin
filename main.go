@@ -24,11 +24,11 @@ func main() {
 		api.GET("/categories", controllers.GetCategories)
 		api.POST("/category", controllers.CreateCategory)
 		api.PUT("/category", controllers.UpdataCategory)
-		// api.DELETE("/category/:id", controllers.DeleteCategory)
+		api.DELETE("/category", controllers.DeleteCategory)
 		api.GET("/category/:id", controllers.GetCategoy)
 		// 文章
 		api.POST("/article", controllers.CreateArticle)
-		// api.GET("/article/:id", controllers.GetArticle)
+		api.GET("/article/:id", controllers.GetArticle)
 		api.PUT("/article", controllers.UpdateArticle)
 
 	}

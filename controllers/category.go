@@ -61,12 +61,15 @@ func GetCategoy(c *gin.Context) {
 }
 
 // DeleteCategory 删除分类同时删除分类里的所有文章
-// func DeleteCategory(c *gin.Context) {
-// 	cateID, err := strconv.Atoi(c.Param("id"))
-// 	msg, err := models.DeleteCategory(cateID)
-// 	if !CheckErr(err) {
-// 		RejectResult(c, 400, msg)
-// 		return
-// 	}
-// 	ResolveResult(c, 200, "")
-// }
+func DeleteCategory(c *gin.Context) {
+	getID := GetID{}
+	if !AnalysisJSON(c, &getID) {
+		return
+	}
+	msg, err := models.DeleteCategory(getID.ID)
+	if !CheckErr(err) {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, "")
+}
