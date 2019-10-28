@@ -34,6 +34,21 @@ func CreateArticle(article *Article) (string, error) {
 	return "", nil
 }
 
+// UpdateArticle 修改文章model
+func UpdateArticle(article *Article) (string, error) {
+	stmt, err := db.Prepare("UPDATE article SET category_id = ?, title = ?, content = ? WHERE id = ?")
+	if err != nil {
+		return SQL_ERROR, err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(article.CategoryID, article.Title, article.Content, article.ID)
+	if err != nil {
+		return CHECKCONTENT, err
+	}
+	return CONTROLLER_SUCCESS, nil
+}
+
 // // GetArticles 获取全部文章
 // func GetArticles(startID, endID int) {
 // }

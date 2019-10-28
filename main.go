@@ -29,6 +29,7 @@ func main() {
 		// 文章
 		api.POST("/article", controllers.CreateArticle)
 		// api.GET("/article/:id", controllers.GetArticle)
+		api.PUT("/article", controllers.UpdateArticle)
 
 	}
 	// 需要登录验证的api
