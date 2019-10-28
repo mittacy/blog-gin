@@ -35,7 +35,7 @@ func UpdateArticle(c *gin.Context) {
 	ResolveResult(c, 200, msg)
 }
 
-// // GetArticle 根据id获取文章
+// GetArticle 根据id获取文章
 func GetArticle(c *gin.Context) {
 	articleID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -47,4 +47,18 @@ func GetArticle(c *gin.Context) {
 		return
 	}
 	ResolveResult(c, 200, article)
+}
+
+// DeleteArticle 根据id删除文章
+func DeleteArticle(c *gin.Context) {
+	getID := GetID{}
+	if !AnalysisJSON(c, &getID) {
+		return
+	}
+	msg, err := models.DeleteArticle(getID.ID)
+	if !CheckErr(err) {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, msg)
 }

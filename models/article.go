@@ -69,3 +69,11 @@ func GetArticle(articleID int) (*Article, string, error) {
 	}
 	return &article, "", nil
 }
+
+// DeleteArticle 根据id删除文章
+func DeleteArticle(articleID uint32) (string, error) {
+	if _, err := db.Exec("DELETE FROM article WHERE id = ?", articleID); err != nil {
+		return SQL_ERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
+}
