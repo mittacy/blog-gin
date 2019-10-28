@@ -51,7 +51,7 @@ func GetCategoy(c *gin.Context) {
 		RejectResult(c, 400, NOKNOW_ERROR)
 		return
 	}
-	cate := models.Category{ID: id}
+	cate := models.Category{ID: uint32(id)}
 	result, msg, err := models.GetCategory(&cate)
 	if !CheckErr(err) {
 		RejectResult(c, 400, msg)

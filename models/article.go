@@ -5,13 +5,13 @@ import (
 )
 
 type Article struct {
-	ID         uint
+	ID         uint32
 	CreatedAt  time.Time
-	CategoryID int    `json:"category_id" binding:"required"`
+	CategoryID uint32 `json:"category_id" binding:"required"`
 	Title      string `binding:"required"`
 	Content    string
-	Views      int
-	Assists    int
+	Views      uint32
+	Assists    uint32
 }
 
 // CreateArticle 创建文章model
@@ -21,7 +21,6 @@ func CreateArticle(article *Article) (string, error) {
 		return SQL_ERROR, err
 	}
 	defer stmt.Close()
-
 	result, err := stmt.Exec(article.CategoryID, article.Title, article.Content)
 	if err != nil {
 		return CHECKCONTENT, err
@@ -30,7 +29,7 @@ func CreateArticle(article *Article) (string, error) {
 	if err != nil {
 		return SQL_ERROR, err
 	}
-	article.ID = uint(id)
+	article.ID = uint32(id)
 	return "", nil
 }
 
@@ -41,7 +40,6 @@ func UpdateArticle(article *Article) (string, error) {
 		return SQL_ERROR, err
 	}
 	defer stmt.Close()
-
 	_, err = stmt.Exec(article.CategoryID, article.Title, article.Content, article.ID)
 	if err != nil {
 		return CHECKCONTENT, err
@@ -49,11 +47,11 @@ func UpdateArticle(article *Article) (string, error) {
 	return CONTROLLER_SUCCESS, nil
 }
 
-// // GetArticles 获取全部文章
-// func GetArticles(startID, endID int) {
-// }
+// GetArticles 获取全部文章
+func GetArticles(startID, endID int) {
+}
 
-// // GetArticle 根据id获取文章
+// GetArticle 根据id获取文章
 // func GetArticle(articleID int) (*Article, string, error) {
 // 	article := Article{}
 // 	var createdAt string

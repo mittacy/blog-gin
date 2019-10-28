@@ -9,10 +9,10 @@ import (
 )
 
 type Admin struct {
-	ID        int
+	ID        uint32
 	Name      string
 	Password  string
-	Views     int
+	Views     uint32
 	Cname     string
 	Introduce string
 	Github    string

@@ -16,10 +16,10 @@ var db *sqlx.DB   // DB连接
 
 var (
 	adminTableSQL string = `CREATE TABLE admin (
-		id tinyint NOT NULL AUTO_INCREMENT,
+		id integer unsigned NOT NULL AUTO_INCREMENT,
 		name varchar(50) NOT NULL,
 		password varchar(255) NOT NULL,
-		views int unsigned DEFAULT "0",
+		views integer unsigned DEFAULT "0",
 		cname varchar(50) DEFAULT NULL,
 		introduce varchar(255) DEFAULT NULL,
 		github varchar(100) DEFAULT NULL,
@@ -28,20 +28,20 @@ var (
 		UNIQUE KEY name (name)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
 	categoryTableSQL string = `CREATE TABLE category (
-		id tinyint unsigned NOT NULL AUTO_INCREMENT,
+		id integer unsigned NOT NULL AUTO_INCREMENT,
 		title varchar(50) NOT NULL,
-		article_count smallint unsigned DEFAULT 0,
+		article_count integer unsigned DEFAULT 0,
 		PRIMARY KEY (id),
 		UNIQUE KEY title (title)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
 	articleTableSQL string = `CREATE TABLE article (
-		id int(10) NOT NULL AUTO_INCREMENT,
+		id integer unsigned NOT NULL AUTO_INCREMENT,
 		created_at datetime DEFAULT NOW(),
-		category_id tinyint unsigned NOT NULL,
+		category_id integer unsigned NOT NULL,
 		title varchar(100) NOT NULL,
 		content text,
-		views mediumint unsigned DEFAULT 0,
-		assists mediumint unsigned DEFAULT 0,
+		views integer unsigned DEFAULT 0,
+		assists integer unsigned DEFAULT 0,
 		PRIMARY KEY (id),
 		foreign key(category_id) references category(id)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`

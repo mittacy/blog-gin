@@ -6,9 +6,9 @@ import (
 )
 
 type Category struct {
-	ID           int
+	ID           uint32
 	Title        string `binding:"required"`
-	ArticleCount int
+	ArticleCount uint32
 }
 
 // CreateCate 创建分类
@@ -18,7 +18,6 @@ func CreateCate(cate *Category) (string, error) {
 		return SQL_ERROR, err
 	}
 	defer stmt.Close()
-
 	result, err := stmt.Exec(cate.Title)
 	if err != nil {
 		return SQL_ERROR, err
@@ -27,7 +26,7 @@ func CreateCate(cate *Category) (string, error) {
 	if err != nil {
 		return SQL_ERROR, err
 	}
-	cate.ID = int(id)
+	cate.ID = uint32(id)
 	return "", nil
 }
 
@@ -38,13 +37,11 @@ func GetCategories(cates []Category) ([]Category, string, error) {
 		return nil, SQL_ERROR, err
 	}
 	defer rows.Close()
-
 	for rows.Next() {
 		var cate Category
 		if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
 			return nil, SQL_ERROR, err
 		}
-
 		cates = append(cates, cate)
 	}
 	return cates, "", nil
@@ -63,11 +60,9 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	}
 	result["CateTitle"] = cate.Title
 	result["ArticleCount"] = cate.ArticleCount
-
 	if cate.ArticleCount == 0 {
 		return result, "", nil
 	}
-
 	// 查找id为category_id的所有文章
 	var article Article
 	var articleTime string
@@ -77,7 +72,6 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 		return result, SQL_ERROR, err
 	}
 	defer rows.Close()
-
 	article.CategoryID = cate.ID
 	for rows.Next() {
 		if rows.Scan(&article.ID, &articleTime, &article.Title, &article.Views, &article.Assists); err != nil {
@@ -97,7 +91,6 @@ func UpdateCate(cate *Category) (string, error) {
 		return SQL_ERROR, err
 	}
 	defer stmt.Close()
-
 	_, err = stmt.Exec(cate.Title, cate.ID)
 	if err != nil {
 		return err.Error(), err
