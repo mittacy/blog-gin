@@ -7,14 +7,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	categoryCount = 0
+)
+
 // GetCategories 获取所有分类title
 func GetCategories(c *gin.Context) {
-	data := make([]models.Category, 0)
-	data, msg, err := models.GetCategories(data)
+	// 查询分类及总数
+	categories, count, msg, err := models.GetCategories()
 	if !CheckErr(err) {
 		RejectResult(c, 400, msg)
 	}
-	ResolveResult(c, 200, data)
+	result := make(map[string]interface{}, 0)
+	result["categoryCount"] = count
+	result["categories"] = categories
+	ResolveResult(c, 200, result)
 }
 
 // CreateCategory 创建分类

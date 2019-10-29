@@ -31,20 +31,24 @@ func CreateCate(cate *Category) (string, error) {
 }
 
 // GetCategories 获取全部分类
-func GetCategories(cates []Category) ([]Category, string, error) {
+func GetCategories() (*[]Category, int, string, error) {
+	categories := make([]Category, 0)
+	count := 0
 	rows, err := db.Query("SELECT id, title, article_count FROM category")
 	if err != nil {
-		return nil, SQL_ERROR, err
+		return nil, count, SQL_ERROR, err
 	}
 	defer rows.Close()
+
 	for rows.Next() {
 		var cate Category
 		if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
-			return nil, SQL_ERROR, err
+			return nil, count, SQL_ERROR, err
 		}
-		cates = append(cates, cate)
+		categories = append(categories, cate)
+		count++
 	}
-	return cates, "", nil
+	return &categories, count, "", nil
 }
 
 // GetCategory 获取id分类及其所有文章
