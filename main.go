@@ -31,6 +31,7 @@ func main() {
 		api.GET("/article/:id", controllers.GetArticle)
 		api.PUT("/article", controllers.UpdateArticle)
 		api.DELETE("/article", controllers.DeleteArticle)
+		api.GET("/article_page/:num", controllers.GetPageArticle)
 
 	}
 	// 需要登录验证的api

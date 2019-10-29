@@ -7,6 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	onePageArticlesNum = 10
+)
+
 // CreateArticle 创建文章controller
 func CreateArticle(c *gin.Context) {
 	article := models.Article{}
@@ -61,4 +65,18 @@ func DeleteArticle(c *gin.Context) {
 		return
 	}
 	ResolveResult(c, 200, msg)
+}
+
+// GetPageArticle 分页获取文章
+func GetPageArticle(c *gin.Context) {
+	pageNum, err := strconv.Atoi(c.Param("num"))
+	if err != nil {
+		RejectResult(c, 400, NOKNOW_ERROR)
+	}
+	articls, msg, err := models.GetPageArticles(pageNum, onePageArticlesNum)
+	if !CheckErr(err) {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, articls)
 }

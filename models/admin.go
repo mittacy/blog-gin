@@ -90,6 +90,8 @@ func SetAdmin(admin *Admin) (string, error) {
 	if err != nil {
 		return SQL_ERROR, err
 	}
+	defer stmt.Close()
+
 	_, err = stmt.Exec(admin.Cname, admin.Introduce, admin.Github, admin.Mail)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -111,6 +113,8 @@ func SetPassword(password string) (string, error) {
 		}
 		return SQL_ERROR, err
 	}
+	defer stmt.Close()
+
 	if _, err = stmt.Exec(pwd); err != nil {
 		return SQL_ERROR, err
 	}

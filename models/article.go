@@ -2,6 +2,9 @@ package models
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -76,4 +79,37 @@ func DeleteArticle(articleID uint32) (string, error) {
 		return SQL_ERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
+}
+
+// GetPageArticles 分页获取文章
+func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) {
+	startIndex := strconv.Itoa(page * onePageArticlesCount)
+	fmt.Println("page: ", page)
+	fmt.Println("onePageArticlesCount: ", onePageArticlesCount)
+	sql := "SELECT id, created_at, title, views, assists FROM article limit " + startIndex + ", " + strconv.Itoa(onePageArticlesCount)
+	fmt.Println(sql)
+	rows, err := db.Query(sql)
+	if err != nil {
+		return nil, SQL_ERROR, err
+	}
+	defer rows.Close()
+
+	articles := make([]Article, 0)
+	count := 0
+	for rows.Next() {
+		article := Article{}
+		var createdAt string
+		if err = rows.Scan(&article.ID, &createdAt, &article.Title, &article.Views, &article.Assists); err != nil {
+			return nil, SQL_ERROR, err
+		}
+		if article.CreatedAt, err = time.ParseInLocation("2006-01-02 15:04:05", createdAt, time.Local); err != nil {
+			return nil, SQL_ERROR, err
+		}
+		articles = append(articles, article)
+		count++
+	}
+	if count == 0 {
+		return nil, ARTICLE_NO_EXIST, errors.New(ARTICLE_NO_EXIST)
+	}
+	return articles, "", nil
 }
