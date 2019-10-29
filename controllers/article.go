@@ -95,3 +95,33 @@ func GetPageArticle(c *gin.Context) {
 	result["articles"] = articls
 	ResolveResult(c, 200, result)
 }
+
+// AddArticleViews 文章添加浏览量
+func AddArticleViews(c *gin.Context) {
+	getID := GetID{}
+	if !AnalysisJSON(c, &getID) {
+		return
+	}
+
+	msg, err := models.AddArticleViews(getID.ID)
+	if err != nil {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, msg)
+}
+
+// AddArticleAssists 文章添加点赞数
+func AddArticleAssists(c *gin.Context) {
+	getID := GetID{}
+	if !AnalysisJSON(c, &getID) {
+		return
+	}
+
+	msg, err := models.AddArticleAssists(getID.ID)
+	if err != nil {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, msg)
+}

@@ -120,3 +120,19 @@ func GetArticlesCount() (int, string, error) {
 	err := db.QueryRow("SELECT count(*) FROM article").Scan(&count)
 	return count, SQL_ERROR, err
 }
+
+// AddArticleViews 添加文章浏览数
+func AddArticleViews(id uint32) (string, error) {
+	if _, err := db.Exec("UPDATE article SET views = views+1 WHERE id = ?", id); err != nil {
+		return SQL_ERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
+}
+
+// AddArticleAssists 添加文章点赞数
+func AddArticleAssists(id uint32) (string, error) {
+	if _, err := db.Exec("UPDATE article SET assists = assists+1 WHERE id = ?", id); err != nil {
+		return SQL_ERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
+}

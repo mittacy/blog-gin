@@ -69,8 +69,8 @@ func PutAdminPwd(c *gin.Context) {
 }
 
 // AddView 添加访问量
-func AddView(c *gin.Context) {
-	msg, err := models.AddView()
+func AddAdminView(c *gin.Context) {
+	msg, err := models.AddAdminView()
 	if !CheckErr(err) {
 		RejectResult(c, 400, msg)
 		return

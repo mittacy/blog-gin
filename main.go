@@ -20,7 +20,7 @@ func main() {
 		api.GET("/admin", controllers.GetAdmin)
 		api.PUT("/admin", controllers.PutAdmin)
 		api.PUT("/admin/setpwd", controllers.PutAdminPwd)
-		api.GET("/admin/addViews", controllers.AddView)
+		api.GET("/admin/addViews", controllers.AddAdminView)
 		// 分类
 		api.GET("/categories", controllers.GetCategories)
 		api.POST("/category", controllers.CreateCategory)
@@ -33,6 +33,8 @@ func main() {
 		api.PUT("/article", controllers.UpdateArticle)
 		api.DELETE("/article", controllers.DeleteArticle)
 		api.GET("/article_page/:num", controllers.GetPageArticle)
+		api.POST("/article/addViews", controllers.AddArticleViews)
+		api.POST("/article/addAssists", controllers.AddArticleAssists)
 
 	}
 	// 需要登录验证的api
