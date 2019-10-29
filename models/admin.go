@@ -121,6 +121,14 @@ func SetPassword(password string) (string, error) {
 	return "", nil
 }
 
+// AddView 添加访问量
+func AddView() (string, error) {
+	if _, err := db.Exec("UPDATE admin SET views = views + 1 limit 1"); err != nil {
+		return SQL_ERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
+}
+
 // Encryption 密码加密
 func Encryption(data string) string {
 	h := md5.New()

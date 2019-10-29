@@ -20,6 +20,7 @@ func main() {
 		api.GET("/admin", controllers.GetAdmin)
 		api.PUT("/admin", controllers.PutAdmin)
 		api.PUT("/admin/setpwd", controllers.PutAdminPwd)
+		api.GET("/admin/addViews", controllers.AddView)
 		// 分类
 		api.GET("/categories", controllers.GetCategories)
 		api.POST("/category", controllers.CreateCategory)

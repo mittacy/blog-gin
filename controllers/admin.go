@@ -67,3 +67,13 @@ func PutAdminPwd(c *gin.Context) {
 	}
 	ResolveResult(c, 200, "修改成功")
 }
+
+// AddView 添加访问量
+func AddView(c *gin.Context) {
+	msg, err := models.AddView()
+	if !CheckErr(err) {
+		RejectResult(c, 400, msg)
+		return
+	}
+	ResolveResult(c, 200, msg)
+}
