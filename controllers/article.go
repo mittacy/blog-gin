@@ -9,6 +9,7 @@ import (
 
 var (
 	onePageArticlesNum = 10
+	ArticleCount       = 0
 )
 
 // CreateArticle 创建文章controller
@@ -70,13 +71,27 @@ func DeleteArticle(c *gin.Context) {
 // GetPageArticle 分页获取文章
 func GetPageArticle(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))
-	if err != nil {
+	if !CheckErr(err) {
 		RejectResult(c, 400, NOKNOW_ERROR)
+		return
 	}
+
 	articls, msg, err := models.GetPageArticles(pageNum, onePageArticlesNum)
 	if !CheckErr(err) {
 		RejectResult(c, 400, msg)
 		return
 	}
-	ResolveResult(c, 200, articls)
+	// 查询第0页时更新文章总数
+	if pageNum == 0 {
+		count, msg, err := models.GetArticlesCount()
+		if !CheckErr(err) {
+			RejectResult(c, 400, msg)
+			return
+		}
+		ArticleCount = count
+	}
+	result := make(map[string]interface{}, 0)
+	result["articleCount"] = ArticleCount
+	result["articles"] = articls
+	ResolveResult(c, 200, result)
 }

@@ -95,7 +95,7 @@ func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) 
 	defer rows.Close()
 
 	articles := make([]Article, 0)
-	count := 0
+	IsEmptyRows := true
 	for rows.Next() {
 		article := Article{}
 		var createdAt string
@@ -106,10 +106,17 @@ func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) 
 			return nil, SQL_ERROR, err
 		}
 		articles = append(articles, article)
-		count++
+		IsEmptyRows = false
 	}
-	if count == 0 {
+	if IsEmptyRows {
 		return nil, ARTICLE_NO_EXIST, errors.New(ARTICLE_NO_EXIST)
 	}
 	return articles, "", nil
+}
+
+// GetArticlesCount 获取文章总数
+func GetArticlesCount() (int, string, error) {
+	var count int
+	err := db.QueryRow("SELECT count(*) FROM article").Scan(&count)
+	return count, SQL_ERROR, err
 }
