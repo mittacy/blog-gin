@@ -9,13 +9,13 @@ import (
 )
 
 type Article struct {
-	ID         uint32
-	CreatedAt  time.Time
-	CategoryID uint32 `json:"category_id" binding:"required"`
-	Title      string `binding:"required"`
-	Content    string
-	Views      uint32
-	Assists    uint32
+	ID         uint32    `json:"id" db:"id"`
+	CreatedAt  time.Time `json:"created_at" db:"created_at"`
+	CategoryID uint32    `json:"category_id" db:"category_id" binding:"required"`
+	Views      uint32    `json:"views" db:"views"`
+	Assists    uint32    `json:"assists" db:"assists"`
+	Title      string    `json:"title" db:"title" binding:"required"`
+	Content    string    `json:"content" db:"content"`
 }
 
 // CreateArticle 创建文章model

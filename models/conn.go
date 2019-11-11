@@ -93,10 +93,10 @@ CREATE TABLE article (
 id integer unsigned NOT NULL AUTO_INCREMENT,
 created_at datetime DEFAULT NOW(),
 category_id integer unsigned NOT NULL,
-title varchar(100) NOT NULL,
-content text,
 views integer unsigned DEFAULT 0,
 assists integer unsigned DEFAULT 0,
+title varchar(100) NOT NULL,
+content text,
 PRIMARY KEY (id),
 foreign key(category_id) references category(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

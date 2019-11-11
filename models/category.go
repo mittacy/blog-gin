@@ -6,13 +6,13 @@ import (
 )
 
 var (
-	GETCATEGORIESSQL string = "SELECT id, title, article_count FROM category"
+	GETCATEGORIESSQL string = "SELECT * FROM category"
 )
 
 type Category struct {
-	ID           uint32 `json:"id"`
-	Title        string `json:"title" binding:"required"`
-	ArticleCount uint32 `json:"article_count" db:"ArticleCount"`
+	ID           uint32 `json:"id" db:"id"`
+	Title        string `json:"title" binding:"required" db:"title"`
+	ArticleCount uint32 `json:"article_count" db:"article_count"`
 }
 
 // CreateCate 创建分类
@@ -42,31 +42,14 @@ func GetCategories() (*[]Category, string, error) {
 		return nil, SQL_ERROR, err
 	}
 	return &categories, "", nil
-	// categories := make([]Category, 0)
-	// count := 0
-	// rows, err := db.Query("SELECT id, title, article_count FROM category")
-	// if err != nil {
-	// 	return nil, count, SQL_ERROR, err
-	// }
-	// defer rows.Close()
-
-	// for rows.Next() {
-	// 	var cate Category
-	// 	if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
-	// 		return nil, count, SQL_ERROR, err
-	// 	}
-	// 	categories = append(categories, cate)
-	// 	count++
-	// }
-	// return &categories, count, "", nil
 }
 
 // GetCategory 获取id分类及其所有文章
 func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	var result = make(map[string]interface{})
-	// 获取分类的ArticleCount
-	row := db.QueryRow("SELECT title, article_count FROM category WHERE id = ? limit 1", cate.ID)
-	if err := row.Scan(&cate.Title, &cate.ArticleCount); err != nil {
+	// 获取分类的文章数量
+	err := db.Get(cate, "SELECT title, article_count FROM category WHERE id = ?", cate.ID)
+	if err != nil {
 		if err == sql.ErrNoRows {
 			return result, CATE_NO_EXIST, err
 		}
