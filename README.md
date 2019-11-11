@@ -10,7 +10,7 @@ POST 		/api/admin
 //修改管理员信息，参数：(admin/password/cname/introduce/github/mail)
 PUT			/api/admin
 // 博客浏览量加1
-GET			/api/addviews
+GET			/api/admin/addviews
 
 
 // 获取全部分类
