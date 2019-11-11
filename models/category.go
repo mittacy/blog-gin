@@ -5,10 +5,14 @@ import (
 	"time"
 )
 
+var (
+	GETCATEGORIESSQL string = "SELECT id, title, article_count FROM category"
+)
+
 type Category struct {
-	ID           uint32
-	Title        string `binding:"required"`
-	ArticleCount uint32
+	ID           uint32 `json:"id"`
+	Title        string `json:"title" binding:"required"`
+	ArticleCount uint32 `json:"article_count" db:"ArticleCount"`
 }
 
 // CreateCate 创建分类
@@ -31,24 +35,30 @@ func CreateCate(cate *Category) (string, error) {
 }
 
 // GetCategories 获取全部分类
-func GetCategories() (*[]Category, int, string, error) {
-	categories := make([]Category, 0)
-	count := 0
-	rows, err := db.Query("SELECT id, title, article_count FROM category")
+func GetCategories() (*[]Category, string, error) {
+	var categories []Category
+	err := db.Select(&categories, GETCATEGORIESSQL)
 	if err != nil {
-		return nil, count, SQL_ERROR, err
+		return nil, SQL_ERROR, err
 	}
-	defer rows.Close()
+	return &categories, "", nil
+	// categories := make([]Category, 0)
+	// count := 0
+	// rows, err := db.Query("SELECT id, title, article_count FROM category")
+	// if err != nil {
+	// 	return nil, count, SQL_ERROR, err
+	// }
+	// defer rows.Close()
 
-	for rows.Next() {
-		var cate Category
-		if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
-			return nil, count, SQL_ERROR, err
-		}
-		categories = append(categories, cate)
-		count++
-	}
-	return &categories, count, "", nil
+	// for rows.Next() {
+	// 	var cate Category
+	// 	if err := rows.Scan(&cate.ID, &cate.Title, &cate.ArticleCount); err != nil {
+	// 		return nil, count, SQL_ERROR, err
+	// 	}
+	// 	categories = append(categories, cate)
+	// 	count++
+	// }
+	// return &categories, count, "", nil
 }
 
 // GetCategory 获取id分类及其所有文章

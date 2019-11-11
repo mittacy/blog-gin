@@ -14,14 +14,12 @@ var (
 // GetCategories 获取所有分类title
 func GetCategories(c *gin.Context) {
 	// 查询分类及总数
-	categories, count, msg, err := models.GetCategories()
+	categories, msg, err := models.GetCategories()
 	if !CheckErr(err) {
 		RejectResult(c, 400, msg)
+		return
 	}
-	result := make(map[string]interface{}, 0)
-	result["categoryCount"] = count
-	result["categories"] = categories
-	ResolveResult(c, 200, result)
+	ResolveResult(c, 200, categories)
 }
 
 // CreateCategory 创建分类

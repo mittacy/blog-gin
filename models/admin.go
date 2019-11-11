@@ -8,6 +8,11 @@ import (
 	"io"
 )
 
+// SQL查询语句
+var (
+	GETADMINSQL string = "SELECT name, views, cname, introduce, github, mail FROM admin limit 1"
+)
+
 type Admin struct {
 	ID        uint32
 	Name      string
@@ -21,6 +26,7 @@ type Admin struct {
 
 // CreateAdmin 创建管理员信息
 func CreateAdmin() (string, error) {
+	// admin是否存在，不存在则创建
 	row := db.QueryRow("SELECT id FROM admin limit 1")
 	if err := row.Scan(); !(err == sql.ErrNoRows) {
 		fmt.Println("管理员已存在")
@@ -71,9 +77,8 @@ func IsRightAdmin(admin *Admin) (string, error) {
 
 // GetAdmin 获取管理员信息
 func GetAdmin() (*Admin, string, error) {
-	admin := Admin{}
-	row := db.QueryRow("SELECT name, views, cname, introduce, github, mail FROM admin limit 1")
-	err := row.Scan(&admin.Name, &admin.Views, &admin.Cname, &admin.Introduce, &admin.Github, &admin.Mail)
+	var admin Admin
+	err := db.Get(&admin, GETADMINSQL)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, ADMIN_NO_EXIST, err
