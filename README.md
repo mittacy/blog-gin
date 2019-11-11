@@ -1,4 +1,4 @@
-**使用golang和gin框架开发个人博客后台，同时使用gorm关系数据库**
+**使用golang和gin框架开发个人博客后台**
 
 **API接口文档**
 
@@ -25,8 +25,6 @@ PUT			/api/category
 Delete 	/api/category
 
 
-// 获取全部文章
-GET 		/api/articles
 // 显示某篇文章
 GET     /api/article/:id
 // 添加文章，参数：title, category_id, content, attachment
@@ -35,5 +33,11 @@ POST		/api/article
 PUT			/api/article
 // 删除文章，参数：id
 Delete	/api/article
+// 获取某个页面文章
+GET			/api/article_page/:num
+// 文章添加访问量, 参数: id
+POST		/api/article/addViews
+// 文章添加点赞量, 参数: id
+PSOT		/api/article/addAssists
 ~~~
 

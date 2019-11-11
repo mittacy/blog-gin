@@ -3,6 +3,8 @@ package main
 import (
 	"blog-gin/controllers"
 	"blog-gin/models"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +15,7 @@ func main() {
 	defer db.Close()
 
 	router := gin.Default()
+	router.Static("/statics", "./statics")
 	// 不需要登录验证的api
 	api := router.Group("/api")
 	{
@@ -20,7 +23,7 @@ func main() {
 		api.GET("/admin", controllers.GetAdmin)
 		api.PUT("/admin", controllers.PutAdmin)
 		api.PUT("/admin/setpwd", controllers.PutAdminPwd)
-		api.GET("/admin/addViews", controllers.AddAdminView)
+		api.GET("/admin/addviews", controllers.AddAdminView)
 		// 分类
 		api.GET("/categories", controllers.GetCategories)
 		api.POST("/category", controllers.CreateCategory)
@@ -44,5 +47,12 @@ func main() {
 
 	}
 
-	router.Run(":5201")
+	s := &http.Server{
+		Addr:           ":5201",
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	s.ListenAndServe()
 }
