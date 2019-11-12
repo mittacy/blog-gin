@@ -2,23 +2,15 @@ package models
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/jmoiron/sqlx"
 
-	"github.com/go-ini/ini"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var cfg *ini.File // 配置文件
-var db *sqlx.DB   // DB连接
+var db *sqlx.DB // DB连接
 
 func init() {
-	var err error
-	cfg, err = ini.Load("conf/conf.ini")
-	if err != nil {
-		log.Fatalf("Fail to parse 'conf/app.ini': %v", err)
-	}
 	// 连接数据库
 	OpenConn()
 	// 创建管理员信息
@@ -30,16 +22,10 @@ func init() {
 // OpenConn 连接mysql数据库
 func OpenConn() {
 	// 获取配置文件数据
-	sec, _ := cfg.GetSection("database")
-	sqlType := sec.Key("TYPE").MustString("debug")
-	sqlName := sec.Key("USER").MustString("debug")
-	sqlPassword := sec.Key("PASSWORD").MustString("debug")
-	sqlHOST := sec.Key("HOST").MustString("debug")
-	sqlDatabase := sec.Key("DATABASE").MustString("debug")
-	par := sqlName + ":" + sqlPassword + "@tcp(" + sqlHOST + ")/" + sqlDatabase + "?charset=utf8"
+	par := SQL_USER + ":" + SQL_PASSWORD + "@tcp(" + SQL_HOST + ")/" + SQL_DATABASE + "?charset=utf8"
 
 	var err error
-	db, err = sqlx.Open(sqlType, par)
+	db, err = sqlx.Open(SQL_TYPE, par)
 	if err != nil {
 		fmt.Println("连接数据库失败", err.Error())
 		panic("Failed to connect database")
@@ -53,11 +39,6 @@ func GetDB() *sqlx.DB {
 		return db
 	}
 	return nil
-}
-
-// GetCfg 获取配置文件连接
-func GetCfg() *ini.File {
-	return cfg
 }
 
 /*	1. 创建数据库blog	*/
@@ -123,5 +104,7 @@ for each row
 BEGIN
 	update category set article_count=article_count-1 where id = old.category_id;
 	update category set article_count=article_count+1 where id = new.category_id;
-END;
+END||
+
+DELIMITER ;
 */
