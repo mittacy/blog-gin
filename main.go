@@ -4,7 +4,9 @@ import (
 	"blog-gin/controllers"
 	"blog-gin/models"
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -15,6 +17,12 @@ func main() {
 	// 数据库连接
 	db := models.GetDB()
 	defer db.Close()
+	// 写日志
+	f, err := os.Create("gin.log")
+	if err != nil {
+		panic(err)
+	}
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	router := gin.Default()
 	router.Use(CorsMiddleware())

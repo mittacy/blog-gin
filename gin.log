@@ -1,0 +1,27 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /statics/*filepath        --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
+[GIN-debug] HEAD   /statics/*filepath        --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
+[GIN-debug] POST   /api/admin                --> blog-gin/controllers.PostAdmin (4 handlers)
+[GIN-debug] GET    /api/admin                --> blog-gin/controllers.GetAdmin (4 handlers)
+[GIN-debug] PUT    /api/admin                --> blog-gin/controllers.PutAdmin (4 handlers)
+[GIN-debug] PUT    /api/admin/setpwd         --> blog-gin/controllers.PutAdminPwd (4 handlers)
+[GIN-debug] GET    /api/admin/addviews       --> blog-gin/controllers.AddAdminView (4 handlers)
+[GIN-debug] GET    /api/categories           --> blog-gin/controllers.GetCategories (4 handlers)
+[GIN-debug] POST   /api/category             --> blog-gin/controllers.CreateCategory (4 handlers)
+[GIN-debug] PUT    /api/category             --> blog-gin/controllers.UpdataCategory (4 handlers)
+[GIN-debug] DELETE /api/category             --> blog-gin/controllers.DeleteCategory (4 handlers)
+[GIN-debug] GET    /api/category/:id         --> blog-gin/controllers.GetCategoy (4 handlers)
+[GIN-debug] POST   /api/article              --> blog-gin/controllers.CreateArticle (4 handlers)
+[GIN-debug] GET    /api/article/:id          --> blog-gin/controllers.GetArticle (4 handlers)
+[GIN-debug] PUT    /api/article              --> blog-gin/controllers.UpdateArticle (4 handlers)
+[GIN-debug] DELETE /api/article              --> blog-gin/controllers.DeleteArticle (4 handlers)
+[GIN-debug] GET    /api/article_page/:num    --> blog-gin/controllers.GetPageArticle (4 handlers)
+[GIN-debug] POST   /api/article/addViews     --> blog-gin/controllers.AddArticleViews (4 handlers)
+[GIN-debug] POST   /api/article/addAssists   --> blog-gin/controllers.AddArticleAssists (4 handlers)
+[GIN] 2019/11/26 - 16:04:17 | 200 |    2.290846ms |             ::1 | GET      /api/admin
+[GIN] 2019/11/26 - 16:04:18 | 404 |      50.237µs |             ::1 | GET      /favicon.ico
