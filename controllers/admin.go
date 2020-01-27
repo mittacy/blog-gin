@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"blog-gin/models"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,7 +25,7 @@ func PostAdmin(c *gin.Context) {
 	// 验证是否正确
 	msg, err := models.IsRightAdmin(admin)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, 401, msg)
 		return
 	}
 	// 登录成功, 生成token

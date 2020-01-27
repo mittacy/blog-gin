@@ -5,9 +5,9 @@
 ~~~go
 // 获取管理员信息
 GET			/api/admin
-//登录，参数：admin, password
+//登录，参数：name, password
 POST 		/api/admin
-//修改管理员信息，参数：(admin/password/cname/introduce/github/mail)
+//修改管理员信息，参数：(name/password/cname/introduce/github/mail)
 PUT			/api/admin
 // 博客浏览量加1
 GET			/api/admin/addviews

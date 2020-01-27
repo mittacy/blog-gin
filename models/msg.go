@@ -17,4 +17,6 @@ const (
 	CHECKCONTENT       string = "请检查提交数据是否正确或分类是否存在"
 	NO_NULL            string = "数据不能为空"
 	CONTROLLER_SUCCESS string = "操作成功"
+	FALSENAME		   string = "false name"
+	FALSEPASSWORD	   string = "false password"
 )

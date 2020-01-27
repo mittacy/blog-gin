@@ -15,7 +15,7 @@ var (
 
 type Admin struct {
 	ID        uint32
-	Name      string
+	Name      string	`json: "admin"`
 	Password  string
 	Views     uint32
 	Cname     string
@@ -28,12 +28,9 @@ type Admin struct {
 func CreateAdmin() (string, error) {
 	// admin是否存在，不存在则创建
 	row := db.QueryRow("SELECT id FROM admin limit 1")
-	if err := row.Scan(); err != nil {
-		if !(err == sql.ErrNoRows) {
-			fmt.Println("管理员已存在")
-			return "管理员已存在", nil
-		}
-		return SQL_ERROR, err
+	if err := row.Scan(); err != sql.ErrNoRows {
+		fmt.Println("管理员已存在")
+		return "管理员已存在", nil
 	}
 	password := Encryption("admin")
 	admin := Admin{
@@ -70,10 +67,10 @@ func IsRightAdmin(admin *Admin) (string, error) {
 		return SQL_ERROR, err
 	}
 	if adminName != admin.Name {
-		return "用户名不存在", errors.New("用户名不存在")
+		return FALSENAME, errors.New(FALSENAME)
 	}
 	if Encryption(admin.Password) != adminPwd {
-		return "密码错误", errors.New("密码错误")
+		return FALSEPASSWORD, errors.New(FALSEPASSWORD)
 	}
 	return CONTROLLER_SUCCESS, nil
 }

@@ -23,5 +23,17 @@
 [GIN-debug] GET    /api/article_page/:num    --> blog-gin/controllers.GetPageArticle (4 handlers)
 [GIN-debug] POST   /api/article/addViews     --> blog-gin/controllers.AddArticleViews (4 handlers)
 [GIN-debug] POST   /api/article/addAssists   --> blog-gin/controllers.AddArticleAssists (4 handlers)
-[GIN] 2019/11/26 - 16:04:17 | 200 |    2.290846ms |             ::1 | GET      /api/admin
-[GIN] 2019/11/26 - 16:04:18 | 404 |      50.237µs |             ::1 | GET      /favicon.ico
+[GIN] 2020/01/27 - 23:22:29 | 200 |      92.598µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/01/27 - 23:22:29 | 200 |    1.240981ms |             ::1 | POST     /api/admin
+[GIN] 2020/01/27 - 23:27:13 | 200 |     133.988µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/01/27 - 23:27:13 | 200 |    1.560747ms |             ::1 | POST     /api/admin
+[GIN] 2020/01/27 - 23:27:28 | 200 |     112.397µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/01/27 - 23:27:28 | 200 |    2.190209ms |             ::1 | POST     /api/admin
+[GIN] 2020/01/27 - 23:29:05 | 200 |      96.146µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/01/27 - 23:29:05 | 401 |     887.017µs |             ::1 | POST     /api/admin
+[GIN] 2020/01/27 - 23:29:35 | 200 |     189.782µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/01/27 - 23:29:35 | 401 |    2.307152ms |             ::1 | POST     /api/admin
+[GIN] 2020/01/27 - 23:30:12 | 200 |      38.141µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/01/27 - 23:30:12 | 401 |     801.385µs |             ::1 | POST     /api/admin
+[GIN] 2020/01/27 - 23:30:43 | 200 |      59.611µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/01/27 - 23:30:43 | 401 |     489.682µs |             ::1 | POST     /api/admin
