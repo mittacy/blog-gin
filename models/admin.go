@@ -67,10 +67,10 @@ func IsRightAdmin(admin *Admin) (string, error) {
 		return SQL_ERROR, err
 	}
 	if adminName != admin.Name {
-		return FALSENAME, errors.New(FALSENAME)
+		return NAMEERROR, errors.New(NAMEERROR)
 	}
 	if Encryption(admin.Password) != adminPwd {
-		return FALSEPASSWORD, errors.New(FALSEPASSWORD)
+		return PASSWORDERROR, errors.New(PASSWORDERROR)
 	}
 	return CONTROLLER_SUCCESS, nil
 }

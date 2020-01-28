@@ -16,10 +16,10 @@ func GetCategories(c *gin.Context) {
 	// 查询分类及总数
 	categories, msg, err := models.GetCategories()
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, categories)
+	ResolveResult(c, msg, categories)
 }
 
 // CreateCategory 创建分类
@@ -28,11 +28,12 @@ func CreateCategory(c *gin.Context) {
 	if !AnalysisJSON(c, &cate) {
 		return
 	}
-	if msg, err := models.CreateCate(&cate); err != nil {
-		RejectResult(c, 400, msg)
+	msg, err := models.CreateCate(&cate)
+	if err != nil {
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, cate)
+	ResolveResult(c, msg, cate)
 }
 
 // UpdataCategory 更新分类
@@ -43,26 +44,26 @@ func UpdataCategory(c *gin.Context) {
 	}
 	msg, err := models.UpdateCate(&cate)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, msg)
+	ResolveResult(c, msg, nil)
 }
 
 // GetCategoy 获取某个分类及其所有文章
 func GetCategoy(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if !CheckErr(err) {
-		RejectResult(c, 400, NOKNOW_ERROR)
+		RejectResult(c, models.UNKONWNERROR)
 		return
 	}
 	cate := models.Category{ID: uint32(id)}
 	result, msg, err := models.GetCategory(&cate)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, result)
+	ResolveResult(c, msg, result)
 }
 
 // DeleteCategory 删除分类同时删除分类里的所有文章
@@ -73,8 +74,8 @@ func DeleteCategory(c *gin.Context) {
 	}
 	msg, err := models.DeleteCategory(getID.ID)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, "")
+	ResolveResult(c, msg, nil)
 }

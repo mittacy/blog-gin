@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"blog-gin/models"
 	"fmt"
 	"time"
 
@@ -19,22 +20,22 @@ func CheckAdmin() gin.HandlerFunc {
 		tokenStr := c.Request.Header.Get(tokenName)
 		// token是否存在
 		if tokenStr == "" {
-			RejectResult(c, 401, "无权限访问")
+			RejectResult(c, models.NO_POWER)
 			c.Abort()
 			return
 		}
 		// 解析token
 		token, _ := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				RejectResult(c, 401, "无权限访问")
+				RejectResult(c, models.NO_POWER)
 				c.Abort()
-				return nil, fmt.Errorf("无权限访问")
+				return nil, fmt.Errorf(models.NO_POWER)
 			}
 			return []byte(serectKey), nil
 		})
 		// token是否过期
 		if !token.Valid {
-			RejectResult(c, 401, "请重新登录")
+			RejectResult(c, models.NO_POWER)
 			c.Abort()
 			return
 		}

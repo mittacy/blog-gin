@@ -20,10 +20,10 @@ func CreateArticle(c *gin.Context) {
 	}
 	msg, err := models.CreateArticle(&article)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, article)
+	ResolveResult(c, msg, article)
 }
 
 // UpdateArticle 修改文章controller
@@ -34,24 +34,24 @@ func UpdateArticle(c *gin.Context) {
 	}
 	msg, err := models.UpdateArticle(&article)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, msg)
+	ResolveResult(c, msg, nil)
 }
 
 // GetArticle 根据id获取文章
 func GetArticle(c *gin.Context) {
 	articleID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		RejectResult(c, 400, NOKNOW_ERROR)
+		RejectResult(c, models.UNKONWNERROR)
 	}
 	article, msg, err := models.GetArticle(articleID)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, article)
+	ResolveResult(c, msg, article)
 }
 
 // DeleteArticle 根据id删除文章
@@ -62,30 +62,30 @@ func DeleteArticle(c *gin.Context) {
 	}
 	msg, err := models.DeleteArticle(getID.ID)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, msg)
+	ResolveResult(c, msg, nil)
 }
 
 // GetPageArticle 分页获取文章
 func GetPageArticle(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))
 	if !CheckErr(err) {
-		RejectResult(c, 400, NOKNOW_ERROR)
+		RejectResult(c, models.UNKONWNERROR)
 		return
 	}
 
 	articls, msg, err := models.GetPageArticles(pageNum, onePageArticlesNum)
 	if !CheckErr(err) {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
 	// 查询第0页时更新文章总数
 	if pageNum == 0 {
 		count, msg, err := models.GetArticlesCount()
 		if !CheckErr(err) {
-			RejectResult(c, 400, msg)
+			RejectResult(c, msg)
 			return
 		}
 		ArticleCount = count
@@ -93,7 +93,7 @@ func GetPageArticle(c *gin.Context) {
 	result := make(map[string]interface{}, 0)
 	result["articleCount"] = ArticleCount
 	result["articles"] = articls
-	ResolveResult(c, 200, result)
+	ResolveResult(c, models.CONTROLLER_SUCCESS, result)
 }
 
 // AddArticleViews 文章添加浏览量
@@ -105,10 +105,10 @@ func AddArticleViews(c *gin.Context) {
 
 	msg, err := models.AddArticleViews(getID.ID)
 	if err != nil {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, msg)
+	ResolveResult(c, msg, nil)
 }
 
 // AddArticleAssists 文章添加点赞数
@@ -120,8 +120,8 @@ func AddArticleAssists(c *gin.Context) {
 
 	msg, err := models.AddArticleAssists(getID.ID)
 	if err != nil {
-		RejectResult(c, 400, msg)
+		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, 200, msg)
+	ResolveResult(c, msg, nil)
 }
