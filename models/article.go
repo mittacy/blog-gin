@@ -34,7 +34,7 @@ func CreateArticle(article *Article) (string, error) {
 		return SQL_ERROR, err
 	}
 	article.ID = uint32(id)
-	return "", nil
+	return CONTROLLER_SUCCESS, nil
 }
 
 // UpdateArticle 修改文章model
@@ -70,7 +70,7 @@ func GetArticle(articleID int) (*Article, string, error) {
 	if article.CreatedAt, err = time.ParseInLocation("2006-01-02 15:04:05", createdAt, time.Local); err != nil {
 		return nil, SQL_ERROR, err
 	}
-	return &article, "", nil
+	return &article, CONTROLLER_SUCCESS, nil
 }
 
 // DeleteArticle 根据id删除文章
@@ -111,7 +111,7 @@ func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) 
 	if IsEmptyRows {
 		return nil, ARTICLE_NO_EXIST, errors.New(ARTICLE_NO_EXIST)
 	}
-	return articles, "", nil
+	return articles, CONTROLLER_SUCCESS, nil
 }
 
 // GetArticlesCount 获取文章总数

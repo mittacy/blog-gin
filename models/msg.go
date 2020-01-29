@@ -10,6 +10,7 @@ const (
 	ARTICLE_EXIST      string = "Article already exists"
 	ARTICLE_NO_EXIST   string = "Article does not exists"
 	ADMIN_NO_EXIST     string = "Administrators does not exist"
+	ADMIN_EXIST		   string = "Administrators already exists"
 	NO_POWER           string = "Permission denied"
 	SQL_ERROR          string = "Database operation error"
 	CONVERSIOIN_ERROR  string = "Data conversion error"

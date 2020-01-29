@@ -15,7 +15,7 @@ var (
 
 type Admin struct {
 	ID        uint32
-	Name      string	`json: "admin"`
+	Name      string
 	Password  string
 	Views     uint32
 	Cname     string
@@ -29,8 +29,8 @@ func CreateAdmin() (string, error) {
 	// admin是否存在，不存在则创建
 	row := db.QueryRow("SELECT id FROM admin limit 1")
 	if err := row.Scan(); err != sql.ErrNoRows {
-		fmt.Println("管理员已存在")
-		return "管理员已存在", nil
+		fmt.Println(ADMIN_EXIST)
+		return CONTROLLER_SUCCESS, nil
 	}
 	password := Encryption("admin")
 	admin := Admin{
@@ -86,7 +86,7 @@ func GetAdmin() (*Admin, string, error) {
 		return nil, SQL_ERROR, err
 	}
 	admin.Password = "**********"
-	return &admin, "", nil
+	return &admin, CONTROLLER_SUCCESS, nil
 }
 
 // SetAdmin 修改管理员信息
@@ -105,7 +105,7 @@ func SetAdmin(admin *Admin) (string, error) {
 		return SQL_ERROR, err
 	}
 	admin.Password = "**********"
-	return "", nil
+	return CONTROLLER_SUCCESS, nil
 }
 
 // SetPassword 修改管理员密码
@@ -123,7 +123,7 @@ func SetPassword(password string) (string, error) {
 	if _, err = stmt.Exec(pwd); err != nil {
 		return SQL_ERROR, err
 	}
-	return "", nil
+	return CONTROLLER_SUCCESS, nil
 }
 
 // AddAdminView 添加访问量

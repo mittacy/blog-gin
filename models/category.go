@@ -31,7 +31,7 @@ func CreateCate(cate *Category) (string, error) {
 		return SQL_ERROR, err
 	}
 	cate.ID = uint32(id)
-	return "", nil
+	return CONTROLLER_SUCCESS, nil
 }
 
 // GetCategories 获取全部分类
@@ -41,7 +41,7 @@ func GetCategories() (*[]Category, string, error) {
 	if err != nil {
 		return nil, SQL_ERROR, err
 	}
-	return &categories, "", nil
+	return &categories, CONTROLLER_SUCCESS, nil
 }
 
 // GetCategory 获取id分类及其所有文章
@@ -58,7 +58,7 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	result["CateTitle"] = cate.Title
 	result["ArticleCount"] = cate.ArticleCount
 	if cate.ArticleCount == 0 {
-		return result, "", nil
+		return result, CONTROLLER_SUCCESS, nil
 	}
 	// 查找id为category_id的所有文章
 	var article Article
@@ -78,7 +78,7 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 		articles = append(articles, article)
 	}
 	result["articles"] = articles
-	return result, "", nil
+	return result, CONTROLLER_SUCCESS, nil
 }
 
 // UpdateCate 更新分类
