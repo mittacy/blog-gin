@@ -8,6 +8,7 @@ import (
 )
 
 var (
+	onePageCategoryNum = 10
 	categoryCount = 0
 )
 
@@ -20,6 +21,33 @@ func GetCategories(c *gin.Context) {
 		return
 	}
 	ResolveResult(c, msg, categories)
+}
+
+// GetPageCategory 分页获取分类
+func GetPageCategory(c *gin.Context) {
+	pageNum, err := strconv.Atoi(c.Param("num"))
+	if !CheckErr(err) {
+		RejectResult(c, models.UNKONWNERROR)
+		return
+	}
+	categories, msg, err := models.GetPageCategories(pageNum, onePageCategoryNum)
+	if !CheckErr(err) {
+		RejectResult(c, msg)
+		return
+	}
+	// 查询第0页时更新分类总数
+	if pageNum == 0 {
+		count, msg, err := models.GetCategoriesCount()
+		if !CheckErr(err) {
+			RejectResult(c, msg)
+			return
+		}
+		categoryCount = count
+	}
+	result := make(map[string]interface{}, 0)
+	result["categoryCount"] = ArticleCount
+	result["categories"] = categories
+	ResolveResult(c, models.CONTROLLER_SUCCESS, result)
 }
 
 // CreateCategory 创建分类

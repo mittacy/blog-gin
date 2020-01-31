@@ -2,7 +2,10 @@ package models
 
 import (
 	"database/sql"
+	"errors"
+	"strconv"
 	"time"
+	"fmt"
 )
 
 var (
@@ -113,4 +116,40 @@ func DeleteCategory(cateID uint32) (string, error) {
 		return SQL_ERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
+}
+
+// GetPageCategories 分页获取分类
+func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error) {
+	startIndex := strconv.Itoa(page * onePageCategoryNum)
+	fmt.Println("page: ", page)
+	fmt.Println("onePageCategoryNum: ", onePageCategoryNum)
+	sql := "SELECT * FROM category limit " + startIndex + ", " + strconv.Itoa(onePageCategoryNum)
+	fmt.Println(sql)
+	rows, err := db.Query(sql)
+	if err != nil {
+		return nil, SQL_ERROR, err
+	}
+	defer rows.Close()
+
+	categories := make([]Category, 0)
+	IsEmptyRows := true
+	for rows.Next() {
+		category := Category{}
+		if err = rows.Scan(&category.ID, &category.Title, &category.ArticleCount); err != nil {
+			return nil, SQL_ERROR, err
+		}
+		categories = append(categories, category)
+		IsEmptyRows = false
+	}
+	if IsEmptyRows {
+		return nil, CATE_NO_EXIST, errors.New(CATE_NO_EXIST)
+	}
+	return categories, CONTROLLER_SUCCESS, nil
+}
+
+// GetCategoriesCount 获取分类总数
+func GetCategoriesCount() (int, string, error) {
+	var count int
+	err := db.QueryRow("SELECT count(*) FROM category").Scan(&count)
+	return count, SQL_ERROR, err
 }
