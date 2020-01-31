@@ -2,7 +2,6 @@ package models
 
 import (
 	"database/sql"
-	"errors"
 	"strconv"
 	"time"
 	"fmt"
@@ -132,17 +131,12 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 	defer rows.Close()
 
 	categories := make([]Category, 0)
-	IsEmptyRows := true
 	for rows.Next() {
 		category := Category{}
 		if err = rows.Scan(&category.ID, &category.Title, &category.ArticleCount); err != nil {
 			return nil, SQL_ERROR, err
 		}
 		categories = append(categories, category)
-		IsEmptyRows = false
-	}
-	if IsEmptyRows {
-		return nil, CATE_NO_EXIST, errors.New(CATE_NO_EXIST)
 	}
 	return categories, CONTROLLER_SUCCESS, nil
 }
@@ -151,5 +145,6 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 func GetCategoriesCount() (int, string, error) {
 	var count int
 	err := db.QueryRow("SELECT count(*) FROM category").Scan(&count)
+	fmt.Println("category count: ", count)
 	return count, SQL_ERROR, err
 }

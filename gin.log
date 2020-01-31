@@ -24,6 +24,23 @@
 [GIN-debug] GET    /api/article_page/:num    --> blog-gin/controllers.GetPageArticle (4 handlers)
 [GIN-debug] POST   /api/article/addViews     --> blog-gin/controllers.AddArticleViews (4 handlers)
 [GIN-debug] POST   /api/article/addAssists   --> blog-gin/controllers.AddArticleAssists (4 handlers)
-[GIN] 2020/01/31 - 17:22:22 | 200 |    38.28738ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 17:22:34 | 200 |    3.584388ms |             ::1 | GET      /api/category_page/1
-[GIN] 2020/01/31 - 17:22:43 | 200 |    32.99112ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:42:11 | 200 |   11.628313ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:42:11 | 200 |    2.949863ms |             ::1 | GET      /api/admin
+[GIN] 2020/01/31 - 20:42:13 | 200 |    1.811495ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:42:13 | 200 |    4.792482ms |             ::1 | GET      /api/admin
+[GIN] 2020/01/31 - 20:42:16 | 200 |     483.121µs |             ::1 | GET      /api/category_page/1
+[GIN] 2020/01/31 - 20:42:17 | 200 |    3.491016ms |             ::1 | GET      /api/category_page/1
+[GIN] 2020/01/31 - 20:42:18 | 200 |    1.572573ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:42:26 | 200 |    6.314246ms |             ::1 | GET      /api/category/2
+[GIN] 2020/01/31 - 20:42:40 | 200 |     534.966µs |             ::1 | GET      /api/category_page/1
+[GIN] 2020/01/31 - 20:43:00 | 200 |   30.503482ms |             ::1 | DELETE   /api/category
+[GIN] 2020/01/31 - 20:43:03 | 200 |     337.137µs |             ::1 | GET      /api/admin
+[GIN] 2020/01/31 - 20:43:03 | 200 |    1.556045ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:43:06 | 200 |     483.206µs |             ::1 | GET      /api/category_page/1
+[GIN] 2020/01/31 - 20:43:07 | 200 |    1.316161ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:43:18 | 200 |     545.359µs |             ::1 | GET      /api/category_page/1
+[GIN] 2020/01/31 - 20:43:19 | 200 |    1.011376ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:43:22 | 200 |     453.555µs |             ::1 | GET      /api/category_page/1
+[GIN] 2020/01/31 - 20:43:23 | 200 |    1.003812ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/01/31 - 20:43:34 | 200 |    5.947116ms |             ::1 | GET      /api/admin
+[GIN] 2020/01/31 - 20:43:34 | 200 |   10.298986ms |             ::1 | GET      /api/category_page/0

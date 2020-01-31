@@ -45,7 +45,7 @@ func GetPageCategory(c *gin.Context) {
 		categoryCount = count
 	}
 	result := make(map[string]interface{}, 0)
-	result["categoryCount"] = ArticleCount
+	result["categoryCount"] = categoryCount
 	result["categories"] = categories
 	ResolveResult(c, models.CONTROLLER_SUCCESS, result)
 }
