@@ -34,7 +34,7 @@ func CreateAdmin() (string, error) {
 	}
 	password := Encryption("admin")
 	admin := Admin{
-		Name:      "mittacy",
+		Name:      "Mittacy",
 		Password:  password,
 		Views:     2352,
 		Cname:     "陈铭涛",

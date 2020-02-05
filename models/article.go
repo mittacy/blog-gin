@@ -67,7 +67,7 @@ func GetArticle(articleID int) (*Article, string, error) {
 	if err != nil {
 		return nil, SQL_ERROR, err
 	}
-	if article.CreatedAt, err = time.ParseInLocation("2006-01-02 15:04:05", createdAt, time.Local); err != nil {
+	if article.CreatedAt, err = time.ParseInLocation("2006-01-02", createdAt, time.Local); err != nil {
 		return nil, SQL_ERROR, err
 	}
 	return &article, CONTROLLER_SUCCESS, nil

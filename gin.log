@@ -7,16 +7,14 @@
 [GIN-debug] GET    /statics/*filepath        --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
 [GIN-debug] HEAD   /statics/*filepath        --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
 [GIN-debug] POST   /api/admin                --> blog-gin/controllers.PostAdmin (4 handlers)
-[GIN-debug] GET    /api/admin                --> blog-gin/controllers.GetAdmin (4 handlers)
 [GIN-debug] PUT    /api/admin                --> blog-gin/controllers.PutAdmin (4 handlers)
 [GIN-debug] PUT    /api/admin/setpwd         --> blog-gin/controllers.PutAdminPwd (4 handlers)
 [GIN-debug] GET    /api/admin/addviews       --> blog-gin/controllers.AddAdminView (4 handlers)
-[GIN-debug] GET    /api/categories           --> blog-gin/controllers.GetCategories (4 handlers)
 [GIN-debug] POST   /api/category             --> blog-gin/controllers.CreateCategory (4 handlers)
 [GIN-debug] PUT    /api/category             --> blog-gin/controllers.UpdataCategory (4 handlers)
 [GIN-debug] DELETE /api/category             --> blog-gin/controllers.DeleteCategory (4 handlers)
-[GIN-debug] GET    /api/category/:id         --> blog-gin/controllers.GetCategoy (4 handlers)
 [GIN-debug] GET    /api/category_page/:num   --> blog-gin/controllers.GetPageCategory (4 handlers)
+[GIN-debug] GET    /api/category/:id         --> blog-gin/controllers.GetCategoy (4 handlers)
 [GIN-debug] POST   /api/article              --> blog-gin/controllers.CreateArticle (4 handlers)
 [GIN-debug] GET    /api/article/:id          --> blog-gin/controllers.GetArticle (4 handlers)
 [GIN-debug] PUT    /api/article              --> blog-gin/controllers.UpdateArticle (4 handlers)
@@ -24,23 +22,14 @@
 [GIN-debug] GET    /api/article_page/:num    --> blog-gin/controllers.GetPageArticle (4 handlers)
 [GIN-debug] POST   /api/article/addViews     --> blog-gin/controllers.AddArticleViews (4 handlers)
 [GIN-debug] POST   /api/article/addAssists   --> blog-gin/controllers.AddArticleAssists (4 handlers)
-[GIN] 2020/01/31 - 20:42:11 | 200 |   11.628313ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 20:42:11 | 200 |    2.949863ms |             ::1 | GET      /api/admin
-[GIN] 2020/01/31 - 20:42:13 | 200 |    1.811495ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 20:42:13 | 200 |    4.792482ms |             ::1 | GET      /api/admin
-[GIN] 2020/01/31 - 20:42:16 | 200 |     483.121µs |             ::1 | GET      /api/category_page/1
-[GIN] 2020/01/31 - 20:42:17 | 200 |    3.491016ms |             ::1 | GET      /api/category_page/1
-[GIN] 2020/01/31 - 20:42:18 | 200 |    1.572573ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 20:42:26 | 200 |    6.314246ms |             ::1 | GET      /api/category/2
-[GIN] 2020/01/31 - 20:42:40 | 200 |     534.966µs |             ::1 | GET      /api/category_page/1
-[GIN] 2020/01/31 - 20:43:00 | 200 |   30.503482ms |             ::1 | DELETE   /api/category
-[GIN] 2020/01/31 - 20:43:03 | 200 |     337.137µs |             ::1 | GET      /api/admin
-[GIN] 2020/01/31 - 20:43:03 | 200 |    1.556045ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 20:43:06 | 200 |     483.206µs |             ::1 | GET      /api/category_page/1
-[GIN] 2020/01/31 - 20:43:07 | 200 |    1.316161ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 20:43:18 | 200 |     545.359µs |             ::1 | GET      /api/category_page/1
-[GIN] 2020/01/31 - 20:43:19 | 200 |    1.011376ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 20:43:22 | 200 |     453.555µs |             ::1 | GET      /api/category_page/1
-[GIN] 2020/01/31 - 20:43:23 | 200 |    1.003812ms |             ::1 | GET      /api/category_page/0
-[GIN] 2020/01/31 - 20:43:34 | 200 |    5.947116ms |             ::1 | GET      /api/admin
-[GIN] 2020/01/31 - 20:43:34 | 200 |   10.298986ms |             ::1 | GET      /api/category_page/0
+[GIN-debug] GET    /api/admin                --> blog-gin/controllers.GetAdmin (5 handlers)
+[GIN] 2020/02/05 - 15:51:06 | 200 |      130.31µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/02/05 - 15:51:06 | 500 |    4.533425ms |             ::1 | GET      /api/admin
+[GIN] 2020/02/05 - 15:51:35 | 200 |     123.837µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/02/05 - 15:51:35 | 200 |    6.606372ms |             ::1 | POST     /api/admin
+[GIN] 2020/02/05 - 15:52:03 | 200 |      98.709µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/02/05 - 15:52:03 | 200 |      358.62µs |             ::1 | OPTIONS  /api/category_page/0
+[GIN] 2020/02/05 - 15:52:03 | 200 |       703.9µs |             ::1 | GET      /api/admin
+[GIN] 2020/02/05 - 15:52:03 | 200 |    5.431083ms |             ::1 | GET      /api/category_page/0
+[GIN] 2020/02/05 - 15:52:04 | 200 |      87.694µs |             ::1 | OPTIONS  /api/admin
+[GIN] 2020/02/05 - 15:52:04 | 200 |     7.58953ms |             ::1 | GET      /api/admin

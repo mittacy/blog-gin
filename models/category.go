@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"strconv"
 	"time"
-	"fmt"
 )
 
 var (
@@ -57,8 +56,8 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 		}
 		return result, SQL_ERROR, err
 	}
-	result["CateTitle"] = cate.Title
-	result["ArticleCount"] = cate.ArticleCount
+	result["cateTitle"] = cate.Title
+	result["articleCount"] = cate.ArticleCount
 	if cate.ArticleCount == 0 {
 		return result, CONTROLLER_SUCCESS, nil
 	}
@@ -120,10 +119,7 @@ func DeleteCategory(cateID uint32) (string, error) {
 // GetPageCategories 分页获取分类
 func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error) {
 	startIndex := strconv.Itoa(page * onePageCategoryNum)
-	fmt.Println("page: ", page)
-	fmt.Println("onePageCategoryNum: ", onePageCategoryNum)
 	sql := "SELECT * FROM category limit " + startIndex + ", " + strconv.Itoa(onePageCategoryNum)
-	fmt.Println(sql)
 	rows, err := db.Query(sql)
 	if err != nil {
 		return nil, SQL_ERROR, err
@@ -145,6 +141,5 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 func GetCategoriesCount() (int, string, error) {
 	var count int
 	err := db.QueryRow("SELECT count(*) FROM category").Scan(&count)
-	fmt.Println("category count: ", count)
 	return count, SQL_ERROR, err
 }
