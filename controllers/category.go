@@ -12,22 +12,11 @@ var (
 	categoryCount = 0
 )
 
-// GetCategories 获取所有分类title
-//func GetCategories(c *gin.Context) {
-//	// 查询分类及总数
-//	categories, msg, err := models.GetCategories()
-//	if !CheckErr(err) {
-//		RejectResult(c, msg)
-//		return
-//	}
-//	ResolveResult(c, msg, categories)
-//}
-
 // GetPageCategory 分页获取分类
 func GetPageCategory(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))
 	if !CheckErr(err) {
-		RejectResult(c, models.UNKONWNERROR)
+		RejectResult(c, models.FAILEDERROR)
 		return
 	}
 	categories, msg, err := models.GetPageCategories(pageNum, onePageCategoryNum)
@@ -75,14 +64,14 @@ func UpdataCategory(c *gin.Context) {
 		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, msg, nil)
+	ResolveResult(c, msg, msg)
 }
 
 // GetCategoy 获取某个分类及其所有文章
 func GetCategoy(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if !CheckErr(err) {
-		RejectResult(c, models.UNKONWNERROR)
+		RejectResult(c, models.FAILEDERROR)
 		return
 	}
 	cate := models.Category{ID: uint32(id)}
@@ -105,5 +94,5 @@ func DeleteCategory(c *gin.Context) {
 		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, msg, nil)
+	ResolveResult(c, msg, msg)
 }

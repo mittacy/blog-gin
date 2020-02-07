@@ -20,29 +20,19 @@ type Category struct {
 func CreateCate(cate *Category) (string, error) {
 	stmt, err := db.Prepare("INSERT INTO category(title) values (?)")
 	if err != nil {
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	defer stmt.Close()
 	result, err := stmt.Exec(cate.Title)
 	if err != nil {
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	id, err := result.LastInsertId()
 	if err != nil {
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	cate.ID = uint32(id)
 	return CONTROLLER_SUCCESS, nil
-}
-
-// GetCategories 获取全部分类
-func GetCategories() (*[]Category, string, error) {
-	var categories []Category
-	err := db.Select(&categories, GETCATEGORIESSQL)
-	if err != nil {
-		return nil, SQL_ERROR, err
-	}
-	return &categories, CONTROLLER_SUCCESS, nil
 }
 
 // GetCategory 获取id分类及其所有文章
@@ -52,14 +42,14 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	err := db.Get(cate, "SELECT title, article_count FROM category WHERE id = ?", cate.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return result, CATE_NO_EXIST, err
+			return result, NO_EXIST, err
 		}
-		return result, SQL_ERROR, err
+		return result, BACKERROR, err
 	}
 	result["cateTitle"] = cate.Title
 	result["articleCount"] = cate.ArticleCount
 	if cate.ArticleCount == 0 {
-		return result, CONTROLLER_SUCCESS, nil
+		return result, EXISTED, nil
 	}
 	// 查找id为category_id的所有文章
 	var article Article
@@ -67,13 +57,13 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	articles := make([]Article, 0)
 	rows, err := db.Query("SELECT id, created_at, title, views, assists FROM article WHERE category_id = ?", cate.ID)
 	if err != nil {
-		return result, SQL_ERROR, err
+		return result, BACKERROR, err
 	}
 	defer rows.Close()
 	article.CategoryID = cate.ID
 	for rows.Next() {
 		if rows.Scan(&article.ID, &articleTime, &article.Title, &article.Views, &article.Assists); err != nil {
-			return result, SQL_ERROR, err
+			return result, BACKERROR, err
 		}
 		article.CreatedAt, _ = time.Parse("2006-01-02 15:04:05", articleTime)
 		articles = append(articles, article)
@@ -86,12 +76,12 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 func UpdateCate(cate *Category) (string, error) {
 	stmt, err := db.Prepare("UPDATE category SET title = ? WHERE id = ?")
 	if err != nil {
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	defer stmt.Close()
 	_, err = stmt.Exec(cate.Title, cate.ID)
 	if err != nil {
-		return CHECKCONTENT, err
+		return BACKERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }
@@ -100,18 +90,18 @@ func UpdateCate(cate *Category) (string, error) {
 func DeleteCategory(cateID uint32) (string, error) {
 	tx, err := db.Begin()
 	if err != nil {
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	if _, err = tx.Exec("DELETE FROM article WHERE category_id = ?", cateID); err != nil {
 		tx.Rollback()
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	if _, err = tx.Exec("DELETE FROM category WHERE id = ?", cateID); err != nil {
 		tx.Rollback()
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	if err = tx.Commit(); err != nil {
-		return SQL_ERROR, err
+		return BACKERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }
@@ -122,7 +112,7 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 	sql := "SELECT * FROM category limit " + startIndex + ", " + strconv.Itoa(onePageCategoryNum)
 	rows, err := db.Query(sql)
 	if err != nil {
-		return nil, SQL_ERROR, err
+		return nil, BACKERROR, err
 	}
 	defer rows.Close()
 
@@ -130,7 +120,7 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 	for rows.Next() {
 		category := Category{}
 		if err = rows.Scan(&category.ID, &category.Title, &category.ArticleCount); err != nil {
-			return nil, SQL_ERROR, err
+			return nil, BACKERROR, err
 		}
 		categories = append(categories, category)
 	}
@@ -141,5 +131,5 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 func GetCategoriesCount() (int, string, error) {
 	var count int
 	err := db.QueryRow("SELECT count(*) FROM category").Scan(&count)
-	return count, SQL_ERROR, err
+	return count, BACKERROR, err
 }

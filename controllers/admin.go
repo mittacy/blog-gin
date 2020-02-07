@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"blog-gin/models"
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,9 +34,10 @@ func PostAdmin(c *gin.Context) {
 	// 登录成功, 生成token
 	tokenStr, err := CreateToken(admin.Name)
 	if !CheckErr(err) {
-		RejectResult(c, models.CREATETOKENERROR)
+		RejectResult(c, models.FAILEDERROR)
 		return
 	}
+	fmt.Println("登录成功，返回token: ", tokenStr)
 	ResolveResult(c, models.CONTROLLER_SUCCESS, tokenStr)
 }
 
@@ -43,6 +46,7 @@ func PutAdmin(c *gin.Context) {
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
 	if err := c.ShouldBindJSON(admin); !CheckErr(err) {
+		fmt.Println("admin: ", admin)
 		RejectResult(c, models.ANALYSIS_ERROR)
 	}
 	msg, err := models.SetAdmin(admin)
@@ -60,6 +64,7 @@ func PutAdminPwd(c *gin.Context) {
 	if err := c.ShouldBindJSON(admin); !CheckErr(err) {
 		RejectResult(c, models.ANALYSIS_ERROR)
 	}
+	fmt.Println("admin", admin)
 	msg, err := models.SetPassword(admin.Password)
 	if !CheckErr(err) {
 		RejectResult(c, msg)
@@ -76,4 +81,32 @@ func AddAdminView(c *gin.Context) {
 		return
 	}
 	ResolveResult(c, msg, nil)
+}
+
+// Verify 验证登录
+func Verify(c *gin.Context) {
+	tokenStr := c.Request.Header.Get(tokenName)
+	fmt.Println("tokenStr -> ", tokenStr)
+	// token是否存在
+	if tokenStr == "" {
+		fmt.Println("token为空")
+		RejectResult(c, models.NO_POWER)
+		return
+	}
+	// 解析token
+	token, _ := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			RejectResult(c, models.NO_POWER)
+			return nil, fmt.Errorf(models.NO_POWER)
+		}
+		return []byte(serectKey), nil
+	})
+	// token是否过期
+	if !token.Valid {
+		fmt.Println("token过期")
+		RejectResult(c, models.NO_POWER)
+		return
+	}
+	fmt.Println("token正确")
+	ResolveResult(c, models.CONTROLLER_SUCCESS, nil)
 }

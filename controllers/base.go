@@ -24,15 +24,15 @@ func RejectResult(c *gin.Context, msg string) {
 // 获取http状态码
 func httpCode(msg string) int {
 	switch msg {
-	case models.UNKONWNERROR, models.CONVERSIOIN_ERROR, models.ANALYSIS_ERROR, models.CHECKCONTENT, models.NO_NULL, models.NAMEERROR, models.PASSWORDERROR:
+	case models.ANALYSIS_ERROR, models.NO_NULL, models.NAMEERROR, models.PASSWORDERROR, models.FAILEDERROR:
 		return 400
-	case models.NO_EXIST, models.CATE_NO_EXIST, models.ARTICLE_NO_EXIST:
+	case models.NO_EXIST:
 		return 404
-	case models.EXISTED, models.CATE_EXIST, models.ARTICLE_EXIST, models.CONTROLLER_SUCCESS:
+	case models.EXISTED, models.CONTROLLER_SUCCESS:
 		return 200
 	case models.NO_POWER:
 		return 401
-	case models.SQL_ERROR, models.CREATETOKENERROR:
+	case models.BACKERROR:
 		return 500
 	default:
 		return 400
@@ -49,10 +49,10 @@ func AnalysisJSON(c *gin.Context, obj interface{}) bool {
 	return true
 }
 
-// CheckErr 检查错误
+// CheckErr 统一处理错误
 func CheckErr(err error) bool {
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Errorf(err.Error())
 		return false
 	}
 	return true

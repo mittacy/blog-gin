@@ -14,14 +14,14 @@ var (
 )
 
 type Admin struct {
-	ID        uint32
-	Name      string
-	Password  string
-	Views     uint32
-	Cname     string
-	Introduce string
-	Github    string
-	Mail      string
+	ID        uint32	`json:"id"`
+	Name      string	`json:"name"`
+	Password  string	`json:"password"`
+	Views     uint32	`json:"views"`
+	Cname     string	`json:"cname"`
+	Introduce string	`json:"introduce"`
+	Github    string	`json:"github"`
+	Mail      string	`json:"mail"`
 }
 
 // CreateAdmin 创建管理员信息
@@ -29,7 +29,6 @@ func CreateAdmin() (string, error) {
 	// admin是否存在，不存在则创建
 	row := db.QueryRow("SELECT id FROM admin limit 1")
 	if err := row.Scan(); err != sql.ErrNoRows {
-		fmt.Println(ADMIN_EXIST)
 		return CONTROLLER_SUCCESS, nil
 	}
 	password := Encryption("admin")
@@ -44,7 +43,7 @@ func CreateAdmin() (string, error) {
 	}
 	stmt, err := db.Prepare("INSERT INTO admin(name, password, views, cname, introduce, github, mail) values (?,?,?,?,?,?,?)")
 	if err != nil {
-		return "创建管理员失败", err
+		return FAILEDERROR, err
 	}
 	defer stmt.Close()
 
@@ -62,9 +61,9 @@ func IsRightAdmin(admin *Admin) (string, error) {
 	err := row.Scan(&adminName, &adminPwd)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return ADMIN_NO_EXIST, err
+			return NO_EXIST, err
 		}
-		return SQL_ERROR, err
+		return FAILEDERROR, err
 	}
 	if adminName != admin.Name {
 		return NAMEERROR, errors.New(NAMEERROR)
@@ -81,9 +80,9 @@ func GetAdmin() (*Admin, string, error) {
 	err := db.Get(&admin, GETADMINSQL)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, ADMIN_NO_EXIST, err
+			return nil, NO_EXIST, err
 		}
-		return nil, SQL_ERROR, err
+		return nil, FAILEDERROR, err
 	}
 	admin.Password = "**********"
 	return &admin, CONTROLLER_SUCCESS, nil
@@ -93,16 +92,16 @@ func GetAdmin() (*Admin, string, error) {
 func SetAdmin(admin *Admin) (string, error) {
 	stmt, err := db.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ? limit 1")
 	if err != nil {
-		return SQL_ERROR, err
+		return FAILEDERROR, err
 	}
 	defer stmt.Close()
 
 	_, err = stmt.Exec(admin.Cname, admin.Introduce, admin.Github, admin.Mail)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return ADMIN_NO_EXIST, err
+			return NO_EXIST, err
 		}
-		return SQL_ERROR, err
+		return FAILEDERROR, err
 	}
 	admin.Password = "**********"
 	return CONTROLLER_SUCCESS, nil
@@ -114,14 +113,14 @@ func SetPassword(password string) (string, error) {
 	stmt, err := db.Prepare("UPDATE admin SET password = ? limit 1")
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return ADMIN_NO_EXIST, err
+			return NO_EXIST, err
 		}
-		return SQL_ERROR, err
+		return FAILEDERROR, err
 	}
 	defer stmt.Close()
 
 	if _, err = stmt.Exec(pwd); err != nil {
-		return SQL_ERROR, err
+		return FAILEDERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }
@@ -129,7 +128,7 @@ func SetPassword(password string) (string, error) {
 // AddAdminView 添加访问量
 func AddAdminView() (string, error) {
 	if _, err := db.Exec("UPDATE admin SET views = views + 1 limit 1"); err != nil {
-		return SQL_ERROR, err
+		return FAILEDERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }

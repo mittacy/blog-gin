@@ -4,9 +4,7 @@ import (
 	"blog-gin/controllers"
 	"blog-gin/models"
 	"fmt"
-	"io"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
@@ -18,11 +16,11 @@ func main() {
 	db := models.GetDB()
 	defer db.Close()
 	// 写日志
-	f, err := os.Create("gin.log")
-	if err != nil {
-		panic(err)
-	}
-	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	//f, err := os.Create("gin.log")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	router := gin.Default()
 	router.Use(CorsMiddleware())
@@ -30,6 +28,7 @@ func main() {
 	// 不需要登录验证的api
 	api := router.Group("/api")
 	{
+		api.GET("/verify", controllers.Verify)
 		api.GET("/admin", controllers.GetAdmin)
 		api.POST("/admin", controllers.PostAdmin)
 		api.PUT("/admin", controllers.PutAdmin)
@@ -51,7 +50,6 @@ func main() {
 		api.POST("/article/addAssists", controllers.AddArticleAssists)
 	}
 	// 需要登录验证的api
-	//router.GET("/api/category/:id", controllers.CheckAdmin(), controllers.GetCategoy)
 	apiAdmin := router.Group("/api")
 	apiAdmin.Use(controllers.CheckAdmin())
 	{

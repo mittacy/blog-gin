@@ -3,12 +3,16 @@
 **API接口文档**
 
 ~~~go
+// 验证登录状态
+GET         /api/verify
 // 获取管理员信息
 GET			/api/admin
-//登录，参数: name, password
+// 登录，参数: name, password
 POST 		/api/admin
-//修改管理员信息, 参数: name, password, cname, introduce, github, mail
+// 修改管理员信息, 参数: cname, introduce, github, mail
 PUT			/api/admin
+// 修改管理员密码, 参数: password
+PUT         /api/admin/setpwd
 // 博客浏览量加1
 GET			/api/admin/addviews
 
@@ -23,6 +27,7 @@ POST 		/api/category
 PUT			/api/category
 // 删除分类, 参数: id
 Delete 	/api/category
+
 
 // 分页获取文章, 参数: pageIndex
 GET			/api/article_page/:num

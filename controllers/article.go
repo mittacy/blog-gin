@@ -15,9 +15,7 @@ var (
 // CreateArticle 创建文章controller
 func CreateArticle(c *gin.Context) {
 	article := models.Article{}
-	if !AnalysisJSON(c, &article) {
-		return
-	}
+	if !AnalysisJSON(c, &article) { return }
 	msg, err := models.CreateArticle(&article)
 	if !CheckErr(err) {
 		RejectResult(c, msg)
@@ -37,14 +35,14 @@ func UpdateArticle(c *gin.Context) {
 		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, msg, nil)
+	ResolveResult(c, msg, msg)
 }
 
 // GetArticle 根据id获取文章
 func GetArticle(c *gin.Context) {
 	articleID, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		RejectResult(c, models.UNKONWNERROR)
+	if !CheckErr(err) {
+		RejectResult(c, models.BACKERROR)
 	}
 	article, msg, err := models.GetArticle(articleID)
 	if !CheckErr(err) {
@@ -65,17 +63,16 @@ func DeleteArticle(c *gin.Context) {
 		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, msg, nil)
+	ResolveResult(c, msg, msg)
 }
 
 // GetPageArticle 分页获取文章
 func GetPageArticle(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))
 	if !CheckErr(err) {
-		RejectResult(c, models.UNKONWNERROR)
+		RejectResult(c, models.BACKERROR)
 		return
 	}
-
 	articls, msg, err := models.GetPageArticles(pageNum, onePageArticlesNum)
 	if !CheckErr(err) {
 		RejectResult(c, msg)
@@ -102,13 +99,12 @@ func AddArticleViews(c *gin.Context) {
 	if !AnalysisJSON(c, &getID) {
 		return
 	}
-
 	msg, err := models.AddArticleViews(getID.ID)
-	if err != nil {
+	if CheckErr(err) {
 		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, msg, nil)
+	ResolveResult(c, msg, msg)
 }
 
 // AddArticleAssists 文章添加点赞数
@@ -117,11 +113,10 @@ func AddArticleAssists(c *gin.Context) {
 	if !AnalysisJSON(c, &getID) {
 		return
 	}
-
 	msg, err := models.AddArticleAssists(getID.ID)
-	if err != nil {
+	if !CheckErr(err) {
 		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, msg, nil)
+	ResolveResult(c, msg, msg)
 }

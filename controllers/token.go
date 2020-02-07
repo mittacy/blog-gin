@@ -50,6 +50,6 @@ func CreateToken(name string) (string, error) {
 		"exp":      time.Now().Add(time.Hour * time.Duration(1)).Unix(), // 可以添加过期时间
 		"iat":      time.Now().Unix(),
 	})
-
 	return token.SignedString([]byte(serectKey)) //对应的字符串请自行生成，最后足够使用加密后的字符串
 }
+
