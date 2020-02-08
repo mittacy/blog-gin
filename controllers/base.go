@@ -13,7 +13,7 @@ type GetID struct {
 
 // ResolveResult 成功, 返回成功信息
 func ResolveResult(c *gin.Context, msg string, data interface{}) {
-	c.JSON(httpCode(msg), gin.H{ "data": data })
+	c.JSON(httpCode(msg), gin.H{ "data": data, "msg": msg })
 }
 
 // RejectResult 失败, 返回错误信息
@@ -24,11 +24,11 @@ func RejectResult(c *gin.Context, msg string) {
 // 获取http状态码
 func httpCode(msg string) int {
 	switch msg {
-	case models.ANALYSIS_ERROR, models.NO_NULL, models.NAMEERROR, models.PASSWORDERROR, models.FAILEDERROR:
+	case models.EXISTED, models.ANALYSIS_ERROR, models.NO_NULL, models.NAMEERROR, models.PASSWORDERROR, models.FAILEDERROR:
 		return 400
 	case models.NO_EXIST:
 		return 404
-	case models.EXISTED, models.CONTROLLER_SUCCESS:
+	case models.CONTROLLER_SUCCESS:
 		return 200
 	case models.NO_POWER:
 		return 401
@@ -52,7 +52,7 @@ func AnalysisJSON(c *gin.Context, obj interface{}) bool {
 // CheckErr 统一处理错误
 func CheckErr(err error) bool {
 	if err != nil {
-		fmt.Errorf(err.Error())
+		fmt.Println(err.Error())
 		return false
 	}
 	return true

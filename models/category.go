@@ -25,7 +25,7 @@ func CreateCate(cate *Category) (string, error) {
 	defer stmt.Close()
 	result, err := stmt.Exec(cate.Title)
 	if err != nil {
-		return BACKERROR, err
+		return EXISTED, err
 	}
 	id, err := result.LastInsertId()
 	if err != nil {
@@ -81,7 +81,7 @@ func UpdateCate(cate *Category) (string, error) {
 	defer stmt.Close()
 	_, err = stmt.Exec(cate.Title, cate.ID)
 	if err != nil {
-		return BACKERROR, err
+		return EXISTED, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }
