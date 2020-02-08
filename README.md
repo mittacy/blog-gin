@@ -33,7 +33,7 @@ Delete 	/api/category
 GET			/api/article_page/:num
 // 显示某篇文章
 GET     /api/article/:id
-// 添加文章，参数: title, category_id, content, attachment
+// 添加文章，参数: title, category_id, content
 POST		/api/article
 // 修改文章，参数: id, title, category_id, content, attachment
 PUT			/api/article

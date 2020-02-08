@@ -6,10 +6,6 @@ import (
 	"time"
 )
 
-var (
-	GETCATEGORIESSQL string = "SELECT * FROM category"
-)
-
 type Category struct {
 	ID           uint32 `json:"id" db:"id"`
 	Title        string `json:"title" binding:"required" db:"title"`
@@ -33,6 +29,16 @@ func CreateCate(cate *Category) (string, error) {
 	}
 	cate.ID = uint32(id)
 	return CONTROLLER_SUCCESS, nil
+}
+
+// GetCategories 获取全部分类id和title
+func GetCategories() (*[]Category, string, error) {
+	var categories []Category
+	err := db.Select(&categories, "SELECT id, title FROM category")
+	if err != nil {
+		return nil, BACKERROR, err
+	}
+	return &categories, CONTROLLER_SUCCESS, nil
 }
 
 // GetCategory 获取id分类及其所有文章

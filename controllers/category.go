@@ -12,6 +12,17 @@ var (
 	categoryCount = 0
 )
 
+// GetCategories 获取所有分类id和title
+func GetCategories(c *gin.Context) {
+	// 查询分类及总数
+	categories, msg, err := models.GetCategories()
+	if !CheckErr(err) {
+		RejectResult(c, msg)
+		return
+	}
+	ResolveResult(c, msg, categories)
+}
+
 // GetPageCategory 分页获取分类
 func GetPageCategory(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))

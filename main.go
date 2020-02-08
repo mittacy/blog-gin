@@ -35,6 +35,7 @@ func main() {
 		api.PUT("/admin/setpwd", controllers.PutAdminPwd)
 		api.GET("/admin/addviews", controllers.AddAdminView)
 		// 分类
+		api.GET("/categories", controllers.GetCategories)
 		api.POST("/category", controllers.CreateCategory)
 		api.PUT("/category", controllers.UpdataCategory)
 		api.DELETE("/category", controllers.DeleteCategory)
