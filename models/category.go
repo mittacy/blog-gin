@@ -3,7 +3,6 @@ package models
 import (
 	"database/sql"
 	"strconv"
-	"time"
 )
 
 type Category struct {
@@ -55,23 +54,21 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	result["cateTitle"] = cate.Title
 	result["articleCount"] = cate.ArticleCount
 	if cate.ArticleCount == 0 {
-		return result, EXISTED, nil
+		return result, CONTROLLER_SUCCESS, nil
 	}
 	// 查找id为category_id的所有文章
 	var article Article
-	var articleTime string
 	articles := make([]Article, 0)
-	rows, err := db.Query("SELECT id, created_at, title, views, assists FROM article WHERE category_id = ?", cate.ID)
+	rows, err := db.Query("SELECT id, created_at, updated_at, title, views, assists FROM article WHERE category_id = ?", cate.ID)
 	if err != nil {
 		return result, BACKERROR, err
 	}
 	defer rows.Close()
 	article.CategoryID = cate.ID
 	for rows.Next() {
-		if rows.Scan(&article.ID, &articleTime, &article.Title, &article.Views, &article.Assists); err != nil {
+		if rows.Scan(&article.ID, &article.CreatedAt, &article.UpdatedAt, &article.Title, &article.Views); err != nil {
 			return result, BACKERROR, err
 		}
-		article.CreatedAt, _ = time.Parse("2006-01-02 15:04:05", articleTime)
 		articles = append(articles, article)
 	}
 	result["articles"] = articles

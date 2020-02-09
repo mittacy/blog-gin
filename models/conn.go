@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-
 	"github.com/jmoiron/sqlx"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -72,12 +71,12 @@ UNIQUE KEY title (title)
 /*	articleTableSQL
 CREATE TABLE article (
 id integer unsigned NOT NULL AUTO_INCREMENT,
-created_at datetime DEFAULT NOW(),
+created_at varchar(11) NOT NULL DEFAULT '2020-02-02',
+updated_at varchar(11) NOT NULL DEFAULT '',
 category_id integer unsigned NOT NULL,
 views integer unsigned DEFAULT 0,
-assists integer unsigned DEFAULT 0,
-title varchar(100) NOT NULL,
-content text,
+title varchar(50) NOT NULL,
+content longtext,
 PRIMARY KEY (id),
 foreign key(category_id) references category(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

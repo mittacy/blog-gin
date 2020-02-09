@@ -48,7 +48,6 @@ func main() {
 		api.DELETE("/article", controllers.DeleteArticle)
 		api.GET("/article_page/:num", controllers.GetPageArticle)
 		api.POST("/article/addViews", controllers.AddArticleViews)
-		api.POST("/article/addAssists", controllers.AddArticleAssists)
 	}
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")

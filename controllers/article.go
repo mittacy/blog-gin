@@ -106,17 +106,3 @@ func AddArticleViews(c *gin.Context) {
 	}
 	ResolveResult(c, msg, msg)
 }
-
-// AddArticleAssists 文章添加点赞数
-func AddArticleAssists(c *gin.Context) {
-	getID := GetID{}
-	if !AnalysisJSON(c, &getID) {
-		return
-	}
-	msg, err := models.AddArticleAssists(getID.ID)
-	if !CheckErr(err) {
-		RejectResult(c, msg)
-		return
-	}
-	ResolveResult(c, msg, msg)
-}
