@@ -11,6 +11,9 @@ type GetID struct {
 	ID uint32 `json:"id"`
 }
 
+var Ip = map[string]int{}
+
+
 // ResolveResult 成功, 返回成功信息
 func ResolveResult(c *gin.Context, msg string, data interface{}) {
 	c.JSON(httpCode(msg), gin.H{ "data": data, "msg": msg })
@@ -56,4 +59,33 @@ func CheckErr(err error) bool {
 		return false
 	}
 	return true
+}
+
+// CheckIP 检查ip错误次数
+func CheckIP(c *gin.Context) bool {
+	ip := c.ClientIP()
+	if num, exists := Ip[ip]; exists && num >= 5 {
+		return false
+	}
+	return true
+}
+// AddErrorIP 增加错误记录ip
+func AddErrorIP(c *gin.Context) {
+	// 保存ip错误次数，超过五次封锁该ip
+	ip := c.ClientIP()
+	num, exists := Ip[ip]
+	if exists {
+		Ip[ip] = num + 1
+		return
+	}
+	Ip[ip] = 1
+	return
+}
+// DelIP 删除ip记录
+func DelIP(c *gin.Context) {
+	ip := c.ClientIP()
+	if _, exists := Ip[ip]; exists {
+		delete(Ip, ip)
+	}
+	return
 }

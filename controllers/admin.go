@@ -19,6 +19,11 @@ func GetAdmin(c *gin.Context) {
 
 // PostAdmin 登录管理员
 func PostAdmin(c *gin.Context) {
+	fmt.Println("IP: -> ", c.ClientIP())
+	if !CheckIP(c) {
+		RejectResult(c, models.NO_POWER)
+		return
+	}
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
 	if err := c.ShouldBindJSON(admin); !CheckErr(err) {
@@ -28,10 +33,14 @@ func PostAdmin(c *gin.Context) {
 	// 验证是否正确
 	msg, err := models.IsRightAdmin(admin)
 	if !CheckErr(err) {
+		if msg == models.NAMEERROR || msg == models.PASSWORDERROR {
+			AddErrorIP(c)
+		}
 		RejectResult(c, msg)
 		return
 	}
 	// 登录成功, 生成token
+	DelIP(c)
 	tokenStr, err := CreateToken(admin.Name)
 	if !CheckErr(err) {
 		RejectResult(c, models.FAILEDERROR)
