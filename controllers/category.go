@@ -23,6 +23,21 @@ func GetCategories(c *gin.Context) {
 	ResolveResult(c, msg, categories)
 }
 
+// GetCategoryName 根据id获取分类title
+func GetCategoryName(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if !CheckErr(err) {
+		RejectResult(c, models.FAILEDERROR)
+		return
+	}
+	category, msg, err := models.GetCategoryName(id)
+	if !CheckErr(err) {
+		RejectResult(c, msg)
+		return
+	}
+	ResolveResult(c, msg, category)
+}
+
 // GetPageCategory 分页获取分类
 func GetPageCategory(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))

@@ -40,7 +40,20 @@ func GetCategories() (*[]Category, string, error) {
 	return &categories, CONTROLLER_SUCCESS, nil
 }
 
-// GetCategory 获取id分类及其所有文章
+// GetCategoryName 根据id获取分类title
+func GetCategoryName(id int) (*Category, string, error) {
+	category := &Category{}
+	err := db.Get(category, "SELECT  title from category WHERE id = ?", id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, NO_EXIST, err
+		}
+		return nil, BACKERROR, err
+	}
+	return category, CONTROLLER_SUCCESS, nil
+}
+
+// GetCategory 根据id获取分类及其所有文章
 func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	var result = make(map[string]interface{})
 	// 获取分类的文章数量
@@ -59,7 +72,7 @@ func GetCategory(cate *Category) (map[string]interface{}, string, error) {
 	// 查找id为category_id的所有文章
 	var article Article
 	articles := make([]Article, 0)
-	rows, err := db.Query("SELECT id, created_at, updated_at, title, views, assists FROM article WHERE category_id = ?", cate.ID)
+	rows, err := db.Query("SELECT id, created_at, updated_at, title, views FROM article WHERE category_id = ?", cate.ID)
 	if err != nil {
 		return result, BACKERROR, err
 	}

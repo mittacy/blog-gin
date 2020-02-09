@@ -27,6 +27,8 @@ POST 		/api/category
 PUT			/api/category
 // 删除分类, 参数: id
 Delete 	/api/category
+// 根据id获取分类title
+GET     /api/category_name/:id
 
 
 // 分页获取文章, 参数: pageIndex
@@ -41,7 +43,5 @@ PUT			/api/article
 Delete	/api/article
 // 文章添加访问量, 参数: id
 POST		/api/article/addViews
-// 文章添加点赞量, 参数: id
-PSOT		/api/article/addAssists
 ~~~
 
