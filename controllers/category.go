@@ -10,6 +10,7 @@ import (
 var (
 	onePageCategoryNum = 10
 	categoryCount = 0
+	articleCount = 0
 )
 
 // GetCategories 获取所有分类id和title
@@ -93,20 +94,32 @@ func UpdataCategory(c *gin.Context) {
 	ResolveResult(c, msg, msg)
 }
 
-// GetCategoy 获取某个分类及其所有文章
+// GetCategoy 获取某个分类及其分页文章
 func GetCategoy(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if !CheckErr(err) {
 		RejectResult(c, models.FAILEDERROR)
 		return
 	}
-	cate := models.Category{ID: uint32(id)}
-	result, msg, err := models.GetCategory(&cate)
+	pageNum, err := strconv.Atoi(c.Param("num"))
+	articles, msg, err := models.GetPageArticlesByCategory(id, pageNum, onePageCategoryNum)
 	if !CheckErr(err) {
 		RejectResult(c, msg)
 		return
 	}
-	ResolveResult(c, msg, result)
+	// 查询第0页时更新分类有的文章数
+	if pageNum == 0 {
+		count, msg, err := models.GetArtcilesCountByCategory(id)
+		if !CheckErr(err) {
+			RejectResult(c, msg)
+			return
+		}
+		articleCount = count
+	}
+	result := make(map[string]interface{}, 0)
+	result["articleCount"] = articleCount
+	result["articles"] = articles
+	ResolveResult(c, models.CONTROLLER_SUCCESS, result)
 }
 
 // DeleteCategory 删除分类同时删除分类里的所有文章

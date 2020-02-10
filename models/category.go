@@ -53,39 +53,25 @@ func GetCategoryName(id int) (*Category, string, error) {
 	return category, CONTROLLER_SUCCESS, nil
 }
 
-// GetCategory 根据id获取分类及其所有文章
-func GetCategory(cate *Category) (map[string]interface{}, string, error) {
-	var result = make(map[string]interface{})
-	// 获取分类的文章数量
-	err := db.Get(cate, "SELECT title, article_count FROM category WHERE id = ?", cate.ID)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return result, NO_EXIST, err
-		}
-		return result, BACKERROR, err
-	}
-	result["cateTitle"] = cate.Title
-	result["articleCount"] = cate.ArticleCount
-	if cate.ArticleCount == 0 {
-		return result, CONTROLLER_SUCCESS, nil
-	}
-	// 查找id为category_id的所有文章
-	var article Article
+// GetPageArticlesByCategory 根据id、num获取分类及其某页文章
+func GetPageArticlesByCategory(id, page, onePageArticleNum int) ([]Article, string, error){
+	startIndex := strconv.Itoa(page * onePageArticleNum)
+	sql := "SELECT id, created_at, updated_at, title, views FROM article WHERE category_id = ? limit " + startIndex + ", " + strconv.Itoa(onePageArticleNum)
 	articles := make([]Article, 0)
-	rows, err := db.Query("SELECT id, created_at, updated_at, title, views FROM article WHERE category_id = ?", cate.ID)
+	err := db.Select(&articles, sql, id)
 	if err != nil {
-		return result, BACKERROR, err
+		return nil, BACKERROR, err
 	}
-	defer rows.Close()
-	article.CategoryID = cate.ID
-	for rows.Next() {
-		if rows.Scan(&article.ID, &article.CreatedAt, &article.UpdatedAt, &article.Title, &article.Views); err != nil {
-			return result, BACKERROR, err
-		}
-		articles = append(articles, article)
+	return articles, CONTROLLER_SUCCESS, nil
+}
+
+// GetArtcilesCountByCategory 获取某个分类文章总数
+func GetArtcilesCountByCategory(id int) (int, string, error) {
+	var count int
+	if err := db.QueryRow("SELECT count(*) FROM article WHERE category_id = ?", id).Scan(&count); err != nil {
+		return count, BACKERROR, err
 	}
-	result["articles"] = articles
-	return result, CONTROLLER_SUCCESS, nil
+	return count, CONTROLLER_SUCCESS, nil
 }
 
 // UpdateCate 更新分类

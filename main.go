@@ -41,7 +41,7 @@ func main() {
 		api.PUT("/category", controllers.UpdataCategory)
 		api.DELETE("/category", controllers.DeleteCategory)
 		api.GET("/category_page/:num", controllers.GetPageCategory)
-		api.GET("/category/:id", controllers.GetCategoy)
+		api.GET("/category/:id/:num", controllers.GetCategoy)
 		// 文章
 		api.POST("/article", controllers.CreateArticle)
 		api.GET("/article/:id", controllers.GetArticle)
