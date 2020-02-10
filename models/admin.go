@@ -10,7 +10,7 @@ import (
 
 // SQL查询语句
 var (
-	GETADMINSQL string = "SELECT name, views, cname, introduce, github, mail FROM admin limit 1"
+	GETADMINSQL string = "SELECT name, views, cname, introduce, github, mail, bilibili FROM admin limit 1"
 )
 
 type Admin struct {
@@ -22,6 +22,7 @@ type Admin struct {
 	Introduce string	`json:"introduce"`
 	Github    string	`json:"github"`
 	Mail      string	`json:"mail"`
+	Bilibili  string	`json:"bilibili"`
 }
 
 // CreateAdmin 创建管理员信息
@@ -40,14 +41,15 @@ func CreateAdmin() (string, error) {
 		Introduce: "就读佛山大学 - 大三 - 计算机系",
 		Github:    "https://github.com/crazychat",
 		Mail:      "mail@mittacy.com",
+		Bilibili:  "https://space.bilibili.com/384942135",
 	}
-	stmt, err := db.Prepare("INSERT INTO admin(name, password, views, cname, introduce, github, mail) values (?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO admin(name, password, views, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?,?)")
 	if err != nil {
 		return FAILEDERROR, err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(admin.Name, admin.Password, admin.Views, admin.Cname, admin.Introduce, admin.Github, admin.Mail)
+	_, err = stmt.Exec(admin.Name, admin.Password, admin.Views, admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
 	if err != nil {
 		return "创建管理员失败", err
 	}
