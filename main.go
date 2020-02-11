@@ -4,7 +4,9 @@ import (
 	"blog-gin/controllers"
 	"blog-gin/models"
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -16,11 +18,11 @@ func main() {
 	db := models.GetDB()
 	defer db.Close()
 	// 写日志
-	//f, err := os.Create("gin.log")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	f, err := os.Create("gin.log")
+	if err != nil {
+		panic(err)
+	}
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	router := gin.Default()
 	router.Use(CorsMiddleware())
@@ -97,7 +99,6 @@ func CorsMiddleware() gin.HandlerFunc {
 
 		// 放行所有OPTIONS方法
 		if method == "OPTIONS" {
-			fmt.Println("该请求为Options")
 			c.JSON(http.StatusOK, "Options Request!")
 		}
 		// 处理请求

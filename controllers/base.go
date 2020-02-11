@@ -2,8 +2,6 @@ package controllers
 
 import (
 	"blog-gin/models"
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -55,7 +53,6 @@ func AnalysisJSON(c *gin.Context, obj interface{}) bool {
 // CheckErr 统一处理错误
 func CheckErr(err error) bool {
 	if err != nil {
-		fmt.Println(err.Error())
 		return false
 	}
 	return true
