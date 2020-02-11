@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a29983f-5c6b-4b3a-95bc-51ca9a7e2dc9" name="Default Changelist" comment="Default Changelist">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/article.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/article.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/category.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/category.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/admin.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,50 +15,20 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.40987125">
-      <split-first>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/models/article.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="276">
-                  <caret line="72" selection-start-line="72" selection-end-line="72" />
-                  <folding>
-                    <element signature="n#!!block;n#CreateArticle#0" />
-                    <element signature="n#!!block;n#UpdateArticle#0" />
-                    <element signature="n#!!block;n#GetArticle#0" />
-                    <element signature="n#!!block;n#DeleteArticle#0" />
-                    <element signature="n#!!block;n#GetArticlesCount#0" />
-                    <element signature="n#!!block;n#AddArticleViews#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/models/article.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="444">
-                  <caret line="80" column="44" selection-start-line="80" selection-start-column="44" selection-end-line="80" selection-end-column="44" />
-                  <folding>
-                    <element signature="n#!!block;n#CreateArticle#0" />
-                    <element signature="n#!!block;n#UpdateArticle#0" />
-                    <element signature="n#!!block;n#GetArticle#0" />
-                    <element signature="n#!!block;n#DeleteArticle#0" />
-                    <element signature="n#!!block;n#GetArticlesCount#0" />
-                    <element signature="n#!!block;n#AddArticleViews#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+              <folding>
+                <element signature="e#14#134#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -103,23 +75,13 @@
         <option value="$PROJECT_DIR$/models/conn.go" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/controllers/article.go" />
-        <option value="$PROJECT_DIR$/controllers/admin.go" />
         <option value="$PROJECT_DIR$/controllers/base.go" />
         <option value="$PROJECT_DIR$/controllers/category.go" />
-        <option value="$PROJECT_DIR$/main.go" />
-        <option value="$PROJECT_DIR$/models/admin.go" />
         <option value="$PROJECT_DIR$/models/category.go" />
         <option value="$PROJECT_DIR$/models/article.go" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/blog-gin.iml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/models/admin.go" />
+        <option value="$PROJECT_DIR$/controllers/admin.go" />
+        <option value="$PROJECT_DIR$/main.go" />
       </list>
     </option>
   </component>
@@ -167,7 +129,7 @@
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -210,10 +172,10 @@
     </recent_temporary>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.25751072" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26108727" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -321,13 +283,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/sql.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
@@ -372,81 +327,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/category.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="97" column="15" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="15" />
-          <folding>
-            <element signature="e#92#143#0" />
-            <element signature="n#!!block;n#GetCategories#0" />
-            <element signature="e#293#329#0" />
-            <element signature="n#!!block;n#GetCategoryName#0" />
-            <element signature="e#499#550#0" />
-            <element signature="e#620#656#0" />
-            <element signature="n#!!block;n#GetPageCategory#0" />
-            <element signature="e#823#874#0" />
-            <element signature="n#!!block;n#CreateCategory#0" />
-            <element signature="e#1473#1486#0" />
-            <element signature="e#1540#1576#0" />
-            <element signature="n#!!block;n#UpdataCategory#0" />
-            <element signature="e#1725#1738#0" />
-            <element signature="e#1796#1832#0" />
-            <element signature="e#1984#2035#0" />
-            <element signature="e#2305#2312#0" />
-            <element signature="n#!!block;n#DeleteCategory#0" />
-            <element signature="e#2334#2347#0" />
-            <element signature="e#2412#2448#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="43" column="61" lean-forward="true" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
-          <folding>
-            <element signature="e#14#134#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/admin.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="20" column="31" lean-forward="true" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
-          <folding>
-            <element signature="e#21#116#0" expanded="true" />
-            <element signature="n#!!block;n#GetAdmin#0" />
-            <element signature="e#227#263#0" />
-            <element signature="n#!!block;n#PostAdmin#0" />
-            <element signature="n#!!block;n#PutAdmin#0" />
-            <element signature="n#!!block;n#PutAdminPwd#0" />
-            <element signature="n#!!block;n#AddAdminView#0" />
-            <element signature="n#!!block;n#Verify#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/conn.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-80">
           <caret line="9" column="12" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/admin.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="59" column="48" selection-start-line="59" selection-start-column="48" selection-end-line="59" selection-end-column="48" />
-          <folding>
-            <element signature="n#!!block;n#CreateAdmin#0" />
-            <element signature="n#!!block;n#IsRightAdmin#0" />
-            <element signature="n#!!block;n#GetAdmin#0" />
-            <element signature="n#!!block;n#SetAdmin#0" />
-            <element signature="n#!!block;n#SetPassword#0" />
-            <element signature="n#!!block;n#AddAdminView#0" />
-            <element signature="n#!!block;n#Encryption#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -473,8 +357,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/article.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="80" column="44" selection-start-line="80" selection-start-column="44" selection-end-line="80" selection-end-column="44" />
+        <state relative-caret-position="276">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
           <folding>
             <element signature="n#!!block;n#CreateArticle#0" />
             <element signature="n#!!block;n#UpdateArticle#0" />
@@ -486,5 +370,84 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/sql.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/category.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="97" column="15" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="15" />
+          <folding>
+            <element signature="n#!!block;n#GetCategories#0" />
+            <element signature="n#!!block;n#GetCategoryName#0" />
+            <element signature="n#!!block;n#GetPageCategory#0" />
+            <element signature="n#!!block;n#CreateCategory#0" />
+            <element signature="n#!!block;n#UpdataCategory#0" />
+            <element signature="n#!!block;n#GetCategoy#0" />
+            <element signature="n#!!block;n#DeleteCategory#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/admin.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="127" column="1" selection-start-line="127" selection-start-column="1" selection-end-line="127" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!block;n#CreateAdmin#0" />
+            <element signature="n#!!block;n#IsRightAdmin#0" />
+            <element signature="n#!!block;n#GetAdmin#0" />
+            <element signature="n#!!block;n#SetAdmin#0" />
+            <element signature="n#!!block;n#SetPassword#0" />
+            <element signature="n#!!block;n#Encryption#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/admin.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="82" column="1" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
+          <folding>
+            <element signature="e#21#116#0" expanded="true" />
+            <element signature="n#!!block;n#GetAdmin#0" />
+            <element signature="e#227#263#0" />
+            <element signature="n#!!block;n#PostAdmin#0" />
+            <element signature="n#!!block;n#PutAdmin#0" />
+            <element signature="n#!!block;n#PutAdminPwd#0" />
+            <element signature="n#!!block;n#Verify#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+          <folding>
+            <element signature="e#14#134#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

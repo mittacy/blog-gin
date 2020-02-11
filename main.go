@@ -28,25 +28,16 @@ func main() {
 	// 不需要登录验证的api
 	api := router.Group("/api")
 	{
+		api.POST("/admin", controllers.PostAdmin)
 		api.GET("/verify", controllers.Verify)
 		api.GET("/admin", controllers.GetAdmin)
-		api.POST("/admin", controllers.PostAdmin)
-		api.PUT("/admin", controllers.PutAdmin)
-		api.PUT("/admin/setpwd", controllers.PutAdminPwd)
-		api.GET("/admin/addviews", controllers.AddAdminView)
 		// 分类
 		api.GET("/category_name/:id", controllers.GetCategoryName)
 		api.GET("/categories", controllers.GetCategories)
-		api.POST("/category", controllers.CreateCategory)
-		api.PUT("/category", controllers.UpdataCategory)
-		api.DELETE("/category", controllers.DeleteCategory)
 		api.GET("/category_page/:num", controllers.GetPageCategory)
 		api.GET("/category/:id/:num", controllers.GetCategoy)
 		// 文章
-		api.POST("/article", controllers.CreateArticle)
 		api.GET("/article/:id", controllers.GetArticle)
-		api.PUT("/article", controllers.UpdateArticle)
-		api.DELETE("/article", controllers.DeleteArticle)
 		api.GET("/article_page/:num", controllers.GetPageArticle)
 		api.POST("/article/addViews", controllers.AddArticleViews)
 	}
@@ -54,7 +45,17 @@ func main() {
 	apiAdmin := router.Group("/api")
 	apiAdmin.Use(controllers.CheckAdmin())
 	{
-
+		// 管理员
+		apiAdmin.PUT("/admin", controllers.PutAdmin)
+		apiAdmin.PUT("/admin/setpwd", controllers.PutAdminPwd)
+		// 分类
+		apiAdmin.POST("/category", controllers.CreateCategory)
+		apiAdmin.PUT("/category", controllers.UpdataCategory)
+		apiAdmin.DELETE("/category", controllers.DeleteCategory)
+		// 文章
+		apiAdmin.POST("/article", controllers.CreateArticle)
+		apiAdmin.PUT("/article", controllers.UpdateArticle)
+		apiAdmin.DELETE("/article", controllers.DeleteArticle)
 	}
 
 	s := &http.Server{

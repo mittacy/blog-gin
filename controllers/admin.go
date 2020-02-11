@@ -82,16 +82,6 @@ func PutAdminPwd(c *gin.Context) {
 	ResolveResult(c, msg, nil)
 }
 
-// AddView 添加访问量
-func AddAdminView(c *gin.Context) {
-	msg, err := models.AddAdminView()
-	if !CheckErr(err) {
-		RejectResult(c, msg)
-		return
-	}
-	ResolveResult(c, msg, nil)
-}
-
 // Verify 验证登录
 func Verify(c *gin.Context) {
 	tokenStr := c.Request.Header.Get(tokenName)
