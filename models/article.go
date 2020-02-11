@@ -73,19 +73,10 @@ func DeleteArticle(articleID uint32) (string, error) {
 func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) {
 	startIndex := strconv.Itoa(page * onePageArticlesCount)
 	sql := "SELECT id, created_at, updated_at, title, views FROM article limit " + startIndex + ", " + strconv.Itoa(onePageArticlesCount)
-	rows, err := db.Query(sql)
+	var articles []Article
+	err := db.Select(&articles, sql)
 	if err != nil {
 		return nil, BACKERROR, err
-	}
-	defer rows.Close()
-
-	articles := make([]Article, 0)
-	for rows.Next() {
-		article := Article{}
-		if err = rows.Scan(&article.ID, &article.CreatedAt, &article.UpdatedAt, &article.Title, &article.Views); err != nil {
-			return nil, BACKERROR, err
-		}
-		articles = append(articles, article)
 	}
 	return articles, CONTROLLER_SUCCESS, nil
 }

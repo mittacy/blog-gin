@@ -43,7 +43,7 @@ func GetCategories() (*[]Category, string, error) {
 // GetCategoryName 根据id获取分类title
 func GetCategoryName(id int) (*Category, string, error) {
 	category := &Category{}
-	err := db.Get(category, "SELECT  title from category WHERE id = ?", id)
+	err := db.Get(category, "SELECT title from category WHERE id = ?", id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, NO_EXIST, err
@@ -112,19 +112,10 @@ func DeleteCategory(cateID uint32) (string, error) {
 func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error) {
 	startIndex := strconv.Itoa(page * onePageCategoryNum)
 	sql := "SELECT * FROM category limit " + startIndex + ", " + strconv.Itoa(onePageCategoryNum)
-	rows, err := db.Query(sql)
+	var categories []Category
+	err := db.Select(&categories, sql)
 	if err != nil {
 		return nil, BACKERROR, err
-	}
-	defer rows.Close()
-
-	categories := make([]Category, 0)
-	for rows.Next() {
-		category := Category{}
-		if err = rows.Scan(&category.ID, &category.Title, &category.ArticleCount); err != nil {
-			return nil, BACKERROR, err
-		}
-		categories = append(categories, category)
 	}
 	return categories, CONTROLLER_SUCCESS, nil
 }
