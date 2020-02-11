@@ -23,6 +23,7 @@ type Admin struct {
 	Github    string	`json:"github"`
 	Mail      string	`json:"mail"`
 	Bilibili  string	`json:"bilibili"`
+	Homearticle uint32	`json:"homearticle"`
 }
 
 // CreateAdmin 创建管理员信息
@@ -54,6 +55,19 @@ func CreateAdmin() (string, error) {
 		return "创建管理员失败", err
 	}
 	return CONTROLLER_SUCCESS, nil
+}
+
+// GetArticleID 获取首页文章id
+func GetArticleID() (*Admin, string, error) {
+	var admin Admin
+	err := db.Get(&admin, "SELECT homearticle FROM admin limit 1")
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, NO_EXIST, err
+		}
+		return nil, FAILEDERROR, err
+	}
+	return &admin, CONTROLLER_SUCCESS, nil
 }
 
 // IsRightAdmin 检验密码是否正确
@@ -92,13 +106,13 @@ func GetAdmin() (*Admin, string, error) {
 
 // SetAdmin 修改管理员信息
 func SetAdmin(admin *Admin) (string, error) {
-	stmt, err := db.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ? limit 1")
+	stmt, err := db.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1")
 	if err != nil {
 		return FAILEDERROR, err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(admin.Cname, admin.Introduce, admin.Github, admin.Mail)
+	_, err = stmt.Exec(admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return NO_EXIST, err
@@ -132,4 +146,22 @@ func Encryption(data string) string {
 	h := md5.New()
 	io.WriteString(h, data)
 	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+// SetArticleID 修改主页文章id
+func SetArticleID(id uint32) (string, error) {
+	stmt, err := db.Prepare("UPDATE admin SET homearticle = ? limit 1")
+	if err != nil {
+		return FAILEDERROR, err
+	}
+	defer stmt.Close()
+	
+	_, err = stmt.Exec(id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return NO_EXIST, err
+		}
+		return FAILEDERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
 }

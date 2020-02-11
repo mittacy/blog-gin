@@ -42,6 +42,8 @@ func main() {
 		api.GET("/article/:id", controllers.GetArticle)
 		api.GET("/article_page/:num", controllers.GetPageArticle)
 		api.POST("/article/addViews", controllers.AddArticleViews)
+		api.GET("/admin/article_id", controllers.GetArticleID)
+		api.PUT("/admin/article_id", controllers.PutArticleID)
 	}
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")
@@ -50,6 +52,7 @@ func main() {
 		// 管理员
 		apiAdmin.PUT("/admin", controllers.PutAdmin)
 		apiAdmin.PUT("/admin/setpwd", controllers.PutAdminPwd)
+		
 		// 分类
 		apiAdmin.POST("/category", controllers.CreateCategory)
 		apiAdmin.PUT("/category", controllers.UpdataCategory)

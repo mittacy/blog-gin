@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	
 	_ "github.com/go-sql-driver/mysql"
@@ -13,6 +14,7 @@ func init() {
 	OpenConn()
 	// 创建管理员信息
 	if msg, err := CreateAdmin(); err != nil {
+		fmt.Println(err)
 		panic(msg)
 	}
 }

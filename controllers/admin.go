@@ -17,6 +17,17 @@ func GetAdmin(c *gin.Context) {
 	ResolveResult(c, msg, admin)
 }
 
+// GetArticleID 获取首页文章id
+func GetArticleID(c *gin.Context) {
+	admin, msg, err := models.GetArticleID()
+	if !CheckErr(err) {
+		fmt.Println(err)
+		RejectResult(c, msg)
+		return
+	}
+	ResolveResult(c, msg, admin)
+}
+
 // PostAdmin 登录管理员
 func PostAdmin(c *gin.Context) {
 	fmt.Println("IP: -> ", c.ClientIP())
@@ -101,4 +112,18 @@ func Verify(c *gin.Context) {
 		return
 	}
 	ResolveResult(c, models.CONTROLLER_SUCCESS, nil)
+}
+
+// PutArticleID 修改主页文章id
+func PutArticleID(c *gin.Context) {
+	getID := GetID{}
+	if !AnalysisJSON(c, &getID) {
+		return
+	}
+	msg, err := models.SetArticleID(getID.ID)
+	if !CheckErr(err) {
+		RejectResult(c, msg)
+		return
+	}
+	ResolveResult(c, msg, msg)
 }
