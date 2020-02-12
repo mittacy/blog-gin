@@ -53,10 +53,10 @@ func GetCategoryName(id int) (*Category, string, error) {
 	return category, CONTROLLER_SUCCESS, nil
 }
 
-// GetPageArticlesByCategory 根据id、num获取分类及其某页文章
+// GetPageArticlesByCategory 根据id、num获取分类及其分页文章
 func GetPageArticlesByCategory(id, page, onePageArticleNum int) ([]Article, string, error){
 	startIndex := strconv.Itoa(page * onePageArticleNum)
-	sql := "SELECT id, created_at, updated_at, title, views FROM article WHERE category_id = ? limit " + startIndex + ", " + strconv.Itoa(onePageArticleNum)
+	sql := "SELECT id, created_at, updated_at, title, views FROM article WHERE category_id = ? ORDER BY id DESC limit " + startIndex + ", " + strconv.Itoa(onePageArticleNum)
 	articles := make([]Article, 0)
 	err := db.Select(&articles, sql, id)
 	if err != nil {

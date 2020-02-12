@@ -72,7 +72,7 @@ func DeleteArticle(articleID uint32) (string, error) {
 // GetPageArticles 分页获取文章
 func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) {
 	startIndex := strconv.Itoa(page * onePageArticlesCount)
-	sql := "SELECT id, created_at, updated_at, title, views FROM article limit " + startIndex + ", " + strconv.Itoa(onePageArticlesCount)
+	sql := "SELECT id, created_at, updated_at, title, views FROM article ORDER BY id DESC limit " + startIndex + ", " + strconv.Itoa(onePageArticlesCount)
 	var articles []Article
 	err := db.Select(&articles, sql)
 	if err != nil {
