@@ -17,15 +17,29 @@ func main() {
 	// 数据库连接
 	db := models.GetDB()
 	defer db.Close()
-	// 写日志
+	// 创建日志文件
 	f, err := os.Create("gin.log")
 	if err != nil {
 		panic(err)
 	}
-	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	gin.DefaultWriter = io.MultiWriter(f)
 
-	router := gin.Default()
+	router := gin.New()
 	router.Use(CorsMiddleware())
+	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		// 你的自定义格式
+		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \" - err: \"%s\"\n",
+			param.ClientIP,
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.Request.Proto,
+			param.StatusCode,
+			param.Latency,
+			param.ErrorMessage,
+		)
+	}))
+	router.Use(gin.Recovery())
 	router.Static("/statics", "./statics")
 	// 不需要登录验证的api
 	api := router.Group("/api")
@@ -52,7 +66,7 @@ func main() {
 		// 管理员
 		apiAdmin.PUT("/admin", controllers.PutAdmin)
 		apiAdmin.PUT("/admin/setpwd", controllers.PutAdminPwd)
-		
+
 		// 分类
 		apiAdmin.POST("/category", controllers.CreateCategory)
 		apiAdmin.PUT("/category", controllers.UpdataCategory)
