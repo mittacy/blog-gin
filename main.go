@@ -26,21 +26,9 @@ func main() {
 	}
 	gin.DefaultWriter = io.MultiWriter(f)
 	// 释放静态文件
-	isSuccess := true
-	dirs := []string{"css", "js", "img", "fonts", "index.html"}
-	for _, dir := range dirs {
-		if err := asset.RestoreAssets("./", dir); err != nil {
-			isSuccess = false
-			break
-		}
-	}
-	if !isSuccess {
-		for _, dir := range dirs {
-			os.RemoveAll(filepath.Join("./", dir))
-		}
-	}
+	RleaseStatic()
 	router := gin.New()
-	// 静态文件
+	// 加载静态文件
 	router.Static("/css", "./css")
 	router.Static("/fonts", "./fonts")
 	router.Static("/img", "./img")
@@ -109,6 +97,24 @@ func main() {
 	s.ListenAndServe()
 }
 
+func RleaseStatic() bool {
+	isSuccess := true
+	dirs := []string{"css", "js", "img", "fonts", "index.html"}
+	for _, dir := range dirs {
+		if err := asset.RestoreAssets("./", dir); err != nil {
+			isSuccess = false
+			break
+		}
+	}
+	if !isSuccess {
+		for _, dir := range dirs {
+			os.RemoveAll(filepath.Join("./", dir))
+		}
+		return false
+	}
+	return true
+}
+
 func TransparentStatic() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		url := c.Request.URL.String()
@@ -117,9 +123,7 @@ func TransparentStatic() gin.HandlerFunc {
 			return
 		}
 		// 增加博客访问量
-		if !models.AddViews() {
-			fmt.Println("增加访问量失败")
-		}
+		models.AddViews()
 		c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		return
 	}
