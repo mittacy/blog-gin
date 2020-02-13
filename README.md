@@ -12,7 +12,7 @@ $ CREATE TABLE admin (
 id integer unsigned NOT NULL AUTO_INCREMENT,
 name varchar(50) NOT NULL,
 password varchar(255) NOT NULL,
-views integer unsigned DEFAULT "0",
+views bigint unsigned NOT NULL DEFAULT 24,
 cname varchar(50) DEFAULT NULL,
 introduce varchar(255) DEFAULT NULL,
 github varchar(100) DEFAULT NULL,

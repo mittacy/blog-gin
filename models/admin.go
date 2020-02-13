@@ -37,20 +37,19 @@ func CreateAdmin() (string, error) {
 	admin := Admin{
 		Name:      "Mittacy",
 		Password:  password,
-		Views:     2352,
 		Cname:     "陈铭涛",
 		Introduce: "就读佛山大学 - 大三 - 计算机系",
 		Github:    "https://github.com/crazychat",
 		Mail:      "mail@mittacy.com",
 		Bilibili:  "https://space.bilibili.com/384942135",
 	}
-	stmt, err := db.Prepare("INSERT INTO admin(name, password, views, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO admin(name, password, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?)")
 	if err != nil {
 		return FAILEDERROR, err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(admin.Name, admin.Password, admin.Views, admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
+	_, err = stmt.Exec(admin.Name, admin.Password, admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
 	if err != nil {
 		return "创建管理员失败", err
 	}
@@ -164,4 +163,12 @@ func SetArticleID(id uint32) (string, error) {
 		return FAILEDERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
+}
+
+// AddViews 增加博客访问量
+func AddViews() bool {
+	if _, err := db.Exec("UPDATE admin SET views = views + 1 limit 1"); err != nil {
+		return false
+	}
+	return true
 }

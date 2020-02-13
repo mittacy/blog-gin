@@ -30,9 +30,8 @@ func GetArticleID(c *gin.Context) {
 
 // PostAdmin 登录管理员
 func PostAdmin(c *gin.Context) {
-	fmt.Println("IP: -> ", c.ClientIP())
 	if !CheckIP(c) {
-		RejectResult(c, models.NO_POWER)
+		RejectResult(c, "登录次数过多")
 		return
 	}
 	admin := &models.Admin{}

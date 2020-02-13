@@ -1,12 +1,14 @@
 package main
 
 import (
+	"blog-gin/asset"
 	"blog-gin/controllers"
 	"blog-gin/models"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -23,7 +25,20 @@ func main() {
 		panic(err)
 	}
 	gin.DefaultWriter = io.MultiWriter(f)
-
+	// 释放静态文件
+	isSuccess := true
+	dirs := []string{"css", "js", "img", "fonts", "index.html"}
+	for _, dir := range dirs {
+		if err := asset.RestoreAssets("./", dir); err != nil {
+			isSuccess = false
+			break
+		}
+	}
+	if !isSuccess {
+		for _, dir := range dirs {
+			os.RemoveAll(filepath.Join("./", dir))
+		}
+	}
 	router := gin.New()
 	// 静态文件
 	router.Static("/css", "./css")
@@ -100,6 +115,10 @@ func TransparentStatic() gin.HandlerFunc {
 		if strings.Index(url, "api") >= 0 {
 			c.Next()
 			return
+		}
+		// 增加博客访问量
+		if !models.AddViews() {
+			fmt.Println("增加访问量失败")
 		}
 		c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		return
