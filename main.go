@@ -25,6 +25,16 @@ func main() {
 	gin.DefaultWriter = io.MultiWriter(f)
 
 	router := gin.New()
+	// 静态文件
+	router.Static("/css", "./css")
+	router.Static("/fonts", "./fonts")
+	router.Static("/img", "./img")
+	router.Static("/js", "./js")
+	router.Static("/index.html", "./index.html")
+	router.LoadHTMLFiles("index.html")
+	// 过滤api请求
+	router.Use(TransparentStatic())
+	// 后端路由
 	router.Use(CorsMiddleware())
 	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
 		// 你的自定义格式
@@ -40,7 +50,6 @@ func main() {
 		)
 	}))
 	router.Use(gin.Recovery())
-	router.Static("/statics", "./statics")
 	// 不需要登录验证的api
 	api := router.Group("/api")
 	{
@@ -57,7 +66,6 @@ func main() {
 		api.GET("/article_page/:num", controllers.GetPageArticle)
 		api.POST("/article/addViews", controllers.AddArticleViews)
 		api.GET("/admin/article_id", controllers.GetArticleID)
-		api.PUT("/admin/article_id", controllers.PutArticleID)
 	}
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")
@@ -66,7 +74,6 @@ func main() {
 		// 管理员
 		apiAdmin.PUT("/admin", controllers.PutAdmin)
 		apiAdmin.PUT("/admin/setpwd", controllers.PutAdminPwd)
-
 		// 分类
 		apiAdmin.POST("/category", controllers.CreateCategory)
 		apiAdmin.PUT("/category", controllers.UpdataCategory)
@@ -75,8 +82,8 @@ func main() {
 		apiAdmin.POST("/article", controllers.CreateArticle)
 		apiAdmin.PUT("/article", controllers.UpdateArticle)
 		apiAdmin.DELETE("/article", controllers.DeleteArticle)
+		api.PUT("/admin/article_id", controllers.PutArticleID)
 	}
-
 	s := &http.Server{
 		Addr:           ":5201",
 		Handler:        router,
@@ -85,6 +92,18 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	s.ListenAndServe()
+}
+
+func TransparentStatic() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		url := c.Request.URL.String()
+		if strings.Index(url, "api") >= 0 {
+			c.Next()
+			return
+		}
+		c.HTML(200, "index.html", gin.H{"msg": "Success"})
+		return
+	}
 }
 
 func CorsMiddleware() gin.HandlerFunc {

@@ -2,31 +2,52 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /statics/*filepath        --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
-[GIN-debug] HEAD   /statics/*filepath        --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
-[GIN-debug] POST   /api/admin                --> blog-gin/controllers.PostAdmin (4 handlers)
-[GIN-debug] GET    /api/verify               --> blog-gin/controllers.Verify (4 handlers)
-[GIN-debug] GET    /api/admin                --> blog-gin/controllers.GetAdmin (4 handlers)
-[GIN-debug] GET    /api/category_name/:id    --> blog-gin/controllers.GetCategoryName (4 handlers)
-[GIN-debug] GET    /api/categories           --> blog-gin/controllers.GetCategories (4 handlers)
-[GIN-debug] GET    /api/category_page/:num   --> blog-gin/controllers.GetPageCategory (4 handlers)
-[GIN-debug] GET    /api/category/:id/:num    --> blog-gin/controllers.GetCategoy (4 handlers)
-[GIN-debug] GET    /api/article/:id          --> blog-gin/controllers.GetArticle (4 handlers)
-[GIN-debug] GET    /api/article_page/:num    --> blog-gin/controllers.GetPageArticle (4 handlers)
-[GIN-debug] POST   /api/article/addViews     --> blog-gin/controllers.AddArticleViews (4 handlers)
-[GIN-debug] GET    /api/admin/article_id     --> blog-gin/controllers.GetArticleID (4 handlers)
-[GIN-debug] PUT    /api/admin/article_id     --> blog-gin/controllers.PutArticleID (4 handlers)
-[GIN-debug] PUT    /api/admin                --> blog-gin/controllers.PutAdmin (5 handlers)
-[GIN-debug] PUT    /api/admin/setpwd         --> blog-gin/controllers.PutAdminPwd (5 handlers)
-[GIN-debug] POST   /api/category             --> blog-gin/controllers.CreateCategory (5 handlers)
-[GIN-debug] PUT    /api/category             --> blog-gin/controllers.UpdataCategory (5 handlers)
-[GIN-debug] DELETE /api/category             --> blog-gin/controllers.DeleteCategory (5 handlers)
-[GIN-debug] POST   /api/article              --> blog-gin/controllers.CreateArticle (5 handlers)
-[GIN-debug] PUT    /api/article              --> blog-gin/controllers.UpdateArticle (5 handlers)
-[GIN-debug] DELETE /api/article              --> blog-gin/controllers.DeleteArticle (5 handlers)
-::1 - [Wed, 12 Feb 2020 17:14:58 CST] "OPTIONS /api/verify HTTP/1.1 200 743ns " - err: ""
-::1 - [Wed, 12 Feb 2020 17:14:58 CST] "GET /api/verify HTTP/1.1 401 159.221µs " - err: ""
-::1 - [Wed, 12 Feb 2020 17:14:59 CST] "OPTIONS /api/article_page/0 HTTP/1.1 200 2.101µs " - err: ""
-::1 - [Wed, 12 Feb 2020 17:14:59 CST] "OPTIONS /api/admin HTTP/1.1 200 1.008µs " - err: ""
-::1 - [Wed, 12 Feb 2020 17:14:59 CST] "GET /api/article_page/0 HTTP/1.1 200 1.612822ms " - err: ""
-::1 - [Wed, 12 Feb 2020 17:14:59 CST] "GET /api/admin HTTP/1.1 200 2.01604ms " - err: ""
+[GIN-debug] GET    /css/*filepath            --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /css/*filepath            --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /fonts/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /fonts/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /img/*filepath            --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /img/*filepath            --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /js/*filepath             --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /js/*filepath             --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /index.html/*filepath     --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /index.html/*filepath     --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] POST   /api/admin                --> blog-gin/controllers.PostAdmin (5 handlers)
+[GIN-debug] GET    /api/verify               --> blog-gin/controllers.Verify (5 handlers)
+[GIN-debug] GET    /api/admin                --> blog-gin/controllers.GetAdmin (5 handlers)
+[GIN-debug] GET    /api/category_name/:id    --> blog-gin/controllers.GetCategoryName (5 handlers)
+[GIN-debug] GET    /api/categories           --> blog-gin/controllers.GetCategories (5 handlers)
+[GIN-debug] GET    /api/category_page/:num   --> blog-gin/controllers.GetPageCategory (5 handlers)
+[GIN-debug] GET    /api/category/:id/:num    --> blog-gin/controllers.GetCategoy (5 handlers)
+[GIN-debug] GET    /api/article/:id          --> blog-gin/controllers.GetArticle (5 handlers)
+[GIN-debug] GET    /api/article_page/:num    --> blog-gin/controllers.GetPageArticle (5 handlers)
+[GIN-debug] POST   /api/article/addViews     --> blog-gin/controllers.AddArticleViews (5 handlers)
+[GIN-debug] GET    /api/admin/article_id     --> blog-gin/controllers.GetArticleID (5 handlers)
+[GIN-debug] PUT    /api/admin                --> blog-gin/controllers.PutAdmin (6 handlers)
+[GIN-debug] PUT    /api/admin/setpwd         --> blog-gin/controllers.PutAdminPwd (6 handlers)
+[GIN-debug] POST   /api/category             --> blog-gin/controllers.CreateCategory (6 handlers)
+[GIN-debug] PUT    /api/category             --> blog-gin/controllers.UpdataCategory (6 handlers)
+[GIN-debug] DELETE /api/category             --> blog-gin/controllers.DeleteCategory (6 handlers)
+[GIN-debug] POST   /api/article              --> blog-gin/controllers.CreateArticle (6 handlers)
+[GIN-debug] PUT    /api/article              --> blog-gin/controllers.UpdateArticle (6 handlers)
+[GIN-debug] DELETE /api/article              --> blog-gin/controllers.DeleteArticle (6 handlers)
+[GIN-debug] PUT    /api/admin/article_id     --> blog-gin/controllers.PutArticleID (5 handlers)
+::1 - [Thu, 13 Feb 2020 19:10:42 CST] "GET / HTTP/1.1 200 1.066µs " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:42 CST] "GET /api/verify HTTP/1.1 401 79.833µs " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:43 CST] "GET /api/admin/article_id HTTP/1.1 200 1.330176ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:43 CST] "GET /api/admin HTTP/1.1 200 1.054375ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:43 CST] "GET /api/article/14 HTTP/1.1 200 4.990314ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:43 CST] "POST /api/article/addViews HTTP/1.1 200 11.79642ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:43 CST] "GET /api/category_name/1 HTTP/1.1 200 2.320456ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:44 CST] "GET /api/admin HTTP/1.1 200 1.896359ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:44 CST] "GET /api/article_page/0 HTTP/1.1 200 9.519594ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:44 CST] "GET /api/admin HTTP/1.1 200 1.225689ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:44 CST] "GET /api/category_page/0 HTTP/1.1 200 6.346231ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:45 CST] "GET /api/admin HTTP/1.1 200 1.65567ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:45 CST] "GET /api/admin HTTP/1.1 200 1.278736ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:45 CST] "GET /api/category_page/0 HTTP/1.1 200 4.98301ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:45 CST] "GET /api/admin HTTP/1.1 200 907.438µs " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:45 CST] "GET /api/category/1/0 HTTP/1.1 200 3.973969ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:46 CST] "GET /api/admin HTTP/1.1 200 1.078612ms " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:47 CST] "GET /api/admin HTTP/1.1 200 991.675µs " - err: ""
+::1 - [Thu, 13 Feb 2020 19:10:47 CST] "GET /api/article_page/0 HTTP/1.1 200 5.534771ms " - err: ""
