@@ -30,8 +30,6 @@ func main() {
 	router := gin.New()
 	// 加载静态文件
 	router.Static("/css", "./css")
-	router.Static("/fonts", "./fonts")
-	router.Static("/img", "./img")
 	router.Static("/js", "./js")
 	router.Static("/index.html", "./index.html")
 	router.LoadHTMLFiles("index.html")
@@ -98,7 +96,7 @@ func main() {
 
 func RleaseStatic() bool {
 	isSuccess := true
-	dirs := []string{"css", "js", "img", "fonts", "index.html"}
+	dirs := []string{"css", "js", "index.html"}
 	for _, dir := range dirs {
 		if err := asset.RestoreAssets("./", dir); err != nil {
 			isSuccess = false
