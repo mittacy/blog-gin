@@ -18,7 +18,6 @@ introduce varchar(255) DEFAULT NULL,
 github varchar(100) DEFAULT NULL,
 mail varchar(100) DEFAULT NULL,
 bilibili varchar(100) DEFAULT NULL,
-homearticle integer unsigned NOT NULL DEFAULT 0,
 PRIMARY KEY (id),
 UNIQUE KEY name (name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

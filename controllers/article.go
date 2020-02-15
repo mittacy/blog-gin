@@ -106,3 +106,13 @@ func AddArticleViews(c *gin.Context) {
 	}
 	ResolveResult(c, msg, msg)
 }
+
+// RecentArticles 最近更新的五篇文章
+func RecentArticles(c *gin.Context) {
+	articls, msg, err := models.GetRecentArticles()
+	if !CheckErr(err) {
+		RejectResult(c, msg)
+		return
+	}
+	ResolveResult(c, models.CONTROLLER_SUCCESS, articls)
+}

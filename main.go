@@ -65,10 +65,10 @@ func main() {
 		api.GET("/category_page/:num", controllers.GetPageCategory)
 		api.GET("/category/:id/:num", controllers.GetCategoy)
 		// 文章
+		api.GET("/articles_recent", controllers.RecentArticles)
 		api.GET("/article/:id", controllers.GetArticle)
 		api.GET("/article_page/:num", controllers.GetPageArticle)
 		api.POST("/article/addViews", controllers.AddArticleViews)
-		api.GET("/admin/article_id", controllers.GetArticleID)
 	}
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")
@@ -85,7 +85,6 @@ func main() {
 		apiAdmin.POST("/article", controllers.CreateArticle)
 		apiAdmin.PUT("/article", controllers.UpdateArticle)
 		apiAdmin.DELETE("/article", controllers.DeleteArticle)
-		api.PUT("/admin/article_id", controllers.PutArticleID)
 	}
 	s := &http.Server{
 		Addr:           ":5201",
