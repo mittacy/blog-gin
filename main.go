@@ -1,14 +1,12 @@
 package main
 
 import (
-	"blog-gin/asset"
 	"blog-gin/controllers"
 	"blog-gin/models"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -25,8 +23,6 @@ func main() {
 		panic(err)
 	}
 	gin.DefaultWriter = io.MultiWriter(f)
-	// 释放静态文件
-	RleaseStatic()
 	router := gin.New()
 	// 加载静态文件
 	router.Static("/css", "./css")
@@ -65,8 +61,8 @@ func main() {
 		// 文章
 		api.GET("/articles_recent", controllers.RecentArticles)
 		api.GET("/article/:id", controllers.GetArticle)
-		api.GET("/article_page/:num", controllers.GetPageArticle)
 		api.POST("/article/addViews", controllers.AddArticleViews)
+		api.GET("/article_page/:num", controllers.GetPageArticle)
 	}
 	// 需要登录验证的api
 	apiAdmin := router.Group("/api")
@@ -92,24 +88,6 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	s.ListenAndServe()
-}
-
-func RleaseStatic() bool {
-	isSuccess := true
-	dirs := []string{"css", "js", "index.html"}
-	for _, dir := range dirs {
-		if err := asset.RestoreAssets("./", dir); err != nil {
-			isSuccess = false
-			break
-		}
-	}
-	if !isSuccess {
-		for _, dir := range dirs {
-			os.RemoveAll(filepath.Join("./", dir))
-		}
-		return false
-	}
-	return true
 }
 
 func TransparentStatic() gin.HandlerFunc {
