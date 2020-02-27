@@ -21,7 +21,7 @@ func GetAdmin(c *gin.Context) {
 func PostAdmin(c *gin.Context) {
 	ip := c.ClientIP()
 	if !models.CheckIPRequestTimes(ip) {
-		RejectResult(c, models.REQUESTFREQUENTLY)
+		RejectResult(c, models.LOGINFREQUENTLY)
 		return
 	}
 	admin := &models.Admin{}
@@ -34,13 +34,14 @@ func PostAdmin(c *gin.Context) {
 	msg, err := models.IsRightAdmin(admin)
 	if !CheckErr(err) {
 		if msg == models.NAMEERROR || msg == models.PASSWORDERROR {
-			// todo 添加错误ip
+			// 错误ip请求次数+1
+			CheckErr(models.IncrIP(ip))
 		}
 		RejectResult(c, msg)
 		return
 	}
 	// 登录成功, 生成token
-	// todo delete err ip
+	CheckErr(models.DelIP(ip))
 	tokenStr, err := CreateToken(admin.Name)
 	if !CheckErr(err) {
 		RejectResult(c, models.FAILEDERROR)

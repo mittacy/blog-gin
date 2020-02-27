@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
@@ -23,11 +22,12 @@ func main() {
 		panic(err)
 	}
 	defer redisDB.Close()
-	// 创建日志文件
-	f, err := os.Create("gin.log")
+	// 接收日志文件
+	f, err := controllers.GetLog()
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
 	gin.DefaultWriter = io.MultiWriter(f)
 	router := gin.Default()
 	// 日志文件

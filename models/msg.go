@@ -12,5 +12,5 @@ const (
 	NO_NULL            string = "Can't empty"
 	NAMEERROR		   string = "Name error"
 	PASSWORDERROR	   string = "Password error"
-	REQUESTFREQUENTLY string = "Request Frequently"
+	LOGINFREQUENTLY string = "Login Frequently"
 )

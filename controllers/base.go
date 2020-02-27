@@ -3,10 +3,21 @@ package controllers
 import (
 	"blog-gin/models"
 	"github.com/gin-gonic/gin"
+	"os"
 )
 
 type GetID struct {
 	ID uint32 `json:"id"`
+}
+
+var f *os.File
+
+// 日志文件
+func GetLog() (*os.File, error) {
+	// 创建日志文件
+	var err error
+	f, err = os.Create("gin.log")
+	return f, err
 }
 
 // ResolveResult 成功, 返回成功信息
