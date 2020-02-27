@@ -14,25 +14,23 @@ import (
 )
 
 func main() {
-	// 数据库连接
+	// 获取mysql数据库连接
 	db := models.GetDB()
 	defer db.Close()
+	// 获取redis数据库连接
+	redisDB, err := models.GetRedisClient()
+	if err != nil {
+		panic(err)
+	}
+	defer redisDB.Close()
 	// 创建日志文件
 	f, err := os.Create("gin.log")
 	if err != nil {
 		panic(err)
 	}
 	gin.DefaultWriter = io.MultiWriter(f)
-	router := gin.New()
-	// 加载静态文件
-	router.Static("/css", "./css")
-	router.Static("/js", "./js")
-	router.Static("/index.html", "./index.html")
-	router.LoadHTMLFiles("index.html")
-	// 过滤api请求
-	router.Use(TransparentStatic())
-	// 后端路由
-	router.Use(CorsMiddleware())
+	router := gin.Default()
+	// 日志文件
 	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
 		// 你的自定义格式
 		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \" - err: \"%s\"\n",
@@ -46,6 +44,15 @@ func main() {
 			param.ErrorMessage,
 		)
 	}))
+	// 加载静态文件
+	router.Static("/css", "./css")
+	router.Static("/js", "./js")
+	router.Static("/index.html", "./index.html")
+	router.LoadHTMLFiles("index.html")
+	// 过滤api请求
+	router.Use(TransparentStatic())
+	// 后端路由
+	router.Use(CorsMiddleware())
 	router.Use(gin.Recovery())
 	// 不需要登录验证的api
 	api := router.Group("/api")

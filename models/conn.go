@@ -22,7 +22,7 @@ func init() {
 // OpenConn 连接mysql数据库
 func OpenConn() {
 	// 获取配置文件数据
-	par := SQL_USER + ":" + SQL_PASSWORD + "@tcp(" + SQL_HOST + ")/" + SQL_DATABASE + "?charset=utf8"
+	par := SQL_USER + ":" + SQL_PASSWORD + "@tcp(" + SQL_HOST + ")/" + SQL_DATABASE
 
 	var err error
 	db, err = sqlx.Open(SQL_TYPE, par)
