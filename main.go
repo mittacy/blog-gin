@@ -13,6 +13,13 @@ import (
 )
 
 func main() {
+	// 接收日志文件
+	f, err := controllers.GetLog()
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	gin.DefaultWriter = io.MultiWriter(f)
 	// 获取mysql数据库连接
 	db := models.GetDB()
 	defer db.Close()
@@ -22,14 +29,7 @@ func main() {
 		panic(err)
 	}
 	defer redisDB.Close()
-	// 接收日志文件
-	f, err := controllers.GetLog()
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-	gin.DefaultWriter = io.MultiWriter(f)
-	router := gin.Default()
+	router := gin.New()
 	// 日志文件
 	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
 		// 你的自定义格式

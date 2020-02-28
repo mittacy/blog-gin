@@ -45,7 +45,7 @@ func CheckIPRequestTimes(ip string) bool {
 }
 
 func IncrIP(ip string) error {
-	if err := redisDB.SetNX(ip, 0, 1*time.Minute).Err(); err != nil {
+	if err := redisDB.SetNX(ip, 0, 5*time.Minute).Err(); err != nil {
 		return err
 	}
 	return redisDB.Incr(ip).Err()
