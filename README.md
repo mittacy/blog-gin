@@ -62,9 +62,11 @@ END||
 $ DELIMITER ;
 ~~~
 
-**API接口文档**
+## API接口文档
 
-~~~go
+### 1.管理员
+
+~~~bash
 // 验证登录状态
 GET         /api/verify
 // 获取管理员信息
@@ -74,36 +76,42 @@ POST 		/api/admin
 // 修改管理员信息, 参数: cname, introduce, github, mail
 PUT			/api/admin
 // 修改管理员密码, 参数: password
-PUT         /api/admin/setpwd
+PUT         /api/admin/setPassword
 // 博客浏览量加1
 GET			/api/admin/addviews
+~~~
 
+### 2.分类
 
-// 分页获取分类, 参数: pageIndex
+~~~bash
+// 获取全部分类
+GET         /api/categories
+// 分页获取分类
 GET  		/api/category_page/:num
-// 显示某个分类所有的文章, 参数: id
-GET			/api/category/:id
+// 分页获取某个分类的文章
+GET         /api/category_article/:id/:num
 // 添加分类, 参数: title
 POST 		/api/category
 // 修改分类名, 参数: id, title
 PUT			/api/category
 // 删除分类, 参数: id
 Delete 	/api/category
-// 根据id获取分类title
-GET     /api/category_name/:id
+~~~
 
+### 3.文章
 
+~~~bash
+// 获取最新修改的五篇文章
+GET         /api/article_recent
 // 分页获取文章, 参数: pageIndex
 GET			/api/article_page/:num
-// 显示某篇文章
+// 获取某篇文章
 GET     /api/article/:id
-// 添加文章，参数: created_at, category_id, title , content
+// 添加文章，参数: category_id, title , content
 POST		/api/article
-// 修改文章，参数: id, updated_at, category_id, title , content
+// 修改文章，参数: id, category_id, title , content
 PUT			/api/article
 // 删除文章，参数: id
 Delete	/api/article
-// 文章添加访问量, 参数: id
-POST		/api/article/addViews
 ~~~
 
