@@ -1,15 +1,15 @@
 package main
 
 import (
-	"blog-gin/controllers"
-	"blog-gin/models"
 	"fmt"
+	"github.com/crazychat/blog-gin/controllers"
+	"github.com/crazychat/blog-gin/models"
+	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -19,8 +19,13 @@ func main() {
 		panic(err)
 	}
 	defer f.Close()
-	gin.DefaultWriter = io.MultiWriter(f)
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 	// 获取mysql数据库连接
+	if err := models.OpenConn(); err != nil {
+		panic(err)
+	} else {
+		fmt.Println("连接数据库成功")
+	}
 	db := models.GetDB()
 	defer db.Close()
 	// 获取redis数据库连接
@@ -29,21 +34,7 @@ func main() {
 		panic(err)
 	}
 	defer redisDB.Close()
-	router := gin.New()
-	// 日志文件
-	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		// 你的自定义格式
-		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \" - err: \"%s\"\n",
-			param.ClientIP,
-			param.TimeStamp.Format(time.RFC1123),
-			param.Method,
-			param.Path,
-			param.Request.Proto,
-			param.StatusCode,
-			param.Latency,
-			param.ErrorMessage,
-		)
-	}))
+	router := gin.Default()
 	// 加载静态文件
 	router.Static("/css", "./css")
 	router.Static("/js", "./js")

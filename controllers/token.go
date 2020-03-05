@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"blog-gin/models"
+	"github.com/crazychat/blog-gin/models"
 	"fmt"
 	"time"
 

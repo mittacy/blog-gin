@@ -1,34 +1,26 @@
 package models
 
 import (
-	"fmt"
 	"github.com/jmoiron/sqlx"
-	
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sqlx.DB // DB连接
 
-func init() {
-	// 连接数据库
-	OpenConn()
-	// 创建管理员信息
-	if msg, err := CreateAdmin(); err != nil {
-		fmt.Println(err)
-		panic(msg)
-	}
-}
-
 // OpenConn 连接mysql数据库
-func OpenConn() {
+func OpenConn() error {
 	// 获取配置文件数据
 	par := SQL_USER + ":" + SQL_PASSWORD + "@tcp(" + SQL_HOST + ")/" + SQL_DATABASE
-
-	var err error
-	db, err = sqlx.Open(SQL_TYPE, par)
-	if err != nil {
-		panic("Failed to connect database")
+	db, _ = sqlx.Open(SQL_TYPE, par)
+	if err := db.Ping(); err != nil {
+		return err
 	}
+	// 创建管理员信息
+	if _, err := CreateAdmin(); err != nil {
+		return err
+	}
+	return nil
 }
 
 // GetDB 返回db
