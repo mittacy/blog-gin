@@ -29,7 +29,7 @@ func main() {
 	router.Static("/index.html", "./index.html")
 	router.LoadHTMLFiles("index.html")
 	// 过滤前端请求
-	//router.Use(TransparentStatic())
+	router.Use(TransparentStatic())
 	// api路由
 	//router.Use(CorsMiddleware())
 	//router.Use(gin.Recovery())
@@ -41,6 +41,8 @@ func main() {
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	// 深夜定点保存缓存到mysql
+	models.StartTimer()
 	s.ListenAndServe()
 }
 
@@ -87,8 +89,8 @@ func TransparentStatic() gin.HandlerFunc {
 			c.Next()
 			return
 		}
-		// 增加博客访问量
-		models.AddViews()
+		// todo 增加博客访问量
+		models.IncrBlogViews()
 		c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		return
 	}

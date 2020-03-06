@@ -18,8 +18,7 @@ introduce varchar(255) DEFAULT NULL,
 github varchar(100) DEFAULT NULL,
 mail varchar(100) DEFAULT NULL,
 bilibili varchar(100) DEFAULT NULL,
-PRIMARY KEY (id),
-UNIQUE KEY name (name)
+PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /* 创建category */
 $ CREATE TABLE category (

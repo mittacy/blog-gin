@@ -33,19 +33,30 @@ func PostAdmin(c *gin.Context) {
 	if err != nil {
 		if msg == models.NAMEERROR || msg == models.PASSWORDERROR {
 			// 错误ip请求次数+1
-			CheckErr(models.IncrIP(ip), c)
+			_, err := models.IncrIP(ip)
+			CheckErr(err, c)
+			RejectResult(c, msg)
+			return
 		}
 		RejectResult(c, msg)
 		return
 	}
 	// 登录成功, 生成token
-	CheckErr(models.DelIP(ip), c)
-	tokenStr, err := CreateToken()
+	msg, err = models.DelIP(ip)
 	if !CheckErr(err, c) {
-		RejectResult(c, models.FAILEDERROR)
+		RejectResult(c, msg)
 		return
 	}
-	CheckErr(models.SaveToken(tokenStr), c)
+	tokenStr, err := CreateToken()
+	if !CheckErr(err, c) {
+		RejectResult(c, models.BACKERROR)
+		return
+	}
+	msg, err = models.SaveToken(tokenStr)
+	if !CheckErr(err, c) {
+		RejectResult(c, msg)
+		return
+	}
 	ResolveResult(c, models.CONTROLLER_SUCCESS, tokenStr)
 }
 
@@ -53,8 +64,8 @@ func PostAdmin(c *gin.Context) {
 func PutAdmin(c *gin.Context) {
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
-	if err := c.ShouldBindJSON(admin); !CheckErr(err, c) {
-		RejectResult(c, models.ANALYSIS_ERROR)
+	if !AnalysisJSON(c ,admin) {
+		return
 	}
 	msg, err := models.SetAdmin(admin)
 	if !CheckErr(err, c) {
@@ -68,8 +79,8 @@ func PutAdmin(c *gin.Context) {
 func PutAdminPwd(c *gin.Context) {
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
-	if err := c.ShouldBindJSON(admin); !CheckErr(err, c) {
-		RejectResult(c, models.ANALYSIS_ERROR)
+	if !AnalysisJSON(c ,admin) {
+		return
 	}
 	msg, err := models.SetPassword(admin.Password)
 	if !CheckErr(err, c) {

@@ -9,8 +9,10 @@ import (
 )
 
 // SQL查询语句
-var (
-	GETADMINSQL string = "SELECT name, views, cname, introduce, github, mail, bilibili FROM admin limit 1"
+const (
+	SQL_GETADMIN string = "SELECT name, views, cname, introduce, github, mail, bilibili FROM admin limit 1"
+	SQL_PUTADMIN string = "UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1"
+	SQL_PUTPASSWORD string = "UPDATE admin SET password = ? limit 1"
 )
 
 type Admin struct {
@@ -28,8 +30,7 @@ type Admin struct {
 // CreateAdmin 创建管理员信息
 func CreateAdmin() (string, error) {
 	// admin是否存在，不存在则创建
-	row := mysqlDB.QueryRow("SELECT id FROM admin limit 1")
-	if err := row.Scan(); err != sql.ErrNoRows {
+	if err := mysqlDB.QueryRow("SELECT id FROM admin limit 1").Scan(); err != sql.ErrNoRows {
 		return CONTROLLER_SUCCESS, nil
 	}
 	admin := Admin{
@@ -43,16 +44,18 @@ func CreateAdmin() (string, error) {
 	}
 	stmt, err := mysqlDB.Prepare("INSERT INTO admin(name, password, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?)")
 	if err != nil {
-		return FAILEDERROR, err
+		return BACKERROR, err
 	}
 	defer stmt.Close()
 
 	_, err = stmt.Exec(admin.Name, admin.Password, admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
 	if err != nil {
-		return "创建管理员失败", err
+		return BACKERROR, err
 	}
 	// 缓存密码到redis
-	SavePassword(admin.Password)
+	if _, err := SavePassword(admin.Password); err != nil {
+		return BACKERROR, err
+	}
 	return CONTROLLER_SUCCESS, nil
 }
 
@@ -65,7 +68,6 @@ func CheckPassword(admin *Admin) (string, error) {
 	// 获取redis缓存的admin密码
 	pwd, err := redisDB.Get(adminPassword).Result()
 	if err != nil {
-		fmt.Println("err: ", err)
 		return NO_EXIST, errors.New(NO_EXIST)
 	}
 	// 验证密码
@@ -78,12 +80,12 @@ func CheckPassword(admin *Admin) (string, error) {
 // GetAdmin 获取管理员信息
 func GetAdmin() (*Admin, string, error) {
 	var admin Admin
-	err := mysqlDB.Get(&admin, GETADMINSQL)
+	err := mysqlDB.Get(&admin, SQL_GETADMIN)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, NO_EXIST, err
 		}
-		return nil, FAILEDERROR, err
+		return nil, BACKERROR, err
 	}
 	admin.Password = "**********"
 	return &admin, CONTROLLER_SUCCESS, nil
@@ -91,7 +93,7 @@ func GetAdmin() (*Admin, string, error) {
 
 // SetAdmin 修改管理员信息
 func SetAdmin(admin *Admin) (string, error) {
-	stmt, err := mysqlDB.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1")
+	stmt, err := mysqlDB.Prepare(SQL_PUTADMIN)
 	if err != nil {
 		return FAILEDERROR, err
 	}
@@ -104,14 +106,12 @@ func SetAdmin(admin *Admin) (string, error) {
 		}
 		return FAILEDERROR, err
 	}
-	admin.Password = "**********"
 	return CONTROLLER_SUCCESS, nil
 }
 
 // SetPassword 修改管理员密码
 func SetPassword(password string) (string, error) {
-	pwd := Encryption(password)
-	stmt, err := mysqlDB.Prepare("UPDATE admin SET password = ? limit 1")
+	stmt, err := mysqlDB.Prepare(SQL_PUTPASSWORD)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return NO_EXIST, err
@@ -119,8 +119,7 @@ func SetPassword(password string) (string, error) {
 		return FAILEDERROR, err
 	}
 	defer stmt.Close()
-
-	if _, err = stmt.Exec(pwd); err != nil {
+	if _, err = stmt.Exec(Encryption(password)); err != nil {
 		return FAILEDERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
@@ -131,14 +130,6 @@ func Encryption(data string) string {
 	h := md5.New()
 	io.WriteString(h, data)
 	return fmt.Sprintf("%x", h.Sum(nil))
-}
-
-// AddViews 增加博客访问量
-func AddViews() bool {
-	if _, err := mysqlDB.Exec("UPDATE admin SET views = views + 1 limit 1"); err != nil {
-		return false
-	}
-	return true
 }
 
 // Verify 验证登录状态

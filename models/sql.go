@@ -1,9 +1,11 @@
 package models
 
 import (
+	"fmt"
 	"github.com/go-redis/redis"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"time"
 )
 
 var (
@@ -53,14 +55,18 @@ func ConnectRedis() error {
 func CloseRedis() {
 	redisDB.Close()
 }
-// 定时清理缓存任务任务
-//func SaveTicker() {
-//	for {
-//		fmt.Println("执行...")
-//		if err := SaveBlogViews(); err != nil {
-//			panic(err)
-//		}
-//		ticker := time.NewTicker(time.Second * 30)
-//		<-ticker.C
-//	}
-//}
+// startTimer 定时清理缓存任务任务
+func StartTimer() {
+	go func() {
+		for {
+			SaveBlogViews()
+			now := time.Now()
+			fmt.Println("now -> ", now)
+			// 计算下一个零点
+			next := now.Add(time.Hour * 24)
+			next = time.Date(next.Year(), next.Month(), next.Day(), 4, 0, 0, 0, next.Location())
+			t := time.NewTimer(next.Sub(now))
+			<-t.C
+		}
+	}()
+}

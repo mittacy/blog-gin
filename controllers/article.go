@@ -7,10 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	onePageArticlesNum = 10
-	ArticleCount       = 0
-)
+const onePageArticlesNum = 10
+var ArticleCount       = 0
 
 // CreateArticle 创建文章controller
 func CreateArticle(c *gin.Context) {

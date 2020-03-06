@@ -1,9 +1,5 @@
 package models
 
-import (
-	"time"
-)
-
 func CheckIPRequestTimes(ip string) bool {
 	// 判断ip是否存在
 	exists, err := redisDB.Exists(ip).Result()
@@ -27,13 +23,10 @@ func CheckIPRequestTimes(ip string) bool {
 	return false
 }
 
-func IncrIP(ip string) error {
-	if err := redisDB.SetNX(ip, 0, 5*time.Minute).Err(); err != nil {
-		return err
-	}
-	return redisDB.Incr(ip).Err()
+func IncrIP(ip string) (string, error) {
+	return BACKERROR, redisDB.Incr(ip).Err()
 }
 
-func DelIP(ip string) error {
-	return redisDB.Del(ip).Err()
+func DelIP(ip string) (string, error) {
+	return BACKERROR, redisDB.Del(ip).Err()
 }

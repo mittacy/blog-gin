@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"fmt"
+	"strconv"
+	"time"
+)
 
 const (
 	adminPassword string = "adminPassword"
@@ -9,19 +13,37 @@ const (
 	BlogViews string = "BlogViews"
 )
 // SavePassword 缓存密码到redis
-func SavePassword(pwd string) error {
-	if err := redisDB.Set(adminPassword, pwd, 0).Err(); err != nil {
-		return err
-	}
-	return nil
+func SavePassword(pwd string) (string, error) {
+	return BACKERROR, redisDB.Set(adminPassword, pwd, 0).Err()
 }
 // SaveToken 保存token到redis
-func SaveToken(token string) error {
+func SaveToken(token string) (string, error) {
 	// todo 修改时间为2 * hour
-	if err := redisDB.Set(TokenName, token, 24*time.Hour).Err(); err != nil {
+	return BACKERROR, redisDB.Set(TokenName, token, 24*time.Hour).Err()
+}
+// IncrBlogViews 缓存博客浏览量
+func IncrBlogViews() (string, error) {
+	return BACKERROR, redisDB.Incr(BlogViews).Err()
+}
+// SaveBlogViews 将redis缓存的博客浏览量存到mysql
+func SaveBlogViews() error {
+	fmt.Println("清理缓存")
+	views, err := redisDB.GetSet(BlogViews, 0).Result()
+	addNum, _ := strconv.Atoi(views)
+	if err != nil {
+		return err
+	}
+	if addNum == 0 {
+		return nil
+	}
+	// 加到mysql里
+	stmt, err := mysqlDB.Prepare("UPDATE admin SET views = views + ? limit 1")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	if _, err := stmt.Exec(addNum); err != nil {
 		return err
 	}
 	return nil
 }
-
-// todo SaveBlogViews 定时将Redis的缓存添加到MongoDB

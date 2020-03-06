@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const onePageCategoryNum = 10
 var (
-	onePageCategoryNum = 10
 	categoryCount = 0
 	articleCount = 0
 )
