@@ -3,21 +3,10 @@ package controllers
 import (
 	"github.com/crazychat/blog-gin/models"
 	"github.com/gin-gonic/gin"
-	"os"
 )
 
 type GetID struct {
 	ID uint32 `json:"id"`
-}
-
-var f *os.File
-
-// 日志文件
-func GetLog() (*os.File, error) {
-	// 创建日志文件
-	var err error
-	f, err = os.Create("gin.log")
-	return f, err
 }
 
 // ResolveResult 成功, 返回成功信息
@@ -51,7 +40,7 @@ func httpCode(msg string) int {
 // AnalysisJSON 解析JSON数据
 func AnalysisJSON(c *gin.Context, obj interface{}) bool {
 	err := c.ShouldBindJSON(obj)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, models.ANALYSIS_ERROR)
 		return false
 	}
@@ -59,8 +48,10 @@ func AnalysisJSON(c *gin.Context, obj interface{}) bool {
 }
 
 // CheckErr 统一处理错误
-func CheckErr(err error) bool {
+func CheckErr(err error, c *gin.Context) bool {
 	if err != nil {
+		str := c.Request.Method + " | " + c.FullPath() + " | Err: " + err.Error()
+		ErrLogger.Println(str)
 		return false
 	}
 	return true

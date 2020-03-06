@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/crazychat/blog-gin/models"
 	"fmt"
+	"github.com/crazychat/blog-gin/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +10,7 @@ import (
 // GetAdmin 获取管理员信息
 func GetAdmin(c *gin.Context) {
 	admin, msg, err := models.GetAdmin()
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -26,24 +26,24 @@ func PostAdmin(c *gin.Context) {
 	}
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
-	if err := c.ShouldBindJSON(admin); !CheckErr(err) {
+	if err := c.ShouldBindJSON(admin); !CheckErr(err ,c) {
 		RejectResult(c, models.ANALYSIS_ERROR)
 		return
 	}
 	// 验证是否正确
 	msg, err := models.IsRightAdmin(admin)
-	if !CheckErr(err) {
+	if err != nil {
 		if msg == models.NAMEERROR || msg == models.PASSWORDERROR {
 			// 错误ip请求次数+1
-			CheckErr(models.IncrIP(ip))
+			CheckErr(models.IncrIP(ip), c)
 		}
 		RejectResult(c, msg)
 		return
 	}
 	// 登录成功, 生成token
-	CheckErr(models.DelIP(ip))
+	CheckErr(models.DelIP(ip), c)
 	tokenStr, err := CreateToken(admin.Name)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, models.FAILEDERROR)
 		return
 	}
@@ -54,11 +54,11 @@ func PostAdmin(c *gin.Context) {
 func PutAdmin(c *gin.Context) {
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
-	if err := c.ShouldBindJSON(admin); !CheckErr(err) {
+	if err := c.ShouldBindJSON(admin); !CheckErr(err, c) {
 		RejectResult(c, models.ANALYSIS_ERROR)
 	}
 	msg, err := models.SetAdmin(admin)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -69,11 +69,11 @@ func PutAdmin(c *gin.Context) {
 func PutAdminPwd(c *gin.Context) {
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
-	if err := c.ShouldBindJSON(admin); !CheckErr(err) {
+	if err := c.ShouldBindJSON(admin); !CheckErr(err, c) {
 		RejectResult(c, models.ANALYSIS_ERROR)
 	}
 	msg, err := models.SetPassword(admin.Password)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}

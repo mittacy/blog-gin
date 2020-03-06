@@ -17,7 +17,7 @@ var (
 func GetCategories(c *gin.Context) {
 	// 查询分类及总数
 	categories, msg, err := models.GetCategories()
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -27,12 +27,12 @@ func GetCategories(c *gin.Context) {
 // GetCategoryName 根据id获取分类title
 func GetCategoryName(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, models.FAILEDERROR)
 		return
 	}
 	category, msg, err := models.GetCategoryName(id)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -42,19 +42,19 @@ func GetCategoryName(c *gin.Context) {
 // GetPageCategory 分页获取分类
 func GetPageCategory(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, models.FAILEDERROR)
 		return
 	}
 	categories, msg, err := models.GetPageCategories(pageNum, onePageCategoryNum)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
 	// 查询第0页时更新分类总数
 	if pageNum == 0 {
 		count, msg, err := models.GetCategoriesCount()
-		if !CheckErr(err) {
+		if !CheckErr(err, c) {
 			RejectResult(c, msg)
 			return
 		}
@@ -87,7 +87,7 @@ func UpdataCategory(c *gin.Context) {
 		return
 	}
 	msg, err := models.UpdateCate(&cate)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -97,20 +97,20 @@ func UpdataCategory(c *gin.Context) {
 // GetCategoy 获取某个分类及其分页文章
 func GetCategoy(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, models.FAILEDERROR)
 		return
 	}
 	pageNum, err := strconv.Atoi(c.Param("num"))
 	articles, msg, err := models.GetPageArticlesByCategory(id, pageNum, onePageCategoryNum)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
 	// 查询第0页时更新分类有的文章数
 	if pageNum == 0 {
 		count, msg, err := models.GetArtcilesCountByCategory(id)
-		if !CheckErr(err) {
+		if !CheckErr(err, c) {
 			RejectResult(c, msg)
 			return
 		}
@@ -129,7 +129,7 @@ func DeleteCategory(c *gin.Context) {
 		return
 	}
 	msg, err := models.DeleteCategory(getID.ID)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}

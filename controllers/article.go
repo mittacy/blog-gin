@@ -17,7 +17,7 @@ func CreateArticle(c *gin.Context) {
 	article := models.Article{}
 	if !AnalysisJSON(c, &article) { return }
 	msg, err := models.CreateArticle(&article)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -31,7 +31,7 @@ func UpdateArticle(c *gin.Context) {
 		return
 	}
 	msg, err := models.UpdateArticle(&article)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -41,11 +41,11 @@ func UpdateArticle(c *gin.Context) {
 // GetArticle 根据id获取文章
 func GetArticle(c *gin.Context) {
 	articleID, err := strconv.Atoi(c.Param("id"))
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, models.BACKERROR)
 	}
 	article, msg, err := models.GetArticle(articleID)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -59,7 +59,7 @@ func DeleteArticle(c *gin.Context) {
 		return
 	}
 	msg, err := models.DeleteArticle(getID.ID)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -69,19 +69,19 @@ func DeleteArticle(c *gin.Context) {
 // GetPageArticle 分页获取文章
 func GetPageArticle(c *gin.Context) {
 	pageNum, err := strconv.Atoi(c.Param("num"))
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, models.BACKERROR)
 		return
 	}
 	articls, msg, err := models.GetPageArticles(pageNum, onePageArticlesNum)
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
 	// 查询第0页时更新文章总数
 	if pageNum == 0 {
 		count, msg, err := models.GetArticlesCount()
-		if !CheckErr(err) {
+		if !CheckErr(err, c) {
 			RejectResult(c, msg)
 			return
 		}
@@ -100,7 +100,7 @@ func AddArticleViews(c *gin.Context) {
 		return
 	}
 	msg, err := models.AddArticleViews(getID.ID)
-	if CheckErr(err) {
+	if CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}
@@ -110,7 +110,7 @@ func AddArticleViews(c *gin.Context) {
 // RecentArticles 最近更新的五篇文章
 func RecentArticles(c *gin.Context) {
 	articls, msg, err := models.GetRecentArticles()
-	if !CheckErr(err) {
+	if !CheckErr(err, c) {
 		RejectResult(c, msg)
 		return
 	}

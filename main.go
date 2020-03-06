@@ -5,21 +5,13 @@ import (
 	"github.com/crazychat/blog-gin/controllers"
 	"github.com/crazychat/blog-gin/models"
 	"github.com/gin-gonic/gin"
-	"io"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 )
 
 func main() {
-	// 接收日志文件
-	f, err := controllers.GetLog()
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	defer controllers.CloseLogFile()
 	// 获取mysql数据库连接
 	if err := models.OpenConn(); err != nil {
 		panic(err)
