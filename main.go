@@ -14,14 +14,14 @@ func main() {
 	// 日志处理	controllers/log.go init()已经打开文件, 此处关闭
 	defer controllers.CloseLogFile()
 	// 数据库连接
-	if err := models.ConnectMysql(); err != nil {
-		controllers.ErrLogger.Fatal(err)
-	}
-	defer models.CloseMysql()
 	if err := models.ConnectRedis(); err != nil {
 		controllers.ErrLogger.Fatal(err)
 	}
 	defer models.CloseRedis()
+	if err := models.ConnectMysql(); err != nil {
+		controllers.ErrLogger.Fatal(err)
+	}
+	defer models.CloseMysql()
 	// 加载静态文件
 	router := gin.Default()
 	router.Static("/css", "./css")
@@ -29,10 +29,10 @@ func main() {
 	router.Static("/index.html", "./index.html")
 	router.LoadHTMLFiles("index.html")
 	// 过滤前端请求
-	router.Use(TransparentStatic())
+	//router.Use(TransparentStatic())
 	// api路由
-	router.Use(CorsMiddleware())
-	router.Use(gin.Recovery())
+	//router.Use(CorsMiddleware())
+	//router.Use(gin.Recovery())
 	Router(router)
 	s := &http.Server{
 		Addr:           ":5201",
@@ -63,20 +63,20 @@ func Router(router *gin.Engine) {
 		api.GET("/article_page/:num", controllers.GetPageArticle)
 	}
 	// 需要登录验证的api
-	apiAdmin := router.Group("/api")
-	apiAdmin.Use(controllers.CheckAdmin())
+	apiVerfiry := router.Group("/api")
+	apiVerfiry.Use(controllers.CheckAdmin())
 	{
 		// 管理员
-		apiAdmin.PUT("/admin", controllers.PutAdmin)
-		apiAdmin.PUT("/admin/setpwd", controllers.PutAdminPwd)
+		apiVerfiry.PUT("/admin", controllers.PutAdmin)
+		apiVerfiry.PUT("/admin/setpwd", controllers.PutAdminPwd)
 		// 分类
-		apiAdmin.POST("/category", controllers.CreateCategory)
-		apiAdmin.PUT("/category", controllers.UpdataCategory)
-		apiAdmin.DELETE("/category", controllers.DeleteCategory)
+		apiVerfiry.POST("/category", controllers.CreateCategory)
+		apiVerfiry.PUT("/category", controllers.UpdataCategory)
+		apiVerfiry.DELETE("/category", controllers.DeleteCategory)
 		// 文章
-		apiAdmin.POST("/article", controllers.CreateArticle)
-		apiAdmin.PUT("/article", controllers.UpdateArticle)
-		apiAdmin.DELETE("/article", controllers.DeleteArticle)
+		apiVerfiry.POST("/article", controllers.CreateArticle)
+		apiVerfiry.PUT("/article", controllers.UpdateArticle)
+		apiVerfiry.DELETE("/article", controllers.DeleteArticle)
 	}
 }
 

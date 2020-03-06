@@ -1,9 +1,7 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/crazychat/blog-gin/models"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,18 +18,18 @@ func GetAdmin(c *gin.Context) {
 // PostAdmin 登录管理员
 func PostAdmin(c *gin.Context) {
 	ip := c.ClientIP()
+	// 检查ip访问次数是否超过
 	if !models.CheckIPRequestTimes(ip) {
 		RejectResult(c, models.LOGINFREQUENTLY)
 		return
 	}
 	admin := &models.Admin{}
 	// 解析json数据到结构体admin
-	if err := c.ShouldBindJSON(admin); !CheckErr(err ,c) {
-		RejectResult(c, models.ANALYSIS_ERROR)
+	if !AnalysisJSON(c ,admin) {
 		return
 	}
 	// 验证是否正确
-	msg, err := models.IsRightAdmin(admin)
+	msg, err := models.CheckPassword(admin)
 	if err != nil {
 		if msg == models.NAMEERROR || msg == models.PASSWORDERROR {
 			// 错误ip请求次数+1
@@ -42,11 +40,12 @@ func PostAdmin(c *gin.Context) {
 	}
 	// 登录成功, 生成token
 	CheckErr(models.DelIP(ip), c)
-	tokenStr, err := CreateToken(admin.Name)
+	tokenStr, err := CreateToken()
 	if !CheckErr(err, c) {
 		RejectResult(c, models.FAILEDERROR)
 		return
 	}
+	CheckErr(models.SaveToken(tokenStr), c)
 	ResolveResult(c, models.CONTROLLER_SUCCESS, tokenStr)
 }
 
@@ -82,22 +81,14 @@ func PutAdminPwd(c *gin.Context) {
 
 // Verify 验证登录
 func Verify(c *gin.Context) {
-	tokenStr := c.Request.Header.Get(tokenName)
+	adminToken := c.Request.Header.Get(models.TokenName)
 	// token是否存在
-	if tokenStr == "" {
+	if adminToken == "" {
 		RejectResult(c, models.NO_POWER)
 		return
 	}
-	// 解析token
-	token, _ := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			RejectResult(c, models.NO_POWER)
-			return nil, fmt.Errorf(models.NO_POWER)
-		}
-		return []byte(serectKey), nil
-	})
-	// token是否过期
-	if !token.Valid {
+	// redis比对
+	if !models.Verify(adminToken) {
 		RejectResult(c, models.NO_POWER)
 		return
 	}

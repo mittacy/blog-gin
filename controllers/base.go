@@ -1,8 +1,13 @@
 package controllers
 
 import (
+	"crypto/md5"
+	"fmt"
 	"github.com/crazychat/blog-gin/models"
 	"github.com/gin-gonic/gin"
+	"io"
+	"strconv"
+	"time"
 )
 
 type GetID struct {
@@ -55,4 +60,35 @@ func CheckErr(err error, c *gin.Context) bool {
 		return false
 	}
 	return true
+}
+
+// CreateToken 生成token
+func CreateToken() (string, error) {
+	now := time.Now().Unix()
+	h := md5.New()
+	_, err := io.WriteString(h, strconv.FormatInt(now, 10))
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%x", h.Sum(nil)), nil
+}
+
+// CheckAdmin 中间件, 检查权限
+func CheckAdmin() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tokenStr := c.Request.Header.Get(models.TokenName)
+		// token是否存在
+		if tokenStr == "" {
+			RejectResult(c, models.NO_POWER)
+			c.Abort()
+			return
+		}
+		// 验证token
+		if !models.Verify(tokenStr) {
+			RejectResult(c, models.NO_POWER)
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
 }

@@ -32,10 +32,9 @@ func CreateAdmin() (string, error) {
 	if err := row.Scan(); err != sql.ErrNoRows {
 		return CONTROLLER_SUCCESS, nil
 	}
-	password := Encryption("admin")
 	admin := Admin{
 		Name:      "Mittacy",
-		Password:  password,
+		Password:  Encryption("admin"),
 		Cname:     "陈铭涛",
 		Introduce: "就读佛山大学 - 大三 - 计算机系",
 		Github:    "https://github.com/crazychat",
@@ -52,24 +51,25 @@ func CreateAdmin() (string, error) {
 	if err != nil {
 		return "创建管理员失败", err
 	}
+	// 缓存密码到redis
+	SavePassword(admin.Password)
 	return CONTROLLER_SUCCESS, nil
 }
 
-// IsRightAdmin 检验密码是否正确
-func IsRightAdmin(admin *Admin) (string, error) {
-	var adminName, adminPwd string
-	row := mysqlDB.QueryRow("SELECT name, password FROM admin limit 1")
-	err := row.Scan(&adminName, &adminPwd)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return NO_EXIST, err
-		}
-		return FAILEDERROR, err
-	}
-	if adminName != admin.Name {
+// CheckPassword 检验密码是否正确
+func CheckPassword(admin *Admin) (string, error) {
+	// 验证用户名
+	if admin.Name != adminName {
 		return NAMEERROR, errors.New(NAMEERROR)
 	}
-	if Encryption(admin.Password) != adminPwd {
+	// 获取redis缓存的admin密码
+	pwd, err := redisDB.Get(adminPassword).Result()
+	if err != nil {
+		fmt.Println("err: ", err)
+		return NO_EXIST, errors.New(NO_EXIST)
+	}
+	// 验证密码
+	if Encryption(admin.Password) != pwd {
 		return PASSWORDERROR, errors.New(PASSWORDERROR)
 	}
 	return CONTROLLER_SUCCESS, nil
@@ -136,6 +136,15 @@ func Encryption(data string) string {
 // AddViews 增加博客访问量
 func AddViews() bool {
 	if _, err := mysqlDB.Exec("UPDATE admin SET views = views + 1 limit 1"); err != nil {
+		return false
+	}
+	return true
+}
+
+// Verify 验证登录状态
+func Verify(token string) bool {
+	result, err := redisDB.Get(TokenName).Result()
+	if err != nil || result != token{
 		return false
 	}
 	return true
