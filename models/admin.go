@@ -28,7 +28,7 @@ type Admin struct {
 // CreateAdmin 创建管理员信息
 func CreateAdmin() (string, error) {
 	// admin是否存在，不存在则创建
-	row := db.QueryRow("SELECT id FROM admin limit 1")
+	row := mysqlDB.QueryRow("SELECT id FROM admin limit 1")
 	if err := row.Scan(); err != sql.ErrNoRows {
 		return CONTROLLER_SUCCESS, nil
 	}
@@ -42,7 +42,7 @@ func CreateAdmin() (string, error) {
 		Mail:      "mail@mittacy.com",
 		Bilibili:  "https://space.bilibili.com/384942135",
 	}
-	stmt, err := db.Prepare("INSERT INTO admin(name, password, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?)")
+	stmt, err := mysqlDB.Prepare("INSERT INTO admin(name, password, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?)")
 	if err != nil {
 		return FAILEDERROR, err
 	}
@@ -58,7 +58,7 @@ func CreateAdmin() (string, error) {
 // IsRightAdmin 检验密码是否正确
 func IsRightAdmin(admin *Admin) (string, error) {
 	var adminName, adminPwd string
-	row := db.QueryRow("SELECT name, password FROM admin limit 1")
+	row := mysqlDB.QueryRow("SELECT name, password FROM admin limit 1")
 	err := row.Scan(&adminName, &adminPwd)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -78,7 +78,7 @@ func IsRightAdmin(admin *Admin) (string, error) {
 // GetAdmin 获取管理员信息
 func GetAdmin() (*Admin, string, error) {
 	var admin Admin
-	err := db.Get(&admin, GETADMINSQL)
+	err := mysqlDB.Get(&admin, GETADMINSQL)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, NO_EXIST, err
@@ -91,7 +91,7 @@ func GetAdmin() (*Admin, string, error) {
 
 // SetAdmin 修改管理员信息
 func SetAdmin(admin *Admin) (string, error) {
-	stmt, err := db.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1")
+	stmt, err := mysqlDB.Prepare("UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1")
 	if err != nil {
 		return FAILEDERROR, err
 	}
@@ -111,7 +111,7 @@ func SetAdmin(admin *Admin) (string, error) {
 // SetPassword 修改管理员密码
 func SetPassword(password string) (string, error) {
 	pwd := Encryption(password)
-	stmt, err := db.Prepare("UPDATE admin SET password = ? limit 1")
+	stmt, err := mysqlDB.Prepare("UPDATE admin SET password = ? limit 1")
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return NO_EXIST, err
@@ -135,7 +135,7 @@ func Encryption(data string) string {
 
 // AddViews 增加博客访问量
 func AddViews() bool {
-	if _, err := db.Exec("UPDATE admin SET views = views + 1 limit 1"); err != nil {
+	if _, err := mysqlDB.Exec("UPDATE admin SET views = views + 1 limit 1"); err != nil {
 		return false
 	}
 	return true

@@ -10,3 +10,4 @@ Error:2020/03/06 14:59:19 main.go:14: I'm error
 2020/03/06 15:22:58 base.go:53: Err: Password error
 2020/03/06 15:23:45 base.go:53: Err: Password error
 2020/03/06 15:27:53 base.go:60: POST | /api/admin | Err: Password error
+2020/03/06 16:30:18 main.go:18: sql: unknown driver "mysql" (forgotten import?)

@@ -17,7 +17,7 @@ type Article struct {
 
 // CreateArticle 创建文章model
 func CreateArticle(article *Article) (string, error) {
-	stmt, err := db.Prepare("INSERT INTO article(created_at, category_id, title, content) values (?, ?,?,?)")
+	stmt, err := mysqlDB.Prepare("INSERT INTO article(created_at, category_id, title, content) values (?, ?,?,?)")
 	if err != nil {
 		return BACKERROR, err
 	}
@@ -36,7 +36,7 @@ func CreateArticle(article *Article) (string, error) {
 
 // UpdateArticle 修改文章model
 func UpdateArticle(article *Article) (string, error) {
-	stmt, err := db.Prepare("UPDATE article SET updated_at = ?, category_id = ?, title = ?, content = ? WHERE id = ?")
+	stmt, err := mysqlDB.Prepare("UPDATE article SET updated_at = ?, category_id = ?, title = ?, content = ? WHERE id = ?")
 	if err != nil {
 		return BACKERROR, err
 	}
@@ -51,7 +51,7 @@ func UpdateArticle(article *Article) (string, error) {
 // GetArticle 根据id获取文章
 func GetArticle(articleID int) (*Article, string, error) {
 	article := &Article{}
-	err := db.Get(article, "SELECT * FROM article WHERE id = ?", articleID)
+	err := mysqlDB.Get(article, "SELECT * FROM article WHERE id = ?", articleID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, NO_EXIST, err
@@ -63,7 +63,7 @@ func GetArticle(articleID int) (*Article, string, error) {
 
 // DeleteArticle 根据id删除文章
 func DeleteArticle(articleID uint32) (string, error) {
-	if _, err := db.Exec("DELETE FROM article WHERE id = ?", articleID); err != nil {
+	if _, err := mysqlDB.Exec("DELETE FROM article WHERE id = ?", articleID); err != nil {
 		return BACKERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
@@ -74,7 +74,7 @@ func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) 
 	startIndex := strconv.Itoa(page * onePageArticlesCount)
 	sql := "SELECT id, created_at, updated_at, title, views FROM article ORDER BY id DESC limit " + startIndex + ", " + strconv.Itoa(onePageArticlesCount)
 	var articles []Article
-	err := db.Select(&articles, sql)
+	err := mysqlDB.Select(&articles, sql)
 	if err != nil {
 		return nil, BACKERROR, err
 	}
@@ -84,13 +84,13 @@ func GetPageArticles(page, onePageArticlesCount int) ([]Article, string, error) 
 // GetArticlesCount 获取文章总数
 func GetArticlesCount() (int, string, error) {
 	var count int
-	err := db.QueryRow("SELECT count(*) FROM article").Scan(&count)
+	err := mysqlDB.QueryRow("SELECT count(*) FROM article").Scan(&count)
 	return count, BACKERROR, err
 }
 
 // AddArticleViews 添加文章浏览数
 func AddArticleViews(id uint32) (string, error) {
-	if _, err := db.Exec("UPDATE article SET views = views+1 WHERE id = ?", id); err != nil {
+	if _, err := mysqlDB.Exec("UPDATE article SET views = views+1 WHERE id = ?", id); err != nil {
 		return BACKERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
@@ -100,7 +100,7 @@ func AddArticleViews(id uint32) (string, error) {
 func GetRecentArticles() ([]Article, string, error) {
 	sql := "SELECT id, created_at, updated_at, title, views FROM article ORDER BY updated_at DESC limit 5"
 	var articles []Article
-	err := db.Select(&articles, sql)
+	err := mysqlDB.Select(&articles, sql)
 	if err != nil {
 		return nil, BACKERROR, err
 	}

@@ -13,7 +13,7 @@ type Category struct {
 
 // CreateCate 创建分类
 func CreateCate(cate *Category) (string, error) {
-	stmt, err := db.Prepare("INSERT INTO category(title) values (?)")
+	stmt, err := mysqlDB.Prepare("INSERT INTO category(title) values (?)")
 	if err != nil {
 		return BACKERROR, err
 	}
@@ -33,7 +33,7 @@ func CreateCate(cate *Category) (string, error) {
 // GetCategories 获取全部分类id和title
 func GetCategories() (*[]Category, string, error) {
 	var categories []Category
-	err := db.Select(&categories, "SELECT id, title FROM category")
+	err := mysqlDB.Select(&categories, "SELECT id, title FROM category")
 	if err != nil {
 		return nil, BACKERROR, err
 	}
@@ -43,7 +43,7 @@ func GetCategories() (*[]Category, string, error) {
 // GetCategoryName 根据id获取分类title
 func GetCategoryName(id int) (*Category, string, error) {
 	category := &Category{}
-	err := db.Get(category, "SELECT title from category WHERE id = ?", id)
+	err := mysqlDB.Get(category, "SELECT title from category WHERE id = ?", id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, NO_EXIST, err
@@ -58,7 +58,7 @@ func GetPageArticlesByCategory(id, page, onePageArticleNum int) ([]Article, stri
 	startIndex := strconv.Itoa(page * onePageArticleNum)
 	sql := "SELECT id, created_at, updated_at, title, views FROM article WHERE category_id = ? ORDER BY id DESC limit " + startIndex + ", " + strconv.Itoa(onePageArticleNum)
 	articles := make([]Article, 0)
-	err := db.Select(&articles, sql, id)
+	err := mysqlDB.Select(&articles, sql, id)
 	if err != nil {
 		return nil, BACKERROR, err
 	}
@@ -68,7 +68,7 @@ func GetPageArticlesByCategory(id, page, onePageArticleNum int) ([]Article, stri
 // GetArtcilesCountByCategory 获取某个分类文章总数
 func GetArtcilesCountByCategory(id int) (int, string, error) {
 	var count int
-	if err := db.QueryRow("SELECT count(*) FROM article WHERE category_id = ?", id).Scan(&count); err != nil {
+	if err := mysqlDB.QueryRow("SELECT count(*) FROM article WHERE category_id = ?", id).Scan(&count); err != nil {
 		return count, BACKERROR, err
 	}
 	return count, CONTROLLER_SUCCESS, nil
@@ -76,7 +76,7 @@ func GetArtcilesCountByCategory(id int) (int, string, error) {
 
 // UpdateCate 更新分类
 func UpdateCate(cate *Category) (string, error) {
-	stmt, err := db.Prepare("UPDATE category SET title = ? WHERE id = ?")
+	stmt, err := mysqlDB.Prepare("UPDATE category SET title = ? WHERE id = ?")
 	if err != nil {
 		return BACKERROR, err
 	}
@@ -90,7 +90,7 @@ func UpdateCate(cate *Category) (string, error) {
 
 // DeleteCategory 删除分类同时删除分类里的所有文章
 func DeleteCategory(cateID uint32) (string, error) {
-	tx, err := db.Begin()
+	tx, err := mysqlDB.Begin()
 	if err != nil {
 		return BACKERROR, err
 	}
@@ -113,7 +113,7 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 	startIndex := strconv.Itoa(page * onePageCategoryNum)
 	sql := "SELECT * FROM category limit " + startIndex + ", " + strconv.Itoa(onePageCategoryNum)
 	var categories []Category
-	err := db.Select(&categories, sql)
+	err := mysqlDB.Select(&categories, sql)
 	if err != nil {
 		return nil, BACKERROR, err
 	}
@@ -123,6 +123,6 @@ func GetPageCategories(page, onePageCategoryNum int) ([]Category, string, error)
 // GetCategoriesCount 获取分类总数
 func GetCategoriesCount() (int, string, error) {
 	var count int
-	err := db.QueryRow("SELECT count(*) FROM category").Scan(&count)
+	err := mysqlDB.QueryRow("SELECT count(*) FROM category").Scan(&count)
 	return count, BACKERROR, err
 }

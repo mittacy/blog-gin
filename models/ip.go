@@ -1,25 +1,8 @@
 package models
 
 import (
-	"fmt"
-	"github.com/go-redis/redis"
 	"time"
 )
-
-var redisDB *redis.Client
-
-func GetRedisClient() (*redis.Client, error) {
-	redisDB = redis.NewClient(&redis.Options{
-		Addr: "localhost:6379",
-		Password: "",
-		DB: 0,
-	})
-	pong, err := redisDB.Ping().Result()
-	if err != nil {
-		fmt.Println(pong, err)
-	}
-	return redisDB, err
-}
 
 func CheckIPRequestTimes(ip string) bool {
 	// 判断ip是否存在

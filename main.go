@@ -11,32 +11,40 @@ import (
 )
 
 func main() {
+	// 日志处理	controllers/log.go init()已经打开文件, 此处关闭
 	defer controllers.CloseLogFile()
-	// 获取mysql数据库连接
-	if err := models.OpenConn(); err != nil {
-		panic(err)
-	} else {
-		fmt.Println("连接数据库成功")
+	// 数据库连接
+	if err := models.ConnectMysql(); err != nil {
+		controllers.ErrLogger.Fatal(err)
 	}
-	db := models.GetDB()
-	defer db.Close()
-	// 获取redis数据库连接
-	redisDB, err := models.GetRedisClient()
-	if err != nil {
-		panic(err)
+	defer models.CloseMysql()
+	if err := models.ConnectRedis(); err != nil {
+		controllers.ErrLogger.Fatal(err)
 	}
-	defer redisDB.Close()
-	router := gin.Default()
+	defer models.CloseRedis()
 	// 加载静态文件
+	router := gin.Default()
 	router.Static("/css", "./css")
 	router.Static("/js", "./js")
 	router.Static("/index.html", "./index.html")
 	router.LoadHTMLFiles("index.html")
-	// 过滤api请求
+	// 过滤前端请求
 	router.Use(TransparentStatic())
-	// 后端路由
+	// api路由
 	router.Use(CorsMiddleware())
 	router.Use(gin.Recovery())
+	Router(router)
+	s := &http.Server{
+		Addr:           ":5201",
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	s.ListenAndServe()
+}
+
+func Router(router *gin.Engine) {
 	// 不需要登录验证的api
 	api := router.Group("/api")
 	{
@@ -70,14 +78,6 @@ func main() {
 		apiAdmin.PUT("/article", controllers.UpdateArticle)
 		apiAdmin.DELETE("/article", controllers.DeleteArticle)
 	}
-	s := &http.Server{
-		Addr:           ":5201",
-		Handler:        router,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-	s.ListenAndServe()
 }
 
 func TransparentStatic() gin.HandlerFunc {
