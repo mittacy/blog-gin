@@ -31,7 +31,7 @@ func main() {
 	// 过滤前端请求
 	router.Use(TransparentStatic())
 	// api路由
-	//router.Use(CorsMiddleware())
+	//router.Use(CorsMiddleware())	// todo 上线前关闭跨域允许
 	//router.Use(gin.Recovery())
 	Router(router)
 	s := &http.Server{
@@ -68,6 +68,8 @@ func Router(router *gin.Engine) {
 	apiVerfiry := router.Group("/api")
 	apiVerfiry.Use(controllers.CheckAdmin())
 	{
+		// 日志文件
+		apiVerfiry.GET("/errlog", controllers.GetErrorLog)
 		// 管理员
 		apiVerfiry.PUT("/admin", controllers.PutAdmin)
 		apiVerfiry.PUT("/admin/setpwd", controllers.PutAdminPwd)

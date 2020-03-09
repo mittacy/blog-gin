@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 )
@@ -27,7 +26,6 @@ func IncrBlogViews() (string, error) {
 }
 // SaveBlogViews 将redis缓存的博客浏览量存到mysql
 func SaveBlogViews() error {
-	fmt.Println("清理缓存")
 	views, err := redisDB.GetSet(BlogViews, 0).Result()
 	addNum, _ := strconv.Atoi(views)
 	if err != nil {
