@@ -3,6 +3,7 @@ package models
 import (
 	"crypto/md5"
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -56,6 +57,15 @@ func CreateAdmin() (string, error) {
 	if _, err := SavePassword(admin.Password); err != nil {
 		return BACKERROR, err
 	}
+	// 缓存admin信息到redis
+	admin.Password = "******"
+	adminJson, err := json.Marshal(admin)
+	if err != nil {
+		return BACKERROR, err
+	}
+	if _, err := SaveAdminInfo(adminJson); err != nil {
+		return BACKERROR, err
+	}
 	return CONTROLLER_SUCCESS, nil
 }
 
@@ -79,15 +89,15 @@ func CheckPassword(admin *Admin) (string, error) {
 
 // GetAdmin 获取管理员信息
 func GetAdmin() (*Admin, string, error) {
-	var admin Admin
-	err := mysqlDB.Get(&admin, SQL_GETADMIN)
+	valJson, err := redisDB.Get(adminInfo).Bytes()
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, NO_EXIST, err
-		}
 		return nil, BACKERROR, err
 	}
-	admin.Password = "**********"
+	var admin Admin
+	err = json.Unmarshal(valJson, &admin)
+	if err != nil {
+		return nil, ANALYSIS_ERROR, err
+	}
 	return &admin, CONTROLLER_SUCCESS, nil
 }
 

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"github.com/go-redis/redis"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -61,7 +60,6 @@ func StartTimer() {
 		for {
 			SaveBlogViews()
 			now := time.Now()
-			fmt.Println("now -> ", now)
 			// 计算下一个零点
 			next := now.Add(time.Hour * 24)
 			next = time.Date(next.Year(), next.Month(), next.Day(), 4, 0, 0, 0, next.Location())

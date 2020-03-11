@@ -5,7 +5,7 @@ const (
 	FAILEDERROR        string = "Failed"
 	CONTROLLER_SUCCESS string = "Success"
 	BACKERROR          string = "Backstage error"
-	NO_EXIST           string = "Disexist"
+	NO_EXIST           string = "No exist"
 	EXISTED            string = "Existed"
 	NO_POWER           string = "Permission denied"
 	ANALYSIS_ERROR     string = "JSON error"
