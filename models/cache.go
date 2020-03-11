@@ -17,8 +17,7 @@ func SavePassword(pwd string) (string, error) {
 }
 // SaveToken 保存token到redis
 func SaveToken(token string) (string, error) {
-	// todo 修改时间为2 * hour
-	return BACKERROR, redisDB.Set(TokenName, token, 24*time.Hour).Err()
+	return BACKERROR, redisDB.Set(TokenName, token, 6*time.Hour).Err()
 }
 // IncrBlogViews 缓存博客浏览量
 func IncrBlogViews() (string, error) {

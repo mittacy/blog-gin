@@ -119,8 +119,13 @@ func SetPassword(password string) (string, error) {
 		return FAILEDERROR, err
 	}
 	defer stmt.Close()
-	if _, err = stmt.Exec(Encryption(password)); err != nil {
+	pwd := Encryption(password)
+	if _, err = stmt.Exec(pwd); err != nil {
 		return FAILEDERROR, err
+	}
+	// 修改redis缓存密码
+	if _, err := SavePassword(pwd); err != nil {
+		return BACKERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }

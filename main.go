@@ -32,7 +32,7 @@ func main() {
 	router.Use(TransparentStatic())
 	// api路由
 	//router.Use(CorsMiddleware())	// todo 上线前关闭跨域允许
-	//router.Use(gin.Recovery())
+	router.Use(gin.Recovery())
 	Router(router)
 	s := &http.Server{
 		Addr:           ":5201",
@@ -91,7 +91,7 @@ func TransparentStatic() gin.HandlerFunc {
 			c.Next()
 			return
 		}
-		// todo 增加博客访问量
+		// 增加博客访问量
 		models.IncrBlogViews()
 		c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		return
