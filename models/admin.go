@@ -11,7 +11,6 @@ import (
 
 // SQL查询语句
 const (
-	SQL_GETADMIN string = "SELECT name, views, cname, introduce, github, mail, bilibili FROM admin limit 1"
 	SQL_PUTADMIN string = "UPDATE admin SET cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1"
 	SQL_PUTPASSWORD string = "UPDATE admin SET password = ? limit 1"
 )
@@ -36,20 +35,21 @@ func CreateAdmin() (string, error) {
 	}
 	admin := Admin{
 		Name:      "Mittacy",
-		Password:  Encryption("admin"),
+		Password:  Encryption("aini1314584"),
+		Views:		 4226,
 		Cname:     "陈铭涛",
 		Introduce: "就读佛山大学 - 大三 - 计算机系",
 		Github:    "https://github.com/crazychat",
 		Mail:      "mail@mittacy.com",
 		Bilibili:  "https://space.bilibili.com/384942135",
 	}
-	stmt, err := mysqlDB.Prepare("INSERT INTO admin(name, password, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?)")
+	stmt, err := mysqlDB.Prepare("INSERT INTO admin(name, password, views, cname, introduce, github, mail, bilibili) values (?,?,?,?,?,?,?,?)")
 	if err != nil {
 		return BACKERROR, err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(admin.Name, admin.Password, admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
+	_, err = stmt.Exec(admin.Name, admin.Password, admin.Views, admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
 	if err != nil {
 		return BACKERROR, err
 	}
@@ -115,6 +115,14 @@ func SetAdmin(admin *Admin) (string, error) {
 			return NO_EXIST, err
 		}
 		return FAILEDERROR, err
+	}
+	// 更新redis缓存
+	adminJson, err := json.Marshal(admin)
+	if err != nil {
+		return BACKERROR, err
+	}
+	if _, err := SaveAdminInfo(adminJson); err != nil {
+		return BACKERROR, err
 	}
 	return CONTROLLER_SUCCESS, nil
 }

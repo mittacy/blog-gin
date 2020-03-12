@@ -59,6 +59,7 @@ func StartTimer() {
 	go func() {
 		for {
 			SaveBlogViews()
+			SaveRecentArticles()
 			now := time.Now()
 			// 计算下一个零点
 			next := now.Add(time.Hour * 24)

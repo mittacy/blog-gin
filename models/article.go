@@ -2,6 +2,8 @@ package models
 
 import (
 	"database/sql"
+	"encoding/json"
+	"fmt"
 	"strconv"
 )
 
@@ -98,11 +100,15 @@ func AddArticleViews(id uint32) (string, error) {
 
 // GetRecentArticles 最近更新的五篇文章
 func GetRecentArticles() ([]Article, string, error) {
-	sql := "SELECT id, created_at, updated_at, title, views FROM article ORDER BY updated_at DESC limit 5"
-	var articles []Article
-	err := mysqlDB.Select(&articles, sql)
+	articlesJson, err := redisDB.Get(recentArticles).Bytes()
 	if err != nil {
 		return nil, BACKERROR, err
 	}
+	var articles []Article
+	err = json.Unmarshal(articlesJson, &articles)
+	if err != nil {
+		return nil, BACKERROR, err
+	}
+	fmt.Println("articles -> ", articles)
 	return articles, CONTROLLER_SUCCESS, nil
 }

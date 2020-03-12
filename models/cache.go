@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -11,6 +13,7 @@ const (
 	TokenName string = "adminToken"
 	BlogViews string = "BlogViews"
 	adminInfo string = "adminInfo"
+	recentArticles string = "recentArticles"
 )
 // SavePassword 缓存密码到redis
 func SavePassword(pwd string) (string, error) {
@@ -48,4 +51,20 @@ func SaveBlogViews() error {
 // SaveAdminInfo 缓存admin信息到redis
 func SaveAdminInfo(adminJson []byte) (string, error) {
 	return BACKERROR, redisDB.Set(adminInfo, adminJson, 0).Err()
+}
+// SaveRecentArticles 缓存首页最近更改的五篇文章
+func SaveRecentArticles() (string, error) {
+	fmt.Println("缓存最近文章")
+	sql := "SELECT id, created_at, updated_at, title, views FROM article ORDER BY updated_at DESC limit 5"
+	var articles []Article
+	err := mysqlDB.Select(&articles, sql)
+	if err != nil {
+		return BACKERROR, err
+	}
+	articlesJson, err := json.Marshal(articles)
+	err = redisDB.Set(recentArticles, articlesJson, 0).Err()
+	if err != nil {
+		return BACKERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
 }
