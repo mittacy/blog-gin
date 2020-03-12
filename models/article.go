@@ -3,7 +3,6 @@ package models
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"strconv"
 )
 
@@ -91,7 +90,7 @@ func GetArticlesCount() (int, string, error) {
 }
 
 // AddArticleViews 添加文章浏览数
-func AddArticleViews(id uint32) (string, error) {
+func AddArticleViews(id int) (string, error) {
 	if _, err := mysqlDB.Exec("UPDATE article SET views = views+1 WHERE id = ?", id); err != nil {
 		return BACKERROR, err
 	}
@@ -109,6 +108,5 @@ func GetRecentArticles() ([]Article, string, error) {
 	if err != nil {
 		return nil, BACKERROR, err
 	}
-	fmt.Println("articles -> ", articles)
 	return articles, CONTROLLER_SUCCESS, nil
 }

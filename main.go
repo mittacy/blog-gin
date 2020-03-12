@@ -61,7 +61,6 @@ func Router(router *gin.Engine) {
 		// 文章
 		api.GET("/articles_recent", controllers.RecentArticles)
 		api.GET("/article/:id", controllers.GetArticle)
-		api.POST("/article/addViews", controllers.AddArticleViews)
 		api.GET("/article_page/:num", controllers.GetPageArticle)
 	}
 	// 需要登录验证的api

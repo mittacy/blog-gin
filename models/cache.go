@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 	"time"
 )
@@ -54,7 +53,6 @@ func SaveAdminInfo(adminJson []byte) (string, error) {
 }
 // SaveRecentArticles 缓存首页最近更改的五篇文章
 func SaveRecentArticles() (string, error) {
-	fmt.Println("缓存最近文章")
 	sql := "SELECT id, created_at, updated_at, title, views FROM article ORDER BY updated_at DESC limit 5"
 	var articles []Article
 	err := mysqlDB.Select(&articles, sql)

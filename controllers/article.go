@@ -34,6 +34,7 @@ func UpdateArticle(c *gin.Context) {
 		return
 	}
 	ResolveResult(c, msg, msg)
+	models.SaveRecentArticles()
 }
 
 // GetArticle 根据id获取文章
@@ -48,6 +49,7 @@ func GetArticle(c *gin.Context) {
 		return
 	}
 	ResolveResult(c, msg, article)
+	models.AddArticleViews(articleID)
 }
 
 // DeleteArticle 根据id删除文章
@@ -89,20 +91,6 @@ func GetPageArticle(c *gin.Context) {
 	result["articleCount"] = ArticleCount
 	result["articles"] = articls
 	ResolveResult(c, models.CONTROLLER_SUCCESS, result)
-}
-
-// AddArticleViews 文章添加浏览量
-func AddArticleViews(c *gin.Context) {
-	getID := GetID{}
-	if !AnalysisJSON(c, &getID) {
-		return
-	}
-	msg, err := models.AddArticleViews(getID.ID)
-	if CheckErr(err, c) {
-		RejectResult(c, msg)
-		return
-	}
-	ResolveResult(c, msg, msg)
 }
 
 // RecentArticles 最近更新的五篇文章
