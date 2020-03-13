@@ -12,3 +12,4 @@ Error:2020/03/06 14:59:19 main.go:14: I'm error
 2020/03/06 15:27:53 base.go:60: POST | /api/admin | Err: Password error
 2020/03/06 16:30:18 main.go:18: sql: unknown driver "mysql" (forgotten import?)
 2020/03/12 17:47:19 base.go:59: GET | /api/articles_recent | Err: json: Unmarshal(non-pointer []models.Article)
+2020/03/13 16:56:46 main.go:22: redis: can't marshal [][]uint8 (implement encoding.BinaryMarshaler)

@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -48,8 +49,23 @@ func SaveBlogViews() error {
 	return nil
 }
 // SaveAdminInfo 缓存admin信息到redis
-func SaveAdminInfo(adminJson []byte) (string, error) {
-	return BACKERROR, redisDB.Set(adminInfo, adminJson, 0).Err()
+func SaveAdminInfo(adminJson ...[]byte) (string, error) {
+	if adminJson != nil {
+		return BACKERROR, redisDB.Set(adminInfo, adminJson, 0).Err()
+	}
+	sql := "SELECT name, views, cname, introduce, github, mail, bilibili FROM admin limit 1"
+	var admin Admin
+	err := mysqlDB.Get(&admin, sql)
+	if err != nil {
+		return BACKERROR, err
+	}
+	adminJson_new, _ := json.Marshal(admin)
+	err = redisDB.Set(adminInfo, adminJson_new, 0).Err()
+	if err != nil {
+		fmt.Println("err: ", err)
+		return BACKERROR, err
+	}
+	return CONTROLLER_SUCCESS, nil
 }
 // SaveRecentArticles 缓存首页最近更改的五篇文章
 func SaveRecentArticles() (string, error) {
@@ -59,7 +75,7 @@ func SaveRecentArticles() (string, error) {
 	if err != nil {
 		return BACKERROR, err
 	}
-	articlesJson, err := json.Marshal(articles)
+	articlesJson, _ := json.Marshal(articles)
 	err = redisDB.Set(recentArticles, articlesJson, 0).Err()
 	if err != nil {
 		return BACKERROR, err

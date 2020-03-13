@@ -42,7 +42,7 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	// 深夜定点保存缓存到mysql
-	models.StartTimer()
+	go models.StartTimer()
 	s.ListenAndServe()
 }
 
