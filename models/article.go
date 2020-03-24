@@ -18,12 +18,12 @@ type Article struct {
 
 // CreateArticle 创建文章model
 func CreateArticle(article *Article) (string, error) {
-	stmt, err := mysqlDB.Prepare("INSERT INTO article(created_at, category_id, title, content) values (?, ?,?,?)")
+	stmt, err := mysqlDB.Prepare("INSERT INTO article(created_at, updated_at, category_id, title, content) values (?,?,?,?,?)")
 	if err != nil {
 		return BACKERROR, err
 	}
 	defer stmt.Close()
-	result, err := stmt.Exec(article.CreatedAt, article.CategoryID, article.Title, article.Content)
+	result, err := stmt.Exec(article.CreatedAt, article.CreatedAt, article.CategoryID, article.Title, article.Content)
 	if err != nil {
 		return BACKERROR, err
 	}
