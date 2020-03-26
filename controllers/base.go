@@ -1,12 +1,10 @@
 package controllers
 
 import (
-	"crypto/md5"
+	"crypto/sha256"
 	"fmt"
 	"github.com/crazychat/blog-gin/models"
 	"github.com/gin-gonic/gin"
-	"io"
-	"strconv"
 	"time"
 )
 
@@ -63,10 +61,10 @@ func CheckErr(err error, c *gin.Context) bool {
 }
 
 // CreateToken 生成token
-func CreateToken() (string, error) {
-	now := time.Now().Unix()
-	h := md5.New()
-	_, err := io.WriteString(h, strconv.FormatInt(now, 10))
+func CreateToken(pwd string) (string, error) {
+	encrpty := []byte(time.Now().String() + pwd)
+	h := sha256.New()
+	_, err := h.Write(encrpty)
 	if err != nil {
 		return "", err
 	}
