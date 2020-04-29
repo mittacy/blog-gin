@@ -47,7 +47,7 @@ func PostAdmin(c *gin.Context) {
 		RejectResult(c, msg)
 		return
 	}
-	tokenStr, err := CreateToken()
+	tokenStr, err := CreateToken(admin.Password)
 	if !CheckErr(err, c) {
 		RejectResult(c, models.BACKERROR)
 		return

@@ -3,7 +3,23 @@
   <component name="ChangeListManager">
     <list default="true" id="3a29983f-5c6b-4b3a-95bc-51ca9a7e2dc9" name="Default Changelist" comment="Default Changelist">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/base.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogErr.log" beforeDir="false" afterPath="$PROJECT_DIR$/blogErr.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/chunk-08edda3f.67251111.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/chunk-101b2b5a.0fb065a3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/chunk-55d37d33.d43a1b8b.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/app.6859ad18.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/app.6859ad18.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-08edda3f.28c81d4c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-08edda3f.28c81d4c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-101b2b5a.a5ce2977.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-101b2b5a.a5ce2977.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-55d37d33.1a02aa57.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-55d37d33.1a02aa57.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/sql.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sql.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,69 +28,30 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
+            <state relative-caret-position="246">
+              <caret line="118" column="320" selection-start-line="118" selection-start-column="310" selection-end-line="118" selection-end-column="320" />
               <folding>
-                <element signature="n#!!block;n#main#1" />
-                <element signature="e#327#366#0" />
-                <element signature="e#439#478#0" />
-                <element signature="e#852#1008#0" />
+                <element signature="e#14#168#0" expanded="true" />
                 <element signature="n#!!block;n#Router#0" />
-                <element signature="e#1155#1701#1" />
-                <element signature="e#1796#2346#1" />
                 <element signature="n#!!block;n#TransparentStatic#0" />
-                <element signature="e#2422#2622#0" />
-                <element signature="e#2492#2519#0" />
-                <element signature="n#!!block;n#CorsMiddleware#0" />
-                <element signature="e#2695#4878#0" />
-                <element signature="e#2890#2933#0" />
-                <element signature="e#3001#3109#0" />
-                <element signature="e#3115#3195#0" />
-                <element signature="e#3214#4749#0" />
-                <element signature="e#4795#4845#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/admin.go">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/sql.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="661">
-              <caret line="151" column="36" selection-start-line="151" selection-start-column="36" selection-end-line="151" selection-end-column="36" />
+            <state relative-caret-position="408">
+              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
               <folding>
-                <element signature="e#109#295#0" />
-                <element signature="e#308#621#0" />
-                <element signature="n#!!block;n#CreateAdmin#0" />
-                <element signature="e#793#830#0" />
-                <element signature="e#846#1117#0" />
-                <element signature="e#1274#1302#0" />
-                <element signature="e#1472#1500#0" />
-                <element signature="e#1571#1599#0" />
-                <element signature="e#1701#1729#0" />
-                <element signature="e#1781#1809#0" />
-                <element signature="e#1960#2006#0" />
-                <element signature="n#!!block;n#GetAdmin#0" />
-                <element signature="e#2400#2433#0" />
-                <element signature="e#2505#2543#0" />
-                <element signature="n#!!block;n#SetAdmin#0" />
-                <element signature="e#2712#2742#0" />
-                <element signature="e#2871#2957#0" />
-                <element signature="e#2899#2928#0" />
-                <element signature="e#3026#3054#0" />
-                <element signature="e#3106#3134#0" />
-                <element signature="n#!!block;n#SetPassword#0" />
-                <element signature="e#3307#3393#0" />
-                <element signature="e#3335#3364#0" />
-                <element signature="e#3483#3513#0" />
-                <element signature="e#3574#3602#0" />
-                <element signature="n#!!block;n#Encryption#0" />
-                <element signature="n#!!block;n#Verify#0" />
-                <element signature="e#3908#3927#0" />
+                <element signature="n#!!block;n#CloseMysql#0" />
+                <element signature="n#!!block;n#CloseRedis#0" />
+                <element signature="n#!!block;n#StartTimer#0" />
               </folding>
             </state>
           </provider>
@@ -91,8 +68,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>CorsMiddleware</find>
-      <find>//</find>
       <find>Views</find>
       <find>GETADMINSQL</find>
       <find>views</find>
@@ -121,6 +96,8 @@
       <find>AddArticleViews</find>
       <find>fmt.</find>
       <find>SaveRecentArticles</find>
+      <find>RUN_MODE</find>
+      <find>SQL_TYPE</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -140,15 +117,15 @@
         <option value="$PROJECT_DIR$/models/ip.go" />
         <option value="$PROJECT_DIR$/controllers/log.go" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/controllers/admin.go" />
         <option value="$PROJECT_DIR$/models/admin.go" />
         <option value="$PROJECT_DIR$/controllers/article.go" />
         <option value="$PROJECT_DIR$/models/msg.go" />
-        <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/models/cache.go" />
-        <option value="$PROJECT_DIR$/models/sql.go" />
         <option value="$PROJECT_DIR$/models/article.go" />
         <option value="$PROJECT_DIR$/controllers/base.go" />
+        <option value="$PROJECT_DIR$/controllers/admin.go" />
+        <option value="$PROJECT_DIR$/models/sql.go" />
+        <option value="$PROJECT_DIR$/main.go" />
       </list>
     </option>
   </component>
@@ -165,6 +142,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -172,21 +150,10 @@
               <item name="blog-gin" type="b2602c69:ProjectViewProjectNode" />
               <item name="blog-gin" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="blog-gin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="blog-gin" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="blog-gin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="blog-gin" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -240,12 +207,12 @@
     <frame x="0" y="23" width="1440" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2453505" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26609442" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32769832" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2236671" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33289987" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -339,9 +306,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/go.mod">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/log.go" />
     <entry file="file://$PROJECT_DIR$/gin.log" />
     <entry file="file://$PROJECT_DIR$/models/conn.go" />
@@ -388,43 +352,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/category.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-          <folding>
-            <element signature="n#!!block;n#GetCategories#0" />
-            <element signature="e#335#371#0" />
-            <element signature="n#!!block;n#GetCategoryName#0" />
-            <element signature="e#544#595#0" />
-            <element signature="e#668#704#0" />
-            <element signature="n#!!block;n#GetPageCategory#0" />
-            <element signature="e#874#925#0" />
-            <element signature="e#1027#1063#0" />
-            <element signature="e#1098#1238#0" />
-            <element signature="e#1172#1211#0" />
-            <element signature="n#!!block;n#CreateCategory#0" />
-            <element signature="e#1530#1543#0" />
-            <element signature="e#1597#1633#0" />
-            <element signature="n#!!block;n#UpdataCategory#0" />
-            <element signature="e#1782#1795#0" />
-            <element signature="e#1856#1892#0" />
-            <element signature="n#!!block;n#GetCategoy#0" />
-            <element signature="e#2047#2098#0" />
-            <element signature="e#2256#2292#0" />
-            <element signature="e#2330#2479#0" />
-            <element signature="e#2414#2453#0" />
-            <element signature="n#!!block;n#DeleteCategory#0" />
-            <element signature="e#2769#2782#0" />
-            <element signature="e#2850#2886#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/app.b0704551.css" />
-    <entry file="file://$PROJECT_DIR$/blogErr.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/binding/binding.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
@@ -465,25 +393,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="328" column="1" lean-forward="true" selection-start-line="328" selection-start-column="1" selection-end-line="328" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/sql.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="57" column="18" selection-start-line="57" selection-start-column="18" selection-end-line="57" selection-end-column="18" />
-          <folding>
-            <element signature="e#128#334#0" />
-            <element signature="n#!!block;n#ConnectMysql#0" />
-            <element signature="e#610#627#0" />
-            <element signature="e#680#697#0" />
-            <element signature="n#!!block;n#CloseMysql#0" />
-            <element signature="n#!!block;n#ConnectRedis#0" />
-            <element signature="e#867#922#0" />
-            <element signature="e#974#991#0" />
-            <element signature="n#!!block;n#CloseRedis#0" />
-            <element signature="n#!!block;n#StartTimer#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -546,22 +455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/article.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="20" column="125" selection-start-line="20" selection-start-column="125" selection-end-line="20" selection-end-column="125" />
-          <folding>
-            <element signature="n#!!block;n#UpdateArticle#0" />
-            <element signature="n#!!block;n#GetArticle#0" />
-            <element signature="n#!!block;n#DeleteArticle#0" />
-            <element signature="n#!!block;n#GetPageArticles#0" />
-            <element signature="n#!!block;n#GetArticlesCount#0" />
-            <element signature="n#!!block;n#AddArticleViews#0" />
-            <element signature="n#!!block;n#GetRecentArticles#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/go/pkg/mod/github.com/gin-gonic/gin@v1.5.0/gin.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -612,72 +505,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/admin.go">
+    <entry file="file://$PROJECT_DIR$/controllers/category.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="47" column="10" lean-forward="true" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
+        <state relative-caret-position="720">
+          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
           <folding>
-            <element signature="n#!!block;n#GetAdmin#0" />
-            <element signature="e#408#463#0" />
-            <element signature="e#540#553#0" />
-            <element signature="e#621#825#0" />
-            <element signature="e#683#790#0" />
-            <element signature="e#986#1035#0" />
-            <element signature="e#1097#1133#0" />
-            <element signature="n#!!block;n#PutAdmin#0" />
-            <element signature="e#1320#1333#0" />
-            <element signature="n#!!block;n#PutAdminPwd#0" />
-            <element signature="e#1596#1609#0" />
-            <element signature="e#1680#1716#0" />
-            <element signature="n#!!block;n#Verify#0" />
-            <element signature="e#1882#1930#0" />
-            <element signature="e#1974#2022#0" />
+            <element signature="n#!!block;n#GetCategories#0" />
+            <element signature="n#!!block;n#GetCategoryName#0" />
+            <element signature="n#!!block;n#GetPageCategory#0" />
+            <element signature="n#!!block;n#CreateCategory#0" />
+            <element signature="n#!!block;n#UpdataCategory#0" />
+            <element signature="n#!!block;n#GetCategoy#0" />
+            <element signature="n#!!block;n#DeleteCategory#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/base.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="65" column="19" lean-forward="true" selection-start-line="65" selection-start-column="19" selection-end-line="65" selection-end-column="19" />
+        <state relative-caret-position="804">
+          <caret line="63" column="20" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="20" />
           <folding>
-            <element signature="e#21#145#0" expanded="true" />
             <element signature="n#!!block;n#httpCode#0" />
             <element signature="n#!!block;n#CheckAdmin#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
+    <entry file="file://$PROJECT_DIR$/controllers/admin.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
-          <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
           <folding>
-            <element signature="n#!!block;n#main#1" />
-            <element signature="e#327#366#0" />
-            <element signature="e#439#478#0" />
-            <element signature="e#852#1008#0" />
-            <element signature="n#!!block;n#Router#0" />
-            <element signature="e#1155#1701#1" />
-            <element signature="e#1796#2346#1" />
-            <element signature="n#!!block;n#TransparentStatic#0" />
-            <element signature="e#2422#2622#0" />
-            <element signature="e#2492#2519#0" />
-            <element signature="n#!!block;n#CorsMiddleware#0" />
-            <element signature="e#2695#4878#0" />
-            <element signature="e#2890#2933#0" />
-            <element signature="e#3001#3109#0" />
-            <element signature="e#3115#3195#0" />
-            <element signature="e#3214#4749#0" />
-            <element signature="e#4795#4845#0" />
+            <element signature="n#!!block;n#GetAdmin#0" />
+            <element signature="n#!!block;n#PostAdmin#0" />
+            <element signature="e#408#463#0" />
+            <element signature="e#540#553#0" />
+            <element signature="e#621#825#0" />
+            <element signature="e#683#790#0" />
+            <element signature="n#!!block;n#PutAdmin#0" />
+            <element signature="n#!!block;n#PutAdminPwd#0" />
+            <element signature="n#!!block;n#Verify#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/article.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="20" column="125" selection-start-line="20" selection-start-column="125" selection-end-line="20" selection-end-column="125" />
+          <folding>
+            <element signature="n#!!block;n#UpdateArticle#0" />
+            <element signature="n#!!block;n#GetArticle#0" />
+            <element signature="n#!!block;n#DeleteArticle#0" />
+            <element signature="n#!!block;n#GetPageArticles#0" />
+            <element signature="n#!!block;n#GetArticlesCount#0" />
+            <element signature="n#!!block;n#AddArticleViews#0" />
+            <element signature="n#!!block;n#GetRecentArticles#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/admin.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="151" column="36" selection-start-line="151" selection-start-column="36" selection-end-line="151" selection-end-column="36" />
+        <state relative-caret-position="624">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
           <folding>
             <element signature="e#109#295#0" />
             <element signature="e#308#621#0" />
@@ -689,6 +581,7 @@
             <element signature="e#1571#1599#0" />
             <element signature="e#1701#1729#0" />
             <element signature="e#1781#1809#0" />
+            <element signature="n#!!block;n#CheckPassword#0" />
             <element signature="e#1960#2006#0" />
             <element signature="n#!!block;n#GetAdmin#0" />
             <element signature="e#2400#2433#0" />
@@ -707,6 +600,36 @@
             <element signature="n#!!block;n#Encryption#0" />
             <element signature="n#!!block;n#Verify#0" />
             <element signature="e#3908#3927#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/go.mod">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blogErr.log">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/sql.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding>
+            <element signature="n#!!block;n#CloseMysql#0" />
+            <element signature="n#!!block;n#CloseRedis#0" />
+            <element signature="n#!!block;n#StartTimer#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="118" column="320" selection-start-line="118" selection-start-column="310" selection-end-line="118" selection-end-column="320" />
+          <folding>
+            <element signature="e#14#168#0" expanded="true" />
+            <element signature="n#!!block;n#Router#0" />
+            <element signature="n#!!block;n#TransparentStatic#0" />
           </folding>
         </state>
       </provider>

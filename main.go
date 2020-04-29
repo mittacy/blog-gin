@@ -31,11 +31,11 @@ func main() {
 	// 过滤前端请求
 	router.Use(TransparentStatic())
 	// api路由
-	//router.Use(CorsMiddleware())	// todo 上线前关闭跨域允许
+	router.Use(CorsMiddleware())	// todo 上线前关闭跨域允许
 	router.Use(gin.Recovery())
 	Router(router)
 	s := &http.Server{
-		Addr:           ":5201",
+		Addr:           ":3824",
 		Handler:        router,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,

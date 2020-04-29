@@ -8,12 +8,11 @@ import (
 )
 
 var (
-	RUN_MODE     string = "debug"
-	SQL_TYPE     string = "mysql"
-	SQL_USER     string = "root"
-	SQL_PASSWORD string = "aini1314584"
-	SQL_HOST     string = "127.0.0.1:3306"
-	SQL_DATABASE string = "blog"
+	localhost		 string = "127.0.0.1"
+	mysqlUser     string = "root"
+	mysqlPassword string = "aini1314584"
+	mysqlHost     string = localhost + ":3306"
+	mysqlDatabase string = "blog"
 )
 
 var redisDB	*redis.Client
@@ -22,8 +21,8 @@ var mysqlDB *sqlx.DB
 // ConnectMysql 连接mysql数据库
 func ConnectMysql() error {
 	// 获取配置文件数据
-	par := SQL_USER + ":" + SQL_PASSWORD + "@tcp(" + SQL_HOST + ")/" + SQL_DATABASE
-	mysqlDB, _ = sqlx.Open(SQL_TYPE, par)
+	par := mysqlUser + ":" + mysqlPassword + "@tcp(" + mysqlHost + ")/" + mysqlDatabase
+	mysqlDB, _ = sqlx.Open("mysql", par)
 	if err := mysqlDB.Ping(); err != nil {
 		return err
 	}
@@ -40,7 +39,7 @@ func CloseMysql() {
 // ConnectRedis 获取Redis连接
 func ConnectRedis() error {
 	redisDB = redis.NewClient(&redis.Options{
-		Addr: "localhost:6379",
+		Addr: localhost + ":6379",
 		Password: "",
 		DB: 0,
 	})
