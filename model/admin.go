@@ -1,4 +1,4 @@
-package database
+package model
 
 type Admin struct {
 	ID        uint32	`json:"id"`

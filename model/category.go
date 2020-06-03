@@ -1,4 +1,4 @@
-package database
+package model
 
 type Category struct {
 	ID           uint32 `json:"id" db:"id"`
