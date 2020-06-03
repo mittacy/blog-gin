@@ -1,3 +1,5 @@
 2020/04/25 17:29:08 main.go:18: dial tcp: lookup host.docker.internal: no such host
 2020/04/28 12:05:24 main.go:18: dial tcp 172.17.0.1:6379: i/o timeout
 2020/04/29 11:21:26 main.go:17: dial tcp 172.17.0.1:6379: connect: connection refused
+2020/06/03 20:42:15 main.go:18: dial tcp 127.0.0.1:6379: connect: connection refused
+2020/06/03 20:42:54 main.go:22: Error 1049: Unknown database 'blog'
