@@ -1,14 +1,15 @@
 package cache
 
-var token string
+var adminToken string
+const TokenName = "adminToken"
 
 func SetToken(str string) {
-	token = str
+	adminToken = str
 }
 
 func GetToken() (string, bool) {
-	if token == "" {
-		return token, false
+	if adminToken == "" {
+		return adminToken, false
 	}
-	return token, true
+	return adminToken, true
 }

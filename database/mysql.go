@@ -14,7 +14,7 @@ const (
 )
 
 var InitAdmin = model.Admin {
-	Name:      "Mittacy",
+	Name:      "mittacy",
 	Password:  "123456",
 	Views:		 7156,
 	Cname:     "陈铭涛",

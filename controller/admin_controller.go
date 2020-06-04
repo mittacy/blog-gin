@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/crazychat/blog-gin/cache"
 	"github.com/crazychat/blog-gin/common"
+	"github.com/crazychat/blog-gin/database"
 	"github.com/crazychat/blog-gin/log"
 	"github.com/crazychat/blog-gin/model"
 	"github.com/crazychat/blog-gin/models"
@@ -17,6 +18,7 @@ type IAdminController interface {
 	Put(c *gin.Context)
 	PutPassword(c *gin.Context)
 	Verify(c *gin.Context)
+	InitAdmin() error
 }
 
 type AdminController struct {
@@ -28,7 +30,10 @@ func GetAdminController() IAdminController {
 	adminService := service.NewAdminService(repo)
 	return &AdminController{adminService}
 }
-
+// InitAdmin 初始化Admin
+func (ac *AdminController) InitAdmin() error {
+	return ac.AdminService.CreateAdmin(&database.InitAdmin)
+}
 // Get 获取管理员信息
 func (ac *AdminController) Get(c *gin.Context) {
 	// 1. 取数据
@@ -91,18 +96,19 @@ func (ac *AdminController) Put(c *gin.Context) {
 	admin := &model.Admin{}
 	if err := c.ShouldBindJSON(&admin); err != nil {
 		log.RecordLog(c, err)
+		common.RejectResult(c, common.ANALYSIS_ERROR, &model.Admin{})
 		return
 	}
 	// 2. 修改
 	err := ac.AdminService.UpdateAdminInfo(admin)
 	if err != nil {
 		log.RecordLog(c, err)
-		common.RejectResult(c, common.ANALYSIS_ERROR, &model.Admin{})
+		common.RejectResult(c, common.BACKERROR, &model.Admin{})
 		return
 	}
 	// 3. 更新缓存器
-	common.ResolveResult(c, common.CONTROLLER_SUCCESS, admin)
 	cache.UpdateAdminInfo(admin)
+	common.ResolveResult(c, common.CONTROLLER_SUCCESS, admin)
 }
 // PutPassword 修改管理员密码
 func (ac *AdminController) PutPassword(c *gin.Context) {
@@ -127,7 +133,7 @@ func (ac *AdminController) PutPassword(c *gin.Context) {
 // Verify 验证登录
 func (ac *AdminController) Verify(c *gin.Context) {
 	// 1. 获取请求token
-	adminToken := c.Request.Header.Get(models.TokenName)
+	adminToken := c.Request.Header.Get(cache.TokenName)
 	if adminToken == "" {
 		common.RejectResult(c, common.NO_POWER, &model.Admin{})
 		return

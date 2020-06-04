@@ -9,6 +9,9 @@ import (
 
 func Router(router *gin.Engine) {
 	adminController := controller.GetAdminController()
+	if err := adminController.InitAdmin(); err != nil {
+		log.ErrLogger.Fatalln(err)
+	}
 	// 不需要登录验证的api
 	api := router.Group("/api")
 	{
@@ -27,7 +30,8 @@ func Router(router *gin.Engine) {
 	}
 	// 需要登录验证的api
 	apiVerfiry := router.Group("/api")
-	apiVerfiry.Use(controllers.CheckAdmin())
+
+	apiVerfiry.Use(VerifyMiddleware())
 	{
 		// 日志文件
 		apiVerfiry.GET("/errlog", log.GetErrorLog)

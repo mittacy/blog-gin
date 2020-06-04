@@ -6,6 +6,7 @@ import (
 
 var adminInfo *model.Admin	// 保存admin的信息
 var adminPwd string	// admin加密的密码
+var adminView int	// admin新增访问量
 
 // UpdateAdminInfo 设置admin缓存
 func UpdateAdminInfo(admin *model.Admin) {
@@ -29,5 +30,13 @@ func GetAdminPwd() (string, bool) {
 		return adminPwd, false
 	}
 	return adminPwd, true
+}
+// UpdateAdminView 新增博客访问量
+func UpdateAdminView() {
+	adminView++
+}
+// GetAdminView 获取博客缓存的单日新增访问量
+func GetAdminView() int {
+	return adminView
 }
 

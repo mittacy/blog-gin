@@ -2,6 +2,9 @@ package router
 
 import (
 	"fmt"
+	"github.com/crazychat/blog-gin/cache"
+	"github.com/crazychat/blog-gin/common"
+	"github.com/crazychat/blog-gin/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -14,8 +17,8 @@ func StaticMiddleware() gin.HandlerFunc {
 			c.Next()
 			return
 		}
-		// todo 增加博客访问量
-		//models.IncrBlogViews()
+		// 增加博客访问量
+		cache.UpdateAdminView()
 		c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		return
 	}
@@ -54,5 +57,24 @@ func CorsMiddleware() gin.HandlerFunc {
 		}
 		// 处理请求
 		c.Next() //  处理请求
+	}
+}
+// VerifyMiddleware 中间件, 检查权限
+func VerifyMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 1. 获取请求token
+		adminToken := c.Request.Header.Get(cache.TokenName)
+		if adminToken == "" {
+			common.RejectResult(c, common.NO_POWER, &model.Admin{})
+			return
+		}
+		// 2. 获取数据库tokne
+		token, isExist := cache.GetToken()
+		if !isExist || adminToken != token {
+			common.RejectResult(c, common.NO_POWER, &model.Admin{})
+			return
+		}
+		// 3. 验证通过
+		c.Next()
 	}
 }

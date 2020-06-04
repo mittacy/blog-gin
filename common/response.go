@@ -8,8 +8,8 @@ import (
 func ResolveResult(c *gin.Context, msg string, data interface{}) {
 	c.JSON(httpCode(msg), gin.H {
 		"code": 1,
-		"data": data,
 		"msg": msg,
+		"data": data,
 	})
 }
 // RejectResult 失败, 返回错误信息

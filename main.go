@@ -17,7 +17,7 @@ func main() {
 	r := gin.Default()
 	// 2. 设置日志
 	log.InitLog()
-	defer controllers.CloseLogFile()
+	defer log.CloseLogFile()
 	// 3. 中间件
 	r.Use(router.StaticMiddleware())
 	//r.Use(router.CorsMiddleware())	// todo 上线前关闭跨域允许
@@ -30,7 +30,7 @@ func main() {
 		log.ErrLogger.Fatalln(err)
 	}
 	defer database.CloseMysql()
-
+	// **********
 	if err := models.ConnectRedis(); err != nil {
 		controllers.ErrLogger.Fatal(err)
 	}
@@ -63,41 +63,4 @@ func main() {
 
 	s.ListenAndServe()
 }
-
-//func Router(router *gin.Engine) {
-//	// 不需要登录验证的api
-//	api := router.Group("/api")
-//	{
-//		api.POST("/admin", controllers.PostAdmin)
-//		api.GET("/verify", controllers.Verify)
-//		api.GET("/admin", controllers.GetAdmin)
-//		// 分类
-//		api.GET("/category_name/:id", controllers.GetCategoryName)
-//		api.GET("/categories", controllers.GetCategories)
-//		api.GET("/category_page/:num", controllers.GetPageCategory)
-//		api.GET("/category/:id/:num", controllers.GetCategoy)
-//		// 文章
-//		api.GET("/articles_recent", controllers.RecentArticles)
-//		api.GET("/article/:id", controllers.GetArticle)
-//		api.GET("/article_page/:num", controllers.GetPageArticle)
-//	}
-//	// 需要登录验证的api
-//	apiVerfiry := router.Group("/api")
-//	apiVerfiry.Use(controllers.CheckAdmin())
-//	{
-//		// 日志文件
-//		apiVerfiry.GET("/errlog", controllers.GetErrorLog)
-//		// 管理员
-//		apiVerfiry.PUT("/admin", controllers.PutAdmin)
-//		apiVerfiry.PUT("/admin/setpwd", controllers.PutAdminPwd)
-//		// 分类
-//		apiVerfiry.POST("/category", controllers.CreateCategory)
-//		apiVerfiry.PUT("/category", controllers.UpdataCategory)
-//		apiVerfiry.DELETE("/category", controllers.DeleteCategory)
-//		// 文章
-//		apiVerfiry.POST("/article", controllers.CreateArticle)
-//		apiVerfiry.PUT("/article", controllers.UpdateArticle)
-//		apiVerfiry.DELETE("/article", controllers.DeleteArticle)
-//	}
-//}
 

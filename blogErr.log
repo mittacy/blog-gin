@@ -3,3 +3,4 @@
 2020/04/29 11:21:26 main.go:17: dial tcp 172.17.0.1:6379: connect: connection refused
 2020/06/03 20:42:15 main.go:18: dial tcp 127.0.0.1:6379: connect: connection refused
 2020/06/03 20:42:54 main.go:22: Error 1049: Unknown database 'blog'
+2020/06/04 21:28:00 main.go:39: redis: can't marshal [][]uint8 (implement encoding.BinaryMarshaler)

@@ -47,7 +47,7 @@ func CheckIPRequestPower(ip string) bool {
 		return true
 	}
 	// ip存在，判断请求次数是否超过五次
-	times, err := database.RedisGet(ip)
+	times, err := cache.RedisGet(ip)
 	if err != nil {
 		fmt.Println(times, err)
 		return false	// redis崩溃, 停止所有ip登录
@@ -61,10 +61,10 @@ func CheckIPRequestPower(ip string) bool {
 }
 // IncrIP ip记录加1
 func IncrIP(ip string) error {
-	return database.RedisIncr(ip)
+	return cache.RedisIncr(ip)
 }
 // DelIP 删除ip记录
 func DelIP(ip string) error {
-	return database.RedisDel(ip)
+	return cache.RedisDel(ip)
 }
 
