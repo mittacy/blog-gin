@@ -2,11 +2,11 @@ package cache
 
 var token string
 
-func CacheToken(str string) {
+func SetToken(str string) {
 	token = str
 }
 
-func GetCacheToken() (string, bool) {
+func GetToken() (string, bool) {
 	if token == "" {
 		return token, false
 	}

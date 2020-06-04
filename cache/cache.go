@@ -11,7 +11,7 @@ func InitCache() error {
 	if err != nil {
 		return err
 	}
-	CacheAdminInfo(admin)
+	UpdateAdminInfo(admin)
 	// 2. category 缓存
 	// 3. article 缓存
 	return nil

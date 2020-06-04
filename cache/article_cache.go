@@ -1,8 +1,6 @@
 package cache
 
 import (
-	"errors"
-	"github.com/crazychat/blog-gin/common"
 	"github.com/crazychat/blog-gin/model"
 )
 
@@ -12,10 +10,10 @@ func CacheArticles(as []*model.Article) {
 	articles = as
 }
 
-func GetCacheArticlesByPage(page int) ([]*model.Article, error) {
+func GetCacheArticlesByPage(page int) ([]*model.Article, bool) {
 	if articles == nil {
-		return nil, errors.New(common.NO_CACHE)
+		return nil, false
 	}
 	// todo 修改页面
-	return articles[:], nil
+	return articles[:], true
 }

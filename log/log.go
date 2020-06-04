@@ -25,6 +25,12 @@ func InitLog() {
 	ErrLogger = log.New(io.MultiWriter(os.Stderr,errFile),"",log.Ldate | log.Ltime | log.Lshortfile)
 }
 
+// RecordLog 记录日志
+func RecordLog(c *gin.Context, err error) {
+	str := c.Request.Method + " | " + c.FullPath() + " | Err: " + err.Error()
+	ErrLogger.Println(str)
+}
+
 // GetErrorLog 获取博客错误日志文件内容
 func GetErrorLog(c *gin.Context) {
 	fi, err := os.Open(filePath)
