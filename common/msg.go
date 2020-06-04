@@ -13,4 +13,5 @@ const (
 	NAMEERROR          string = "Name error"
 	PASSWORDERROR      string = "Password error"
 	LOGINFREQUENTLY    string = "Retry after one hour"
+	NO_CACHE					 string = "No Cache"
 )
