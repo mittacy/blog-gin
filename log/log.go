@@ -15,7 +15,7 @@ var ErrLogger *log.Logger
 const filePath = "blogErr.log"
 
 // 日志文件
-func init() {
+func InitLog() {
 	// 创建日志文件
 	var err error
 	errFile, err = os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)

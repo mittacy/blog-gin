@@ -1,8 +1,10 @@
 package main
 
 import (
+	"github.com/crazychat/blog-gin/cache"
 	"github.com/crazychat/blog-gin/controllers"
 	"github.com/crazychat/blog-gin/database"
+	"github.com/crazychat/blog-gin/log"
 	"github.com/crazychat/blog-gin/models"
 	"github.com/crazychat/blog-gin/router"
 	"github.com/gin-gonic/gin"
@@ -14,18 +16,18 @@ func main() {
 	// 1. 创建 Gin 框架
 	r := gin.Default()
 	// 2. 设置日志
-	// 日志处理	controllers/log.go init()已经打开文件, 此处关闭
+	log.InitLog()
 	defer controllers.CloseLogFile()
 	// 3. 中间件
 	r.Use(router.StaticMiddleware())
 	//r.Use(router.CorsMiddleware())	// todo 上线前关闭跨域允许
 	// 4. 数据库连接
 	if err := database.ConnectRedis(); err != nil {
-		controllers.ErrLogger.Fatal(err)
+		log.ErrLogger.Fatalln(err)
 	}
 	defer database.CloseRedis()
 	if err := database.ConnectMysql(); err != nil {
-		controllers.ErrLogger.Fatal(err)
+		log.ErrLogger.Fatalln(err)
 	}
 	defer database.CloseMysql()
 
@@ -46,6 +48,10 @@ func main() {
 	router.Router(r)
 	// 7. todo 设置深夜定时更新缓存到数据库
 	//go models.StartTimer()
+	// 8. 设置缓存
+	if err := cache.InitCache(); err != nil {
+		log.ErrLogger.Fatalln(err)
+	}
 	// 8. 启动服务
 	s := &http.Server{
 		Addr:           ":3824",
