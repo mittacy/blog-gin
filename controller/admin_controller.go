@@ -3,7 +3,6 @@ package controller
 import (
 	"github.com/crazychat/blog-gin/cache"
 	"github.com/crazychat/blog-gin/common"
-	"github.com/crazychat/blog-gin/database"
 	"github.com/crazychat/blog-gin/log"
 	"github.com/crazychat/blog-gin/model"
 	"github.com/crazychat/blog-gin/models"
@@ -32,16 +31,18 @@ func GetAdminController() IAdminController {
 }
 // InitAdmin 初始化Admin
 func (ac *AdminController) InitAdmin() error {
-	return ac.AdminService.CreateAdmin(&database.InitAdmin)
+	return ac.AdminService.CreateAdmin(&common.InitAdmin)
 }
 // Get 获取管理员信息
 func (ac *AdminController) Get(c *gin.Context) {
-	// 1. 取数据
+	// 1. 从缓存器或数据库取数据（不包含密码）
 	admin, err := ac.AdminService.GetAdminInfo()
 	if err != nil {
 		log.RecordLog(c, err)
-		common.RejectResult(c, common.BACKERROR, admin)
+		common.RejectResult(c, common.BACKERROR, &model.Admin{})
+		return
 	}
+	// 2. 返回前端
 	common.ResolveResult(c, common.CONTROLLER_SUCCESS, admin)
 }
 // Post 登录管理员
@@ -64,15 +65,17 @@ func (ac *AdminController) Post(c *gin.Context) {
 		return
 	}
 	// 3. 验证用户名密码是否正确
-	pwd, err := ac.AdminService.GetAdminPassword()
+	adminRight, err := ac.AdminService.GetAdmin()
 	if err != nil {
 		log.RecordLog(c, err)
 		common.RejectResult(c, common.BACKERROR, &model.Admin{})
 		return
 	}
-	// 用户名密码错误
-	admin.Password = common.Encryption(admin.Password)
-	if admin.Password != pwd {
+	// 用户名或密码错误
+	if admin.Name != adminRight.Name {
+		common.RejectResult(c, common.NAMEERROR, &model.Admin{})
+		return
+	} else if common.Encryption(admin.Password) != adminRight.Password {
 		common.RejectResult(c, common.PASSWORDERROR, &model.Admin{})
 		return
 	}
@@ -86,8 +89,9 @@ func (ac *AdminController) Post(c *gin.Context) {
 		common.RejectResult(c, common.BACKERROR, &model.Admin{})
 		return
 	}
-	// 5. 缓存token
+	// 5. 返回结果
 	common.ResolveResult(c, models.CONTROLLER_SUCCESS, tokenStr)
+	// 6. 缓存token
 	common.SaveToken(tokenStr)
 }
 // Put 修改管理员信息
@@ -106,8 +110,7 @@ func (ac *AdminController) Put(c *gin.Context) {
 		common.RejectResult(c, common.BACKERROR, &model.Admin{})
 		return
 	}
-	// 3. 更新缓存器
-	cache.UpdateAdminInfo(admin)
+	// 3. 返回结果
 	common.ResolveResult(c, common.CONTROLLER_SUCCESS, admin)
 }
 // PutPassword 修改管理员密码
@@ -120,15 +123,14 @@ func (ac *AdminController) PutPassword(c *gin.Context) {
 		return
 	}
 	// 2. 修改
-	err := ac.AdminService.UpdatePassword(admin)
+	err := ac.AdminService.UpdateAdminPassword(admin)
 	if err != nil {
 		common.RejectResult(c, common.BACKERROR, &model.Admin{})
 		log.RecordLog(c, err)
 		return
 	}
-	// 3. 更新缓存器
+	// 3. 返回结果
 	common.ResolveResult(c, common.CONTROLLER_SUCCESS, &model.Admin{})
-	cache.UpdateAdminInfo(admin)
 }
 // Verify 验证登录
 func (ac *AdminController) Verify(c *gin.Context) {

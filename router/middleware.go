@@ -18,7 +18,7 @@ func StaticMiddleware() gin.HandlerFunc {
 			return
 		}
 		// 增加博客访问量
-		cache.UpdateAdminView()
+		cache.UpdateAdminViewCache()
 		c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		return
 	}

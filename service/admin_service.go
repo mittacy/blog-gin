@@ -9,9 +9,9 @@ import (
 type IAdminService interface {
 	CreateAdmin(*model.Admin) error
 	UpdateAdminInfo(*model.Admin) error
-	UpdatePassword(*model.Admin) error
+	UpdateAdminPassword(*model.Admin) error
 	GetAdminInfo() (*model.Admin, error)
-	GetAdminPassword() (string, error)
+	GetAdmin() (*model.Admin, error)
 }
 
 func NewAdminService(repository repository.IAdminRepository) IAdminService {
@@ -30,47 +30,56 @@ func (as *AdminService) CreateAdmin(admin *model.Admin) error {
 }
 // UpdateAdminInfo 更新管理员信息
 func (as *AdminService) UpdateAdminInfo(admin *model.Admin) error {
-	// 1. 更新到缓冲器
-	cache.UpdateAdminInfo(admin)
+	// 1. 更新到缓冲器，不更新密码，所以需要保持一下密码
+	temp, isExist := cache.GetAdminCache()
+	if isExist {
+		admin.Password = temp.Password
+		cache.UpdateAdminCache(admin)
+	}
 	// 2. 更新到数据库
 	return as.AdminRepository.Update(admin)
 }
 // UpdatePassword 更新管理员密码
-func (as *AdminService) UpdatePassword(admin *model.Admin) error {
-	// 1. 更新到缓冲器
-	cache.UpdateAdminPwd(admin.Password)
+func (as *AdminService) UpdateAdminPassword(admin *model.Admin) error {
+	// 1. 更新到缓冲器，只更新密码
+	temp, isExist := cache.GetAdminCache()
+	if isExist {
+		temp.Password = admin.Password
+		cache.UpdateAdminCache(temp)
+	}
 	// 2. 更新到数据库
 	return as.AdminRepository.UpdatePassword(admin)
 }
 // GetAdminInfo 获取管理员信息(不包含密码)
 func (as *AdminService) GetAdminInfo() (*model.Admin, error) {
 	// 1. 从缓存器取数据
-	admin, isExist := cache.GetAdminInfo()
-	if isExist {
-		return admin, nil
+	admin, isExist := cache.GetAdminCache()
+	if !isExist {
+		var err error
+		// 2. 从数据库取数据，并缓存到缓存器
+		admin, err = as.AdminRepository.Select()
+		if err != nil {
+			return &model.Admin{}, err
+		}
+		cache.UpdateAdminCache(admin)	// 缓存
 	}
-	// 2. 从数据库取数据，并缓存到缓存器
-	admin, err := as.AdminRepository.Select()
-	if err != nil {
-		return admin, err
-	}
-	admin.Password = "**********" // 隐藏密码
-	cache.UpdateAdminInfo(admin)	// 隐藏密码后缓存，保证缓存器中的admin不包含密码
+	// 3. 隐藏密码
+	admin.Password = "**********"
 	return admin, nil
 }
-// GetAdminPassword 获取管理员加密的密码
-func (as *AdminService) GetAdminPassword() (string, error) {
+// GetAdmin 获取管理员信息(包含密码)
+func (as *AdminService) GetAdmin() (*model.Admin, error) {
 	// 1. 从缓存器取数据
-	pwd, isExist := cache.GetAdminPwd()
-	if isExist {
-		return pwd, nil
+	admin, isExist := cache.GetAdminCache()
+	if !isExist {
+		var err error
+		// 2. 从数据库取数据，并缓存到缓存器
+		admin, err = as.AdminRepository.Select()
+		if err != nil {
+			return &model.Admin{}, err
+		}
+		cache.UpdateAdminCache(admin)	// 缓存
 	}
-	// 2. 从数据库取数据，并缓存到缓存器
-	admin, err := as.AdminRepository.Select()
-	if err != nil {
-		return "", err
-	}
-	cache.UpdateAdminPwd(admin.Password)
-	return admin.Password, nil
+	return admin, nil
 }
 
