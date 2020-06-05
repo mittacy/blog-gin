@@ -2,6 +2,9 @@ package common
 
 import "github.com/crazychat/blog-gin/model"
 
+const PageCategoryNums = 10	// 每页展示的分类数量
+const PageArticleNums = 10 // 每页展示的文章数量
+
 var InitAdmin = model.Admin {
 	Name:      "admin",
 	Password:  Encryption("admin"),
