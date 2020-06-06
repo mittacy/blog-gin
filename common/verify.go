@@ -1,38 +1,17 @@
 package common
 
 import (
-	"crypto/md5"
-	"crypto/sha256"
 	"fmt"
 	"github.com/crazychat/blog-gin/cache"
 	"github.com/crazychat/blog-gin/database"
-	"io"
-	"time"
 )
 
 const (
 	ipMaxTimes string = "5"
 )
-
-// Encryption 密码加密
-func Encryption(data string) string {
-	h := md5.New()
-	io.WriteString(h, data)
-	return fmt.Sprintf("%x", h.Sum(nil))
-}
-// CreateToken 生成token
-func CreateToken(pwd string) (string, error) {
-	encrpty := []byte(time.Now().String() + pwd)
-	h := sha256.New()
-	_, err := h.Write(encrpty)
-	if err != nil {
-		return "", err
-	}
-	return fmt.Sprintf("%x", h.Sum(nil)), nil
-}
 // SaveToken 保存token到redis
 func SaveToken(token string) {
- cache.SetToken(token)
+	cache.SetToken(token)
 }
 // CheckIPRequestPower 检查ip是否访问次数过多
 func CheckIPRequestPower(ip string) bool {

@@ -8,10 +8,11 @@ import (
 )
 
 func Router(router *gin.Engine) {
-	adminController := controller.GetAdminController()
+	adminController := controller.NewAdminController()
 	if err := adminController.InitAdmin(); err != nil {
 		log.ErrLogger.Fatalln(err)
 	}
+	categoryController := controller.NewCategoryController()
 	// 不需要登录验证的api
 	api := router.Group("/api")
 	{
@@ -19,9 +20,9 @@ func Router(router *gin.Engine) {
 		api.GET("/verify", adminController.Verify)
 		api.GET("/admin", adminController.Get)
 		// 分类
-		api.GET("/category_name/:id", controllers.GetCategoryName)
-		api.GET("/categories", controllers.GetCategories)
-		api.GET("/category_page/:num", controllers.GetPageCategory)
+		api.GET("/category_name/:id", categoryController.GetByID)
+		api.GET("/categories", categoryController.GetAll)
+		api.GET("/category_page/:num", categoryController.GetByPage)
 		api.GET("/category/:id/:num", controllers.GetCategoy)
 		// 文章
 		api.GET("/articles_recent", controllers.RecentArticles)
@@ -39,9 +40,9 @@ func Router(router *gin.Engine) {
 		apiVerfiry.PUT("/admin", adminController.Put)
 		apiVerfiry.PUT("/admin/setpwd", adminController.PutPassword)
 		// 分类
-		apiVerfiry.POST("/category", controllers.CreateCategory)
-		apiVerfiry.PUT("/category", controllers.UpdataCategory)
-		apiVerfiry.DELETE("/category", controllers.DeleteCategory)
+		apiVerfiry.POST("/category", categoryController.Post)
+		apiVerfiry.PUT("/category", categoryController.Put)
+		apiVerfiry.DELETE("/category", categoryController.Delete)
 		// 文章
 		apiVerfiry.POST("/article", controllers.CreateArticle)
 		apiVerfiry.PUT("/article", controllers.UpdateArticle)

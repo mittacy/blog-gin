@@ -1,21 +1,24 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/crazychat/blog-gin/cache"
 	"github.com/crazychat/blog-gin/common"
+	"github.com/crazychat/blog-gin/config"
 	"github.com/crazychat/blog-gin/log"
 	"github.com/crazychat/blog-gin/model"
 	"github.com/crazychat/blog-gin/models"
 	"github.com/crazychat/blog-gin/repository"
 	"github.com/crazychat/blog-gin/service"
+	"github.com/crazychat/blog-gin/utiles"
 	"github.com/gin-gonic/gin"
 )
 
 type IAdminController interface {
-	Get(c *gin.Context)
 	Post(c *gin.Context)
 	Put(c *gin.Context)
 	PutPassword(c *gin.Context)
+	Get(c *gin.Context)
 	Verify(c *gin.Context)
 	InitAdmin() error
 }
@@ -23,27 +26,15 @@ type IAdminController interface {
 type AdminController struct {
 	AdminService service.IAdminService
 }
-// GetAdminController 获取Admin控制器
-func GetAdminController() IAdminController {
+// NewAdminController 获取Admin控制器
+func NewAdminController() IAdminController {
 	repo := repository.NewAdminRepository("admin")
 	adminService := service.NewAdminService(repo)
 	return &AdminController{adminService}
 }
 // InitAdmin 初始化Admin
 func (ac *AdminController) InitAdmin() error {
-	return ac.AdminService.CreateAdmin(&common.InitAdmin)
-}
-// Get 获取管理员信息
-func (ac *AdminController) Get(c *gin.Context) {
-	// 1. 从缓存器或数据库取数据（不包含密码）
-	admin, err := ac.AdminService.GetAdminInfo()
-	if err != nil {
-		log.RecordLog(c, err)
-		common.RejectResult(c, common.BACKERROR, &model.Admin{})
-		return
-	}
-	// 2. 返回前端
-	common.ResolveResult(c, common.CONTROLLER_SUCCESS, admin)
+	return ac.AdminService.CreateAdmin(&config.InitAdmin)
 }
 // Post 登录管理员
 func (ac *AdminController) Post(c *gin.Context) {
@@ -72,10 +63,12 @@ func (ac *AdminController) Post(c *gin.Context) {
 		return
 	}
 	// 用户名或密码错误
+	fmt.Println("输入的密码: ", utiles.Encryption(admin.Password))
+	fmt.Println("数据库的密码: ", adminRight.Password)
 	if admin.Name != adminRight.Name {
 		common.RejectResult(c, common.NAMEERROR, &model.Admin{})
 		return
-	} else if common.Encryption(admin.Password) != adminRight.Password {
+	} else if utiles.Encryption(admin.Password) != adminRight.Password {
 		common.RejectResult(c, common.PASSWORDERROR, &model.Admin{})
 		return
 	}
@@ -83,7 +76,7 @@ func (ac *AdminController) Post(c *gin.Context) {
 	if err := common.DelIP(ip); err != nil {
 		log.RecordLog(c, err)
 	}
-	tokenStr, err := common.CreateToken(admin.Password)
+	tokenStr, err := utiles.CreateToken(admin.Password)
 	if err != nil {
 		log.RecordLog(c, err)
 		common.RejectResult(c, common.BACKERROR, &model.Admin{})
@@ -96,14 +89,14 @@ func (ac *AdminController) Post(c *gin.Context) {
 }
 // Put 修改管理员信息
 func (ac *AdminController) Put(c *gin.Context) {
-	// 1. 解析json数据到结构体admin
+	// 1. 解析json数据到结构体
 	admin := &model.Admin{}
-	if err := c.ShouldBindJSON(&admin); err != nil {
+	if err := c.ShouldBindJSON(admin); err != nil {
 		log.RecordLog(c, err)
 		common.RejectResult(c, common.ANALYSIS_ERROR, &model.Admin{})
 		return
 	}
-	// 2. 修改
+	// 2. 操作数据库
 	err := ac.AdminService.UpdateAdminInfo(admin)
 	if err != nil {
 		log.RecordLog(c, err)
@@ -123,6 +116,7 @@ func (ac *AdminController) PutPassword(c *gin.Context) {
 		return
 	}
 	// 2. 修改
+	admin.Password = utiles.Encryption(admin.Password)
 	err := ac.AdminService.UpdateAdminPassword(admin)
 	if err != nil {
 		common.RejectResult(c, common.BACKERROR, &model.Admin{})
@@ -131,6 +125,18 @@ func (ac *AdminController) PutPassword(c *gin.Context) {
 	}
 	// 3. 返回结果
 	common.ResolveResult(c, common.CONTROLLER_SUCCESS, &model.Admin{})
+}
+// Get 获取管理员信息
+func (ac *AdminController) Get(c *gin.Context) {
+	// 1. 从缓存器或数据库取数据（不包含密码）
+	admin, err := ac.AdminService.GetAdminInfo()
+	if err != nil {
+		log.RecordLog(c, err)
+		common.RejectResult(c, common.BACKERROR, &model.Admin{})
+		return
+	}
+	// 2. 返回前端
+	common.ResolveResult(c, common.CONTROLLER_SUCCESS, admin)
 }
 // Verify 验证登录
 func (ac *AdminController) Verify(c *gin.Context) {

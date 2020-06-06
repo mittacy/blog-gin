@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/crazychat/blog-gin/common"
+	"github.com/crazychat/blog-gin/config"
 	"github.com/crazychat/blog-gin/model"
 )
 
@@ -14,8 +14,8 @@ func UpdateArticleCache(articles []*model.Article) {
 }
 // GetArticleByPageCache 通过page获取文章
 func GetArticleByPageCache(page int) []*model.Article {
-	start := page * common.PageArticleNums
-	end := page * common.PageArticleNums + common.PageArticleNums
+	start := page * config.PageArticleNums
+	end := page *config.PageArticleNums + config.PageArticleNums
 	return articleCache[start:end]
 }
 

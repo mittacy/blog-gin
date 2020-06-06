@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"time"
 )
 
 var errFile *os.File
@@ -29,6 +30,10 @@ func InitLog() {
 func RecordLog(c *gin.Context, err error) {
 	str := c.Request.Method + " | " + c.FullPath() + " | Err: " + err.Error()
 	ErrLogger.Println(str)
+}
+
+func RecordErr(err error) {
+	ErrLogger.Println(time.Now(), "Err: ", err)
 }
 
 // GetErrorLog 获取博客错误日志文件内容

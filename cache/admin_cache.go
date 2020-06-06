@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"fmt"
 	"github.com/crazychat/blog-gin/model"
 )
 
@@ -9,14 +10,16 @@ var adminViewCache int	// admin新增访问量
 
 // UpdateAdminCache 设置admin缓存
 func UpdateAdminCache(admin *model.Admin) {
+	fmt.Println("*****修改了缓存****")
 	adminCache = admin
 }
 // GetAdminCache 获取admin缓存
-func GetAdminCache() (*model.Admin, bool) {
+func GetAdminCache() (model.Admin, bool) {
+
 	if adminCache == nil {
-		return nil, false
+		return *adminCache, false
 	}
-	return adminCache, true
+	return *adminCache, true
 }
 // UpdateAdminViewCache 新增博客访问量
 func UpdateAdminViewCache() {

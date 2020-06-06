@@ -20,6 +20,7 @@ func main() {
 	defer log.CloseLogFile()
 	// 3. 中间件
 	r.Use(router.StaticMiddleware())
+	r.Use(router.CorsMiddleware())
 	//r.Use(router.CorsMiddleware())	// todo 上线前关闭跨域允许
 	// 4. 数据库连接
 	if err := database.ConnectRedis(); err != nil {
@@ -52,7 +53,7 @@ func main() {
 	if err := cache.InitCache(); err != nil {
 		log.ErrLogger.Fatalln(err)
 	}
-	// 8. 启动服务
+	// 9. 启动服务
 	s := &http.Server{
 		Addr:           ":3824",
 		Handler:        r,
