@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/crazychat/blog-gin/cache"
+	"github.com/crazychat/blog-gin/common"
 	"github.com/crazychat/blog-gin/database"
 	"github.com/crazychat/blog-gin/log"
 	"github.com/crazychat/blog-gin/router"
@@ -38,7 +39,8 @@ func main() {
 	//r.Use(router.CorsMiddleware()) // todo 上线前关闭跨域允许
 	// 6. 设置路由
 	router.Router(r)
-	// 7. todo 设置深夜定时更新缓存到数据库
+	// 7. 设置深夜定时更新缓存到数据库
+	go common.StartTimer()
 	// 8. 设置缓存
 	if err := cache.InitCache(); err != nil {
 		log.ErrLogger.Fatalln(err)

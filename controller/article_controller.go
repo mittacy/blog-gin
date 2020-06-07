@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/crazychat/blog-gin/cache"
 	"github.com/crazychat/blog-gin/common"
 	"github.com/crazychat/blog-gin/config"
 	"github.com/crazychat/blog-gin/log"
@@ -102,6 +103,7 @@ func (ac *ArticleController) GetByID(c *gin.Context) {
 	}
 	// 3. 返回结果
 	common.ResolveResult(c, common.CONTROLLER_SUCCESS, article)
+	cache.AddArticleViews(uint32(id))
 }
 
 func (ac *ArticleController) GetByPage(c *gin.Context) {

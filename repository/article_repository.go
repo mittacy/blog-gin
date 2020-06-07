@@ -12,6 +12,7 @@ type IArticleRepository interface {
 	Add(article *model.Article) error
 	Delete(int) error
 	Update(article *model.Article) error
+	UpdateViews(id uint32, views int) error
 	Select() ([]model.Article, error)
 	SelectByID(id int) (*model.Article, error)
 	SelectByPage(page, onePageArticleCount int) ([]model.Article, int, error)
@@ -94,6 +95,24 @@ func (ar *ArticleRepository) Update(article *model.Article) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(article.UpdatedAt, article.CategoryID, article.Title, article.Content, article.ID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ar *ArticleRepository) UpdateViews(id uint32, views int) error {
+	if err := ar.Conn(); err != nil {
+		return err
+	}
+	sqlStr := "update " + ar.table + " set views = views + ? WHERE id = ?"
+	stmt, err := ar.mysqlConn.Prepare(sqlStr)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(views, id)
 	if err != nil {
 		return err
 	}

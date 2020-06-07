@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"time"
 )
 
 var errFile *os.File
@@ -31,7 +30,7 @@ func RecordLog(c *gin.Context, err error) {
 }
 
 func RecordErr(err error) {
-	ErrLogger.Println(time.Now(), "Err: ", err)
+	ErrLogger.Println(err)
 }
 
 func CloseLogFile() {

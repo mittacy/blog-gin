@@ -1,3 +1,4 @@
-2020/06/07 16:44:20 log.go:30: POST | /api/admin | Err: ERR value is not an integer or out of range
-2020/06/07 16:46:10 log.go:30: POST | /api/admin | Err: ERR value is not an integer or out of range
-2020/06/07 16:47:07 log.go:30: POST | /api/admin | Err: ERR value is not an integer or out of range
+2020/06/07 20:17:41 log.go:33: 更新博客新增访问量到数据库成功
+2020/06/07 20:17:41 log.go:33: 更新文章新增访问量到数据库成功
+2020/06/07 20:18:00 log.go:33: 更新博客新增访问量到数据库成功
+2020/06/07 20:18:00 log.go:33: 更新文章新增访问量到数据库成功

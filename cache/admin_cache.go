@@ -28,12 +28,13 @@ func GetAdminCache() (model.Admin, bool) {
 	}
 	return *adminCache, true
 }
-// UpdateAdminViewCache 新增博客访问量
-func UpdateAdminViewCache() {
+// AdminViewCacheIncr 新增博客访问量
+func AdminViewCacheIncr() {
 	adminViewCache++
 }
-// GetAdminViewCache 获取博客缓存的单日新增访问量
-func GetAdminViewCache() int {
-	return adminViewCache
+// UpdateViewsToDatabase 更新博客新增访问量到数据库
+func UpdateViewsToDatabase() error {
+	repo := repository.NewAdminRepository("admin")
+	return repo.UpdateViews(adminViewCache)
 }
 

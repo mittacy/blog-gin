@@ -10,6 +10,7 @@ var (
 	articleCache []model.Article // 全部文章简介缓存
 	articleCacheIndex = make(map[uint32]int)  // // 记录article在articleCache中的位置
 	recentArticleCache []model.Article // 最新五篇文章缓存
+	articleAddViewsMap = make(map[uint32]int, 10) // 记录一天内文章是否被访问过, key为文章id，value为新增访问量
 )
 
 func InitArticleCache() error {
@@ -102,4 +103,19 @@ func updateArticleCacheIndex() {
 	for i, v := range articleCache {
 		articleCacheIndex[v.ID] = i
 	}
+}
+// AddArticleViews 增加文章访问量
+func AddArticleViews(id uint32) {
+	articleAddViewsMap[id]++
+}
+// UpdateArticleViewsToDatabase 更新文章访问量到数据库
+func UpdateArticleViewsToDatabase() error {
+	repo := repository.NewArticleRepository("article")
+	var err error
+	for i, v := range articleAddViewsMap {
+		if err = repo.UpdateViews(i, v); err != nil {
+			return err
+		}
+	}
+	return nil
 }

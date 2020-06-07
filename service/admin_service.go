@@ -30,7 +30,7 @@ func (as *AdminService) CreateAdmin(admin *model.Admin) error {
 }
 // UpdateAdminInfo 更新管理员信息
 func (as *AdminService) UpdateAdminInfo(admin *model.Admin) error {
-	// 1. 更新到缓冲器，不更新密码，所以需要保持一下密码
+	// 1. 更新到缓冲器，不更新密码，所以需要保存一下密码
 	temp, isExist := cache.GetAdminCache()
 	if isExist {
 		admin.Password = temp.Password

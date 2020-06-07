@@ -14,6 +14,7 @@ type IAdminRepository interface {
 	UpdatePassword(admin *model.Admin) error
 	Select() (*model.Admin, error)
 	SelectExist() bool
+	UpdateViews(views int) error
 }
 
 func NewAdminRepository(table string) IAdminRepository {
@@ -111,4 +112,22 @@ func (amr *AdminManagerRepository) SelectExist() bool {
 		return true
 	}
 	return false
+}
+// UpdateViews 更新博客访问量
+func (amr *AdminManagerRepository) UpdateViews(views int) error {
+	if err := amr.Conn(); err != nil {
+		return err
+	}
+	sqlStr := "update " + amr.table + " set views = views + ? limit 1"
+	stmt, err := amr.mysqlConn.Prepare(sqlStr)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(views)
+	if err != nil {
+		return err
+	}
+	return nil
 }
