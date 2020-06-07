@@ -12,17 +12,14 @@ import (
 )
 
 func main() {
-	// 1. 创建 Gin 框架
+	// 1. 创建 Gin 框架 todo 上线改成gin.New()
 	r := gin.Default()
 	// 2. 设置日志
 	if err := log.InitLog(); err != nil {
 		fmt.Println(err)
 	}
 	defer log.CloseLogFile()
-	// 3. 中间件
-	r.Use(router.StaticMiddleware())
-	r.Use(router.CorsMiddleware()) // todo 上线前关闭跨域允许
-	// 4. 数据库连接
+	// 3. 数据库连接
 	if err := database.ConnectRedis(); err != nil {
 		log.ErrLogger.Fatalln(err)
 	}
@@ -31,11 +28,14 @@ func main() {
 		log.ErrLogger.Fatalln(err)
 	}
 	defer database.CloseMysql()
-	// 5. 加载静态文件
+	// 4. 加载静态文件
 	r.Static("/css", "./css")
 	r.Static("/js", "./js")
 	r.Static("/index.html", "./index.html")
 	r.LoadHTMLFiles("index.html")
+	// 5. 中间件
+	r.Use(router.StaticMiddleware())
+	//r.Use(router.CorsMiddleware()) // todo 上线前关闭跨域允许
 	// 6. 设置路由
 	router.Router(r)
 	// 7. todo 设置深夜定时更新缓存到数据库

@@ -61,14 +61,14 @@ func (amr *AdminManagerRepository) Update(admin *model.Admin) error {
 	if err := amr.Conn(); err != nil {
 		return err
 	}
-	sqlStr := "UPDATE " + amr.table + " SET cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1"
+	sqlStr := "UPDATE " + amr.table + " SET name = ?, cname = ?, introduce = ?, github = ?, mail = ?, bilibili = ? limit 1"
 	stmt, err := amr.mysqlConn.Prepare(sqlStr)
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
+	_, err = stmt.Exec(admin.Name, admin.Cname, admin.Introduce, admin.Github, admin.Mail, admin.Bilibili)
 	if err != nil {
 		return err
 	}

@@ -15,11 +15,11 @@ func StaticMiddleware() gin.HandlerFunc {
 		url := c.Request.URL.String()
 		if strings.Index(url, "api") >= 0 {
 			c.Next()
-			return
+		} else {
+			// todo 增加博客访问量
+			cache.UpdateAdminViewCache()
+			c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		}
-		// 增加博客访问量
-		cache.UpdateAdminViewCache()
-		c.HTML(200, "index.html", gin.H{"msg": "Success"})
 		return
 	}
 }
