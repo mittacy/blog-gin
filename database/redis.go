@@ -1,21 +1,16 @@
 package database
 
 import (
-	"github.com/go-redis/redis"
+	//"github.com/go-redis/redis"
+	"github.com/gomodule/redigo/redis"
 )
 
-var RedisDB *redis.Client
+var RedisDB redis.Conn
 
-// ConnectRedis 获取Redis连接
-func ConnectRedis() error {
-	RedisDB = redis.NewClient(&redis.Options{
-		Addr: localhost + ":6379",
-		Password: "",
-		DB: 0,
-	})
-	_, err := RedisDB.Ping().Result()
+func ConnectRedis() (err error) {
+	RedisDB, err = redis.Dial("tcp", localhost + ":6379")
 	if err != nil {
-		return err
+		return
 	}
 	return nil
 }
@@ -24,4 +19,5 @@ func ConnectRedis() error {
 func CloseRedis() {
 	RedisDB.Close()
 }
+
 

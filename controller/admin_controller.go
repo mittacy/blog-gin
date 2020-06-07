@@ -38,12 +38,12 @@ func (ac *AdminController) InitAdmin() error {
 func (ac *AdminController) Post(c *gin.Context) {
 	ip := c.ClientIP()
 	// 1. 检查ip访问次数是否超过
-	if !common.CheckIPRequestPower(ip) {
+	if times, err := cache.GetIPTimes(ip); err != nil || times > config.IPPostTimes {
 		common.RejectResult(c, common.LOGINFREQUENTLY, &model.Admin{})
 		return
 	}
 	// 不超过，可以访问，增加ip访问记录
-	if err := common.IncrIP(ip); err != nil {
+	if err := cache.IPIncr(ip); err != nil {
 		log.RecordLog(c, err)
 	}
 	// 2. 解析json数据到结构体admin
@@ -69,7 +69,7 @@ func (ac *AdminController) Post(c *gin.Context) {
 		return
 	}
 	// 4. 正确 -> 删除ip错误记录，生成 token 返回
-	if err := common.DelIP(ip); err != nil {
+	if err := cache.IPDel(ip); err != nil {
 		log.RecordLog(c, err)
 	}
 	tokenStr, err := utiles.CreateToken(admin.Password)
