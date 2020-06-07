@@ -7,7 +7,7 @@ import (
 
 const PageCategoryNums = 10	// 每页展示的分类数量
 const PageArticleNums = 10 // 每页展示的文章数量
-const ProhibitIPTime = 60 // ip错误次数过多禁止访问时长, 单位为 秒
+const ProhibitIPTime = 3600 // ip错误次数过多禁止访问时长, 单位为 秒
 const IPPostTimes = 5	// ip ProhibitIPTime时间内连续请求次数
 
 var InitAdmin = model.Admin {

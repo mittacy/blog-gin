@@ -9,7 +9,7 @@ import (
 const (
 	localhost			string = "127.0.0.1"
 	mysqlUser     string = "root"
-	mysqlPassword string = "aini1314584"
+	mysqlPassword string = "**********"
 	mysqlHost     string = localhost + ":3306"
 	mysqlDatabase string = "blog"
 )

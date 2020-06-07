@@ -14,7 +14,7 @@ import (
 
 func main() {
 	// 1. 创建 Gin 框架 todo 上线改成gin.New()
-	r := gin.Default()
+	r := gin.New()
 	// 2. 设置日志
 	if err := log.InitLog(); err != nil {
 		fmt.Println(err)
@@ -35,6 +35,7 @@ func main() {
 	r.Static("/index.html", "./index.html")
 	r.LoadHTMLFiles("index.html")
 	// 5. 中间件
+	r.Use(gin.Recovery())
 	r.Use(router.StaticMiddleware())
 	//r.Use(router.CorsMiddleware()) // todo 上线前关闭跨域允许
 	// 6. 设置路由
