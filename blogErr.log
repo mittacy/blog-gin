@@ -17,3 +17,4 @@
 2020/06/07 10:45:28 log.go:31: GET | /api/article/:id | Err: nil pointer passed to StructScan destination
 2020/06/07 11:24:02 log.go:31: PUT | /api/article | Err: sql: expected 5 arguments, got 4
 2020/06/07 11:39:14 log.go:31: POST | /api/category | Err: Error 1062: Duplicate entry 'test2' for key 'category.title'
+2020/06/07 11:56:54 log.go:31: GET | /api/article/:id | Err: sql: no rows in result set

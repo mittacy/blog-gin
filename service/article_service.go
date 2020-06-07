@@ -30,9 +30,9 @@ func (as *ArticleService) CreateArticle(article model.Article) error {
 		return err
 	}
 	// 2. 更新到缓存区
-	cache.AddArticleCache(article)
+	go cache.AddArticleCache(article)
 	// 3. 更新分类缓存
-	cache.UpdateCategoryCacheIncr(article.CategoryID)
+	go cache.UpdateCategoryCacheIncr(article.CategoryID)
 	return nil
 }
 

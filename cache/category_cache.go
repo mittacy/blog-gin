@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"fmt"
 	"github.com/crazychat/blog-gin/config"
 	"github.com/crazychat/blog-gin/model"
 	"github.com/crazychat/blog-gin/repository"
@@ -18,10 +17,6 @@ func InitCategoryCache() error {
 		return err
 	}
 	SetCategoryCache(categories)
-	fmt.Println("缓存categories成功，缓存器如下:")
-	fmt.Println("categoryCache", categoryCache)
-	fmt.Println("categoryCacheIndex", categoryCacheIndex)
-	fmt.Println()
 	return nil
 }
 

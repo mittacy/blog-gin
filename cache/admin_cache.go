@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"fmt"
 	"github.com/crazychat/blog-gin/model"
 	"github.com/crazychat/blog-gin/repository"
 )
@@ -15,16 +14,11 @@ func InitAdminCache() error {
 		return err
 	}
 	UpdateAdminCache(admin)
-	fmt.Println("缓存admin成功，缓存器如下:")
-	fmt.Println("adminCache", adminCache)
-	fmt.Println("adminViewCache", adminViewCache)
-	fmt.Println()
 	return nil
 }
 
 // UpdateAdminCache 设置admin缓存
 func UpdateAdminCache(admin *model.Admin) {
-	fmt.Println("*****修改了缓存****")
 	adminCache = admin
 }
 // GetAdminCache 获取admin缓存
