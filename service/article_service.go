@@ -8,12 +8,13 @@ import (
 )
 
 type IArticleService interface {
-	CreateArticle(model.Article) error
-	DeleteArticle(int) error
-	UpdateArticle(model.Article) error
-	GetArticleByID(int) (*model.Article, error)
-	GetArticlesByPage(int, int) ([]model.Article, int, error)
+	CreateArticle(article model.Article) error
+	DeleteArticle(id int) error
+	UpdateArticle(article model.Article) error
+	GetArticleByID(id int) (*model.Article, error)
+	GetArticlesByPage(page, onePageArticleNum int) ([]model.Article, int, error)
 	GetRecent() ([]model.Article, error)
+	GetArticlesByCateID(cateID, onePageArticleNum, page int) ([]model.Article, int, error)
 }
 
 func NewArticleService(repo repository.IArticleRepository) IArticleService {
@@ -111,6 +112,11 @@ func (as *ArticleService) GetRecent() (articles []model.Article, err error) {
 	// 2. 从数据库取数据
 	articles, err = as.ArticleRepository.SelectRecent()
 	return
+}
+
+func (as *ArticleService) GetArticlesByCateID(cateID, onePageArticleNum, page int) ([]model.Article, int, error) {
+	// 1. 数据库取数据
+	return as.ArticleRepository.SelectByCategoryID(cateID, onePageArticleNum, page)
 }
 
 

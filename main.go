@@ -17,14 +17,11 @@ func main() {
 	// 2. 设置日志
 	if err := log.InitLog(); err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println("创建日志文件成功")
 	}
 	defer log.CloseLogFile()
 	// 3. 中间件
 	r.Use(router.StaticMiddleware())
-	r.Use(router.CorsMiddleware())
-	//r.Use(router.CorsMiddleware())	// todo 上线前关闭跨域允许
+	r.Use(router.CorsMiddleware()) // todo 上线前关闭跨域允许
 	// 4. 数据库连接
 	if err := database.ConnectRedis(); err != nil {
 		log.ErrLogger.Fatalln(err)
@@ -42,7 +39,6 @@ func main() {
 	// 6. 设置路由
 	router.Router(r)
 	// 7. todo 设置深夜定时更新缓存到数据库
-	//go models.StartTimer()
 	// 8. 设置缓存
 	if err := cache.InitCache(); err != nil {
 		log.ErrLogger.Fatalln(err)

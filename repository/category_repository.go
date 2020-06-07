@@ -9,12 +9,12 @@ import (
 
 type ICategoryRepository interface {
 	Conn() error
-	Add(model.Category) error
+	Add(cate model.Category) error
 	Delete(int) error
-	Update(model.Category) error
+	Update(cate model.Category) error
 	Select() ([]model.Category, error)
-	SelectByID(int) (*model.Category, error)
-	SelectByPage(int, int) ([]model.Category, int, error)
+	SelectByID(id int) (*model.Category, error)
+	SelectByPage(page, onePageCategoryNum int) ([]model.Category, int, error)
 }
 
 func NewCategoryRepository(table string) ICategoryRepository {

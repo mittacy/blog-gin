@@ -10,7 +10,7 @@ import (
 
 var errFile *os.File
 var ErrLogger *log.Logger
-const FilePath = "blogErr.log"
+const FilePath = "./log/blogErr.log"
 
 // 日志文件
 func InitLog() error {

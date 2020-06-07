@@ -9,13 +9,14 @@ import (
 
 type IArticleRepository interface {
 	Conn() error
-	Add(*model.Article) error
+	Add(article *model.Article) error
 	Delete(int) error
-	Update(*model.Article) error
+	Update(article *model.Article) error
 	Select() ([]model.Article, error)
-	SelectByID(int) (*model.Article, error)
-	SelectByPage(int, int) ([]model.Article, int, error)
+	SelectByID(id int) (*model.Article, error)
+	SelectByPage(page, onePageArticleCount int) ([]model.Article, int, error)
 	SelectRecent() ([]model.Article, error)
+	SelectByCategoryID(cateID, onePageArticleCount, page int) ([]model.Article, int, error)
 }
 
 func NewArticleRepository(table string) IArticleRepository {
@@ -146,3 +147,19 @@ func (ar *ArticleRepository) SelectRecent() (articles []model.Article, err error
 	return
 }
 
+func (ar *ArticleRepository) SelectByCategoryID(cateID, onePageArticleCount, page int) (articles []model.Article, articleCount int, err error) {
+	if err = ar.Conn(); err != nil {
+		return
+	}
+	// 1. 查询 articles
+	startIndex := strconv.Itoa(page * onePageArticleCount)
+	sqlStr := "select id, created_at, updated_at, title, views from " + ar.table + " where category_id = ? order by id desc limit  " + startIndex + ", " + strconv.Itoa(onePageArticleCount)
+	articles = []model.Article{}
+	if err = ar.mysqlConn.Select(&articles, sqlStr, cateID); err != nil {
+		return
+	}
+	// 2. 查询 articleCount
+	sqlStr = "select count(*) from " + ar.table + " where category_id = ?"
+	err = ar.mysqlConn.QueryRow(sqlStr, cateID).Scan(&articleCount)
+	return
+}

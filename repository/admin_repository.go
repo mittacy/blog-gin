@@ -9,9 +9,9 @@ import (
 
 type IAdminRepository interface {
 	Conn() error
-	Add(*model.Admin) error
-	Update(*model.Admin) error
-	UpdatePassword(*model.Admin) error
+	Add(admin *model.Admin) error
+	Update(admin *model.Admin) error
+	UpdatePassword(admin *model.Admin) error
 	Select() (*model.Admin, error)
 	SelectExist() bool
 }

@@ -8,12 +8,12 @@ import (
 )
 
 type ICategoryService interface {
-	CreateCategory(model.Category) error
-	DeleteCategory(int) error
-	UpdateCategory(model.Category) error
-	GetCategoryByID(int) (*model.Category, error)
+	CreateCategory(category model.Category) error
+	DeleteCategory(id int) error
+	UpdateCategory(category model.Category) error
+	GetCategoryByID(id int) (*model.Category, error)
 	GetCategories() ([]model.Category, error)
-	GetCategoriesByPage(int, int) ([]model.Category, int, error)
+	GetCategoriesByPage(page, onePageCategoryNum int) ([]model.Category, int, error)
 }
 
 func NewCategoryService(repository repository.ICategoryRepository) ICategoryService {

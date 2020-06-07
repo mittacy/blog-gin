@@ -23,11 +23,11 @@ func Router(router *gin.Engine) {
 		api.GET("/category_name/:id", categoryController.GetByID)
 		api.GET("/categories", categoryController.GetAll)
 		api.GET("/category_page/:num", categoryController.GetByPage)
-		//api.GET("/category/:id/:num", controllers.GetCategoy)
 		// 文章
 		api.GET("/articles_recent", articleController.GetRecent)
 		api.GET("/article/:id", articleController.GetByID)
 		api.GET("/article_page/:num", articleController.GetByPage)
+		api.GET("/category/:id/:num", articleController.GetByCategoryID)
 	}
 	// 需要登录验证的api
 	apiVerify := router.Group("/api")

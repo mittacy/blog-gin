@@ -7,7 +7,6 @@ import (
 	"github.com/crazychat/blog-gin/config"
 	"github.com/crazychat/blog-gin/log"
 	"github.com/crazychat/blog-gin/model"
-	"github.com/crazychat/blog-gin/models"
 	"github.com/crazychat/blog-gin/repository"
 	"github.com/crazychat/blog-gin/service"
 	"github.com/crazychat/blog-gin/utiles"
@@ -83,7 +82,7 @@ func (ac *AdminController) Post(c *gin.Context) {
 		return
 	}
 	// 5. 返回结果
-	common.ResolveResult(c, models.CONTROLLER_SUCCESS, tokenStr)
+	common.ResolveResult(c, common.CONTROLLER_SUCCESS, tokenStr)
 	// 6. 缓存token
 	common.SaveToken(tokenStr)
 }

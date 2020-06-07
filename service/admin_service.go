@@ -7,9 +7,9 @@ import (
 )
 
 type IAdminService interface {
-	CreateAdmin(*model.Admin) error
-	UpdateAdminInfo(*model.Admin) error
-	UpdateAdminPassword(*model.Admin) error
+	CreateAdmin(admin *model.Admin) error
+	UpdateAdminInfo(admin *model.Admin) error
+	UpdateAdminPassword(admin *model.Admin) error
 	GetAdminInfo() (*model.Admin, error)
 	GetAdmin() (*model.Admin, error)
 }

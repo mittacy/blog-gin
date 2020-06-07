@@ -18,6 +18,7 @@ type IArticleController interface {
 	GetByID(*gin.Context)
 	GetByPage(*gin.Context)
 	GetRecent(*gin.Context)
+	GetByCategoryID(*gin.Context)
 }
 
 func NewArticleController() IArticleController {
@@ -136,4 +137,27 @@ func (ac *ArticleController) GetRecent(c *gin.Context) {
 	}
 	// 3. 返回结果
 	common.ResolveResult(c, common.CONTROLLER_SUCCESS, articles)
+}
+
+func (ac *ArticleController) GetByCategoryID(c *gin.Context) {
+	// 1. 解析请求
+	cateID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.RecordLog(c, err)
+		common.RejectResult(c, common.ANALYSIS_ERROR, &[]model.Article{})
+		return
+	}
+	page, err := strconv.Atoi(c.Param("num"))
+	if err != nil {
+		log.RecordLog(c, err)
+		common.RejectResult(c, common.ANALYSIS_ERROR, &[]model.Category{})
+		return
+	}
+	// 2. 操作数据库
+	articles, articleCount, err := ac.ArticleService.GetArticlesByCateID(cateID, config.PageArticleNums ,page)
+	// 3. 返回结果
+	result := make(map[string]interface{}, 0)
+	result["articleCount"] = articleCount
+	result["articles"] = articles
+	common.ResolveResult(c, common.CONTROLLER_SUCCESS, result)
 }
