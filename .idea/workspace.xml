@@ -3,49 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="3a29983f-5c6b-4b3a-95bc-51ca9a7e2dc9" name="Default Changelist" comment="Default Changelist">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogErr.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/article.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/base.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/category.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/log.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/chunk-557b2fe7.d1219f3e.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/chunk-bada88b8.0bcc9a12.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/mysql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/app.2f07be7c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/app.2f07be7c.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-28e16e76.f660918a.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-28e16e76.f660918a.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-31494e93.a29315c0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-31494e93.a29315c0.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-3c658ba4.9c3da18c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-3c658ba4.9c3da18c.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-44c8b642.12c9ac08.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-44c8b642.12c9ac08.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-4657e64a.ec859783.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-4657e64a.ec859783.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-49e539d6.ab826f73.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-49e539d6.ab826f73.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-557b2fe7.7e5701c3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-557b2fe7.7e5701c3.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-71e5a842.d7436a1e.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-71e5a842.d7436a1e.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-bada88b8.5c9e971f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-bada88b8.5c9e971f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-f0af07e0.4c3e73f6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-f0af07e0.4c3e73f6.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-f8d8758e.40e767dc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-f8d8758e.40e767dc.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-vendors.cefff5dc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chunk-vendors.cefff5dc.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/app.969d70db.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/app.969d70db.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-bada88b8.287a354b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chunk-bada88b8.287a354b.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/blogErr.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/blogErr.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/admin.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/article.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cache.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/category.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/ip.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/msg.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sql.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/middleware.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,26 +92,26 @@
     <proxy>https://goproxy.cn</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1238" height="436" key="GridCell.Tab.0.bottom" timestamp="1591522746881">
+    <state width="1238" height="354" key="GridCell.Tab.0.bottom" timestamp="1591538996927">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="436" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1591522746881" />
-    <state width="1238" height="436" key="GridCell.Tab.0.center" timestamp="1591522746881">
+    <state width="1238" height="354" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1591538996927" />
+    <state width="1238" height="354" key="GridCell.Tab.0.center" timestamp="1591538996925">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="436" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1591522746881" />
-    <state width="1238" height="436" key="GridCell.Tab.0.left" timestamp="1591522746880">
+    <state width="1238" height="354" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1591538996925" />
+    <state width="1238" height="354" key="GridCell.Tab.0.left" timestamp="1591538996923">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="436" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1591522746880" />
-    <state width="1238" height="436" key="GridCell.Tab.0.right" timestamp="1591522746881">
+    <state width="1238" height="354" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1591538996923" />
+    <state width="1238" height="354" key="GridCell.Tab.0.right" timestamp="1591538996926">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="436" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1591522746881" />
-    <state x="296" y="152" width="688" height="518" key="find.popup" timestamp="1591521297660">
+    <state width="1238" height="354" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1591538996926" />
+    <state x="296" y="152" width="688" height="518" key="find.popup" timestamp="1591529683576">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state x="296" y="152" width="688" height="518" key="find.popup/0.23.1280.777@0.23.1280.777" timestamp="1591521297660" />
+    <state x="296" y="152" width="688" height="518" key="find.popup/0.23.1280.777@0.23.1280.777" timestamp="1591529683576" />
   </component>
   <component name="masterDetails">
     <states>
