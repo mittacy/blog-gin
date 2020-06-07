@@ -1,11 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/crazychat/blog-gin/cache"
-	"github.com/crazychat/blog-gin/controllers"
 	"github.com/crazychat/blog-gin/database"
 	"github.com/crazychat/blog-gin/log"
-	"github.com/crazychat/blog-gin/models"
 	"github.com/crazychat/blog-gin/router"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -16,7 +15,11 @@ func main() {
 	// 1. 创建 Gin 框架
 	r := gin.Default()
 	// 2. 设置日志
-	log.InitLog()
+	if err := log.InitLog(); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("创建日志文件成功")
+	}
 	defer log.CloseLogFile()
 	// 3. 中间件
 	r.Use(router.StaticMiddleware())
@@ -31,15 +34,6 @@ func main() {
 		log.ErrLogger.Fatalln(err)
 	}
 	defer database.CloseMysql()
-	// **********
-	if err := models.ConnectRedis(); err != nil {
-		controllers.ErrLogger.Fatal(err)
-	}
-	defer models.CloseRedis()
-	if err := models.ConnectMysql(); err != nil {
-		controllers.ErrLogger.Fatal(err)
-	}
-	defer models.CloseMysql()
 	// 5. 加载静态文件
 	r.Static("/css", "./css")
 	r.Static("/js", "./js")

@@ -14,7 +14,7 @@ var InitAdmin = model.Admin {
 	Views:     7156,
 	Cname:     "陈铭涛",
 	Introduce: "就读佛山大学 - 大三 - 计算机系",
-	Github:    "https://github.com/crazychat",
+	Github:    "https://github.com/mittacy",
 	Mail:      "mail@mittacy.com",
 	Bilibili:  "https://space.bilibili.com/384942135",
 }

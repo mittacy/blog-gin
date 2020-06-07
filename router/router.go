@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/crazychat/blog-gin/controller"
-	"github.com/crazychat/blog-gin/controllers"
 	"github.com/crazychat/blog-gin/log"
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +23,7 @@ func Router(router *gin.Engine) {
 		api.GET("/category_name/:id", categoryController.GetByID)
 		api.GET("/categories", categoryController.GetAll)
 		api.GET("/category_page/:num", categoryController.GetByPage)
-		api.GET("/category/:id/:num", controllers.GetCategoy)
+		//api.GET("/category/:id/:num", controllers.GetCategoy)
 		// 文章
 		api.GET("/articles_recent", articleController.GetRecent)
 		api.GET("/article/:id", articleController.GetByID)

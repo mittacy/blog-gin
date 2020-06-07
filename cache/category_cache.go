@@ -23,10 +23,7 @@ func InitCategoryCache() error {
 // SetCategoryCache 初始化所有分类缓存
 func SetCategoryCache(categories []model.Category) {
 	categoryCache = categories
-	categoryCacheIndex = make(map[uint32]int, len(categoryCache))
-	for i, v := range categoryCache {
-		categoryCacheIndex[v.ID] = i
-	}
+	updateCategoryCacheIndex()
 }
 // AddCategoryCache 增加分类
 func AddCategoryCache(category model.Category) {
@@ -37,7 +34,7 @@ func AddCategoryCache(category model.Category) {
 func DeleteCategoryCache(id uint32) {
 	index := categoryCacheIndex[id]
 	categoryCache = append(categoryCache[:index], categoryCache[index+1:]...)
-	delete(categoryCacheIndex, id)
+	updateCategoryCacheIndex()
 }
 // UpdateCategoryCache 更新分类的title
 func UpdateCategoryCache(category model.Category) {
@@ -90,4 +87,11 @@ func GetCategoriesCache() ([]model.Category, bool) {
 		return nil, false
 	}
 	return categoryCache, true
+}
+// updateCategoryCacheIndex 更新index
+func updateCategoryCacheIndex() {
+	categoryCacheIndex = make(map[uint32]int, len(categoryCache))
+	for i, v := range categoryCache {
+		categoryCacheIndex[v.ID] = i
+	}
 }

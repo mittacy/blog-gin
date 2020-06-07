@@ -3,25 +3,26 @@ package controller
 import (
 	"github.com/crazychat/blog-gin/common"
 	"github.com/crazychat/blog-gin/log"
-	"github.com/crazychat/blog-gin/models"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
+	"os"
 )
 
 // GetErrorLog 获取博客错误日志文件内容
 func GetErrorLog(c *gin.Context) {
-	fi := log.ErrFile
-	if fi == nil {
-		if err := log.InitLog(); err != nil {
-			common.RejectResult(c, models.BACKERROR, "")
-			return
-		}
-	}
-	defer fi.Close()
-	fd, err := ioutil.ReadAll(fi)
+	fi, err := os.Open(log.FilePath)
 	if err != nil {
-		common.RejectResult(c, models.BACKERROR, "")
+		log.RecordLog(c, err)
+		common.RejectResult(c, common.BACKERROR, "")
 		return
 	}
-	common.ResolveResult(c, models.CONTROLLER_SUCCESS, string(fd))
+	defer fi.Close()
+
+	fd, err := ioutil.ReadAll(fi)
+	if err != nil {
+		log.RecordLog(c, err)
+		common.RejectResult(c, common.BACKERROR, "")
+		return
+	}
+	common.ResolveResult(c, common.CONTROLLER_SUCCESS, string(fd))
 }

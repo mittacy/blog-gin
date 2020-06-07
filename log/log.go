@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var ErrFile *os.File
+var errFile *os.File
 var ErrLogger *log.Logger
 const FilePath = "blogErr.log"
 
@@ -16,12 +16,11 @@ const FilePath = "blogErr.log"
 func InitLog() error {
 	// 创建日志文件
 	var err error
-	ErrFile, err = os.OpenFile(FilePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	errFile, err = os.OpenFile(FilePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil{
-		log.Fatalln("failed to open file: ", err)
 		return err
 	}
-	ErrLogger = log.New(io.MultiWriter(os.Stderr,ErrFile),"",log.Ldate | log.Ltime | log.Lshortfile)
+	ErrLogger = log.New(io.MultiWriter(os.Stderr, errFile),"",log.Ldate | log.Ltime | log.Lshortfile)
 	return nil
 }
 
@@ -36,7 +35,7 @@ func RecordErr(err error) {
 }
 
 func CloseLogFile() {
-	if err := ErrFile.Close(); err != nil {
+	if err := errFile.Close(); err != nil {
 		ErrLogger.Fatal("日志文件无法关闭，请检查")
 	}
 }
