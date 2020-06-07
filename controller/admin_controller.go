@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/crazychat/blog-gin/cache"
 	"github.com/crazychat/blog-gin/common"
 	"github.com/crazychat/blog-gin/config"
@@ -62,8 +61,6 @@ func (ac *AdminController) Post(c *gin.Context) {
 		return
 	}
 	// 用户名或密码错误
-	fmt.Println("输入的密码: ", utiles.Encryption(admin.Password))
-	fmt.Println("数据库的密码: ", adminRight.Password)
 	if admin.Name != adminRight.Name {
 		common.RejectResult(c, common.NAMEERROR, &model.Admin{})
 		return
@@ -84,7 +81,7 @@ func (ac *AdminController) Post(c *gin.Context) {
 	// 5. 返回结果
 	common.ResolveResult(c, common.CONTROLLER_SUCCESS, tokenStr)
 	// 6. 缓存token
-	common.SaveToken(tokenStr)
+	cache.SetToken(tokenStr)
 }
 // Put 修改管理员信息
 func (ac *AdminController) Put(c *gin.Context) {
@@ -145,7 +142,7 @@ func (ac *AdminController) Verify(c *gin.Context) {
 		common.RejectResult(c, common.NO_POWER, &model.Admin{})
 		return
 	}
-	// 2. 获取数据库tokne
+	// 2. 获取缓存器token
 	token, isExist := cache.GetToken()
 	if !isExist || adminToken != token {
 		common.RejectResult(c, common.NO_POWER, &model.Admin{})

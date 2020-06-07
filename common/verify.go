@@ -9,10 +9,7 @@ import (
 const (
 	ipMaxTimes string = "5"
 )
-// SaveToken 保存token到redis
-func SaveToken(token string) {
-	cache.SetToken(token)
-}
+
 // CheckIPRequestPower 检查ip是否访问次数过多
 func CheckIPRequestPower(ip string) bool {
 	// todo 修复ip限制功能

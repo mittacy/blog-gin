@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"fmt"
 	"github.com/crazychat/blog-gin/log"
 	"github.com/crazychat/blog-gin/model"
 	"github.com/crazychat/blog-gin/repository"
@@ -51,7 +50,6 @@ func AddArticleCache(article model.Article) {
 // DeleteArticleCache 删除文章
 func DeleteArticleCache(id uint32) {
 	if index, isExist := articleCacheIndex[id]; isExist {
-		fmt.Println("删除文章, id = ", id, ", index: ", index)
 		articleCache = append(articleCache[:index], articleCache[index+1:]...)
 		// 更新最近五篇文章
 		InitRecentArticleCache()
@@ -73,7 +71,6 @@ func GetArticleCacheByID(id uint32) (model.Article, bool) {
 	if index, isExist := articleCacheIndex[id]; isExist {
 		return articleCache[index], true
 	}
-	fmt.Println("文章不存在")
 	return model.Article{}, false
 }
 // GetArticleCacheByPage 通过Page获取文章
