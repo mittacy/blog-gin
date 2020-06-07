@@ -1,33 +1,24 @@
 package cache
 
-import (
-	"fmt"
-	"github.com/crazychat/blog-gin/repository"
-)
+import "github.com/crazychat/blog-gin/log"
 
 // InitCache 启动服务时的缓存操作
-func InitCache() error {
+func InitCache() (err error) {
 	// 1. admin 缓存
-	admin, err := repository.NewAdminRepository("admin").Select()
-	if err != nil {
-		return err
+	if err = InitAdminCache(); err != nil {
+		log.RecordErr(err)
+		return
 	}
-	UpdateAdminCache(admin)
-	fmt.Println("缓存admin成功，缓存器如下:")
-	fmt.Println("adminCache", adminCache)
-	fmt.Println("adminViewCache", adminViewCache)
 	// 2. category 缓存
-	control := repository.NewCategoryRepository("category")
-	categories, err := control.Select()
-	if err != nil {
-		return err
+	if err = InitCategoryCache(); err != nil {
+		log.RecordErr(err)
+		return
 	}
-	InitCategoryCache(categories)
-	fmt.Println("缓存categories成功，缓存器如下:")
-	fmt.Println("categoryCache", categoryCache)
-	fmt.Println("categoryCacheIndex", categoryCacheIndex)
 	// 3. article 缓存
-	return nil
+	if err = InitArticleCache(); err != nil {
+		log.RecordErr(err)
+	}
+	return
 }
 
 

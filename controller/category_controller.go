@@ -31,7 +31,7 @@ func NewCategoryController() ICategoryController {
 }
 // Post 添加分类
 func (cc *CategoryController) Post(c *gin.Context) {
-	// 1. 解析json数据到结构体
+	// 1. 解析请求
 	cate := model.Category{}
 	if err := c.ShouldBindJSON(&cate); err != nil {
 		log.RecordLog(c, err)

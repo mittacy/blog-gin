@@ -12,3 +12,8 @@
 2020/06/06 12:01:45 main.go:40: redis: can't marshal [][]uint8 (implement encoding.BinaryMarshaler)
 2020/06/06 12:07:43 log.go:32: POST | /api/category | Err: Error 1062: Duplicate entry 'hello' for key 'category.title'
 2020/06/06 12:08:19 log.go:32: DELETE | /api/category | Err: Key: 'Category.Title' Error:Field validation for 'Title' failed on the 'required' tag
+2020/06/06 22:17:48 base.go:57: GET | /api/article_page/:num | Err: Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-10, 10' at line 1
+2020/06/07 10:41:18 log.go:31: GET | /api/article/:id | Err: nil pointer passed to StructScan destination
+2020/06/07 10:45:28 log.go:31: GET | /api/article/:id | Err: nil pointer passed to StructScan destination
+2020/06/07 11:24:02 log.go:31: PUT | /api/article | Err: sql: expected 5 arguments, got 4
+2020/06/07 11:39:14 log.go:31: POST | /api/category | Err: Error 1062: Duplicate entry 'test2' for key 'category.title'

@@ -92,12 +92,13 @@ func (cmr *CategoryManaerRepository) Update(cate model.Category) error {
 }
 // Select 获取全部分类
 func (cmr *CategoryManaerRepository) Select() (categories []model.Category, err error) {
-	if err := cmr.Conn(); err != nil {
-		return categories, err
+	if err = cmr.Conn(); err != nil {
+		return
 	}
 	sqlStr := "select * from " + cmr.table
+	categories = []model.Category{}
 	err = cmr.mysqlConn.Select(&categories, sqlStr)
-	return categories, err
+	return
 }
 // SelectByID 通过id获取分类信息
 func (cmr *CategoryManaerRepository) SelectByID(id int) (category *model.Category, err error) {
@@ -105,17 +106,19 @@ func (cmr *CategoryManaerRepository) SelectByID(id int) (category *model.Categor
 		return
 	}
 	sqlStr := "select * from " + cmr.table + " where id = ?"
+	category = &model.Category{}
 	err = cmr.mysqlConn.Get(category, sqlStr, id)
 	return
 }
 // SelectByPage 分页获取分类
-func (cmr *CategoryManaerRepository) SelectByPage(page, onePageCategoryNum int) (categories []model.Category,categoryCount int, err error) {
+func (cmr *CategoryManaerRepository) SelectByPage(page, onePageCategoryNum int) (categories []model.Category, categoryCount int, err error) {
 	if err = cmr.Conn(); err != nil {
 		return
 	}
 	// 1. 查询 categories
 	startIndex := strconv.Itoa(page * onePageCategoryNum)
 	sqlStr := "select * from " + cmr.table + " limit " + startIndex + ", " + strconv.Itoa(onePageCategoryNum)
+	categories = []model.Category{}
 	if err = cmr.mysqlConn.Select(&categories, sqlStr); err != nil {
 		return
 	}

@@ -70,7 +70,7 @@ func (cs *CategoryService) GetCategoryByID(id int) (category *model.Category, er
 			if err != nil {
 				log.RecordErr(err)
 			}
-			cache.InitCategoryCache(categories)
+			cache.SetCategoryCache(categories)
 		}()
 	}
 	return
@@ -87,7 +87,7 @@ func (cs *CategoryService) GetCategories() (categories []model.Category, err err
 			return
 		}
 		// 缓存分类
-		cache.InitCategoryCache(categories)
+		cache.SetCategoryCache(categories)
 	}
 	return
 }
@@ -108,7 +108,7 @@ func (cs *CategoryService) GetCategoriesByPage(page, onePageCategoryNum int) (ca
 			if err != nil {
 				log.RecordErr(err)
 			}
-			cache.InitCategoryCache(categories)
+			cache.SetCategoryCache(categories)
 		}()
 	}
 	return

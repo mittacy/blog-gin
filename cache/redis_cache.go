@@ -9,7 +9,7 @@ import (
 func RedisIncr(key string) error {
 	return database.RedisDB.Incr(key).Err()
 }
-// RedisIncr redis对象减1
+// RedisDel 删除redis对象
 func RedisDel(key string) error {
 	return  database.RedisDB.Del(key).Err()
 }

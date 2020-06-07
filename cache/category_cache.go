@@ -1,15 +1,32 @@
 package cache
 
 import (
+	"fmt"
 	"github.com/crazychat/blog-gin/config"
 	"github.com/crazychat/blog-gin/model"
+	"github.com/crazychat/blog-gin/repository"
 )
 
-var categoryCache []model.Category
-var categoryCacheIndex = make(map[uint32]int)	// 记录category在categoryCache中的位置
+var (
+	categoryCache []model.Category
+	categoryCacheIndex = make(map[uint32]int)	// 记录category在categoryCache中的位置
+)
 
-// InitCategoryCache 初始化所有分类缓存
-func InitCategoryCache(categories []model.Category) {
+func InitCategoryCache() error {
+	categories, err := repository.NewCategoryRepository("category").Select()
+	if err != nil {
+		return err
+	}
+	SetCategoryCache(categories)
+	fmt.Println("缓存categories成功，缓存器如下:")
+	fmt.Println("categoryCache", categoryCache)
+	fmt.Println("categoryCacheIndex", categoryCacheIndex)
+	fmt.Println()
+	return nil
+}
+
+// SetCategoryCache 初始化所有分类缓存
+func SetCategoryCache(categories []model.Category) {
 	categoryCache = categories
 	categoryCacheIndex = make(map[uint32]int, len(categoryCache))
 	for i, v := range categoryCache {
@@ -31,6 +48,22 @@ func DeleteCategoryCache(id uint32) {
 func UpdateCategoryCache(category model.Category) {
 	index := categoryCacheIndex[category.ID]
 	categoryCache[index].Title = category.Title
+}
+// UpdateCategoryCacheIncr 分类文章数+1
+func UpdateCategoryCacheIncr(id uint32) bool {
+	if index, isExist := categoryCacheIndex[id]; isExist {
+		categoryCache[index].ArticleCount++
+		return true
+	}
+	return false
+}
+// UpdateCategoryCacheDecr 分类文章数-1
+func UpdateCategoryCacheDecr(id uint32) bool {
+	if index, isExist := categoryCacheIndex[id]; isExist {
+		categoryCache[index].ArticleCount--
+		return true
+	}
+	return false
 }
 // GetCategoryCacheByID 根据 id 获取分类信息
 func GetCategoryCacheByID(id uint32) (*model.Category, bool) {
