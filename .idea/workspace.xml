@@ -3,30 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3a29983f-5c6b-4b3a-95bc-51ca9a7e2dc9" name="Default Changelist" comment="Default Changelist">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/admin_cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/cache/admin_cache.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/article_cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/cache/article_cache.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/cache/cache.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/category_cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/cache/category_cache.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/ip_cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/cache/ip_cache.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/timer.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/timer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/admin_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/admin_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/article_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/article_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/category_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/category_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/log_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/log_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/blogErr.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/log/log.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repository/admin_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/admin_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repository/article_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/article_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repository/category_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/category_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/middleware.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/admin_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/admin_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/article_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/article_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/category_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/category_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogErr.log" beforeDir="false" afterPath="$PROJECT_DIR$/blogErr.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,22 +82,22 @@
     <proxy>https://goproxy.cn</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1238" height="385" key="GridCell.Tab.0.bottom" timestamp="1591596445268">
+    <state width="1238" height="385" key="GridCell.Tab.0.bottom" timestamp="1591598568442">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1591596445268" />
-    <state width="1238" height="385" key="GridCell.Tab.0.center" timestamp="1591596445266">
+    <state width="1238" height="385" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1591598568442" />
+    <state width="1238" height="385" key="GridCell.Tab.0.center" timestamp="1591598568441">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1591596445266" />
-    <state width="1238" height="385" key="GridCell.Tab.0.left" timestamp="1591596445262">
+    <state width="1238" height="385" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1591598568441" />
+    <state width="1238" height="385" key="GridCell.Tab.0.left" timestamp="1591598568440">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1591596445262" />
-    <state width="1238" height="385" key="GridCell.Tab.0.right" timestamp="1591596445268">
+    <state width="1238" height="385" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1591598568440" />
+    <state width="1238" height="385" key="GridCell.Tab.0.right" timestamp="1591598568441">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1591596445268" />
+    <state width="1238" height="385" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1591598568441" />
     <state x="296" y="152" width="688" height="518" key="find.popup" timestamp="1591596410184">
       <screen x="0" y="23" width="1280" height="777" />
     </state>

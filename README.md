@@ -4,6 +4,8 @@
 
 ### 1. 项目结构
 
+其中`js`、`css`、`index.html`为Vue打包文件，前端源码：[https://github.com/mittacy/blog-vue](https://github.com/mittacy/blog-vue)
+
 ~~~
 .
 ├── main.go 主函数
@@ -74,9 +76,9 @@
 
 一个api请求的访问顺序：`router` -> `controller` -> `service` -> `cache/repository` -> `model` -> `database`
 
-如何运行项目: 
+### 2. 运行项目: 
 
-### 2. 前提
+#### 2.1 前提
 
 + golang环境
 
@@ -144,11 +146,11 @@
   > DELIMITER ;
   ~~~
 
-### 3. 获取
+#### 2.2 获取
 
 `go get "https://github.com/mittacy/blog-gin.git"`
 
-### 4. 设置
+#### 2.3 设置
 
 1. 打开`config/config.go`
 
@@ -182,7 +184,7 @@ var InitAdmin = model.Admin {
    )
    ~~~
 
-### 5. 运行
+#### 2.4 运行
 
 ~~~shell
 $ cd .../项目根目录
