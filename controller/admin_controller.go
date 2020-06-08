@@ -1,15 +1,15 @@
 package controller
 
 import (
-	"github.com/crazychat/blog-gin/cache"
-	"github.com/crazychat/blog-gin/common"
-	"github.com/crazychat/blog-gin/config"
-	"github.com/crazychat/blog-gin/log"
-	"github.com/crazychat/blog-gin/model"
-	"github.com/crazychat/blog-gin/repository"
-	"github.com/crazychat/blog-gin/service"
-	"github.com/crazychat/blog-gin/utiles"
 	"github.com/gin-gonic/gin"
+	"github.com/mittacy/blog-gin/cache"
+	"github.com/mittacy/blog-gin/common"
+	"github.com/mittacy/blog-gin/config"
+	"github.com/mittacy/blog-gin/log"
+	"github.com/mittacy/blog-gin/model"
+	"github.com/mittacy/blog-gin/repository"
+	"github.com/mittacy/blog-gin/service"
+	"github.com/mittacy/blog-gin/utiles"
 )
 
 type IAdminController interface {

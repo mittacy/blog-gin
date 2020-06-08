@@ -1,8 +1,8 @@
 package cache
 
 import (
-	"github.com/crazychat/blog-gin/config"
-	"github.com/crazychat/blog-gin/database"
+	"github.com/mittacy/blog-gin/config"
+	"github.com/mittacy/blog-gin/database"
 	"github.com/gomodule/redigo/redis"
 )
 // GetIPTimes 获取ip访问次数

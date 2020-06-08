@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/crazychat/blog-gin/model"
-	"github.com/crazychat/blog-gin/utiles"
+	"github.com/mittacy/blog-gin/model"
+	"github.com/mittacy/blog-gin/utiles"
 )
 
 const PageCategoryNums = 10	// 每页展示的分类数量

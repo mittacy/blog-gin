@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"github.com/crazychat/blog-gin/common"
-	"github.com/crazychat/blog-gin/log"
 	"github.com/gin-gonic/gin"
+	"github.com/mittacy/blog-gin/common"
+	"github.com/mittacy/blog-gin/log"
 	"io/ioutil"
 	"os"
 )

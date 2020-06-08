@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/crazychat/blog-gin/controller"
-	"github.com/crazychat/blog-gin/log"
+	"github.com/mittacy/blog-gin/controller"
+	"github.com/mittacy/blog-gin/log"
 	"github.com/gin-gonic/gin"
 )
 

@@ -2,9 +2,9 @@ package router
 
 import (
 	"fmt"
-	"github.com/crazychat/blog-gin/cache"
-	"github.com/crazychat/blog-gin/common"
-	"github.com/crazychat/blog-gin/model"
+	"github.com/mittacy/blog-gin/cache"
+	"github.com/mittacy/blog-gin/common"
+	"github.com/mittacy/blog-gin/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"

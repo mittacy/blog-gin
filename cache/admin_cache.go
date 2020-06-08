@@ -1,8 +1,8 @@
 package cache
 
 import (
-	"github.com/crazychat/blog-gin/model"
-	"github.com/crazychat/blog-gin/repository"
+	"github.com/mittacy/blog-gin/model"
+	"github.com/mittacy/blog-gin/repository"
 )
 
 var adminCache *model.Admin	// 保存admin的信息

@@ -1,6 +1,6 @@
 package cache
 
-import "github.com/crazychat/blog-gin/log"
+import "github.com/mittacy/blog-gin/log"
 
 // InitCache 启动服务时的缓存操作
 func InitCache() (err error) {

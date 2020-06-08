@@ -1,4 +1,5 @@
-module github.com/crazychat/blog-gin
+module github.com/mittacy/blog-gin
+
 
 go 1.14
 

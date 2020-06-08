@@ -2,9 +2,9 @@ package repository
 
 import (
 	"database/sql"
-	"github.com/crazychat/blog-gin/database"
-	"github.com/crazychat/blog-gin/model"
 	"github.com/jmoiron/sqlx"
+	"github.com/mittacy/blog-gin/database"
+	"github.com/mittacy/blog-gin/model"
 )
 
 type IAdminRepository interface {

@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/crazychat/blog-gin/cache"
-	"github.com/crazychat/blog-gin/common"
-	"github.com/crazychat/blog-gin/database"
-	"github.com/crazychat/blog-gin/log"
-	"github.com/crazychat/blog-gin/router"
+	"github.com/mittacy/blog-gin/cache"
+	"github.com/mittacy/blog-gin/common"
+	"github.com/mittacy/blog-gin/database"
+	"github.com/mittacy/blog-gin/log"
+	"github.com/mittacy/blog-gin/router"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -14,7 +14,7 @@ import (
 
 func main() {
 	// 1. 创建 Gin 框架 todo 上线改成gin.New()
-	r := gin.New()
+	r := gin.Default()
 	// 2. 设置日志
 	if err := log.InitLog(); err != nil {
 		fmt.Println(err)

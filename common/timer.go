@@ -2,8 +2,8 @@ package common
 
 import (
 	"errors"
-	"github.com/crazychat/blog-gin/cache"
-	"github.com/crazychat/blog-gin/log"
+	"github.com/mittacy/blog-gin/cache"
+	"github.com/mittacy/blog-gin/log"
 	"time"
 )
 
