@@ -8,9 +8,9 @@ import (
 
 var (
 	articleCache []model.Article // 全部文章简介缓存
-	articleCacheIndex = make(map[uint32]int)  // // 记录article在articleCache中的位置
+	articleCacheIndex map[uint32]int  // // 记录article在articleCache中的位置
 	recentArticleCache []model.Article // 最新五篇文章缓存
-	articleAddViewsMap = make(map[uint32]int, 10) // 记录一天内文章是否被访问过, key为文章id，value为新增访问量
+	articleAddViewsMap map[uint32]int // 记录一天内文章是否被访问过, key为文章id，value为新增访问量
 )
 
 func InitArticleCache() error {
@@ -22,6 +22,7 @@ func InitArticleCache() error {
 	}
 	SetArticleCache(articles)
 	InitRecentArticleCache()
+	articleAddViewsMap = make(map[uint32]int, 10)
 	return nil
 }
 // InitArticleCache 初始化全部文章缓存

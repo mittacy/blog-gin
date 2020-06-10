@@ -24,6 +24,8 @@ func StartTimer() {
 			} else {
 				log.RecordErr(errors.New("更新文章新增访问量到数据库成功"))
 			}
+			// 3. 更新内存缓存
+
 			// 3. 计算下一次更新时间
 			now := time.Now()
 			next := now.Add(time.Hour * 24)

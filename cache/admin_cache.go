@@ -14,6 +14,7 @@ func InitAdminCache() error {
 		return err
 	}
 	UpdateAdminCache(admin)
+	adminViewCache = 0
 	return nil
 }
 

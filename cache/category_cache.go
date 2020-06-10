@@ -8,7 +8,7 @@ import (
 
 var (
 	categoryCache []model.Category
-	categoryCacheIndex = make(map[uint32]int)	// 记录category在categoryCache中的位置
+	categoryCacheIndex map[uint32]int	// 记录category在categoryCache中的位置
 )
 
 func InitCategoryCache() error {
