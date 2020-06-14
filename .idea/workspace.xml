@@ -4,6 +4,7 @@
     <list default="true" id="3a29983f-5c6b-4b3a-95bc-51ca9a7e2dc9" name="Default Changelist" comment="Default Changelist">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogErr.log" beforeDir="false" afterPath="$PROJECT_DIR$/blogErr.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/timer.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/timer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,26 +83,26 @@
     <proxy>https://goproxy.cn</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1238" height="385" key="GridCell.Tab.0.bottom" timestamp="1591598568442">
+    <state width="1238" height="140" key="GridCell.Tab.0.bottom" timestamp="1592105801872">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1591598568442" />
-    <state width="1238" height="385" key="GridCell.Tab.0.center" timestamp="1591598568441">
+    <state width="1238" height="140" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1592105801872" />
+    <state width="1238" height="140" key="GridCell.Tab.0.center" timestamp="1592105801871">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1591598568441" />
-    <state width="1238" height="385" key="GridCell.Tab.0.left" timestamp="1591598568440">
+    <state width="1238" height="140" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1592105801871" />
+    <state width="1238" height="140" key="GridCell.Tab.0.left" timestamp="1592105801870">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1591598568440" />
-    <state width="1238" height="385" key="GridCell.Tab.0.right" timestamp="1591598568441">
+    <state width="1238" height="140" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1592105801870" />
+    <state width="1238" height="140" key="GridCell.Tab.0.right" timestamp="1592105801872">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="385" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1591598568441" />
-    <state x="296" y="152" width="688" height="518" key="find.popup" timestamp="1591596410184">
+    <state width="1238" height="140" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1592105801872" />
+    <state x="296" y="152" width="688" height="518" key="find.popup" timestamp="1592105742498">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state x="296" y="152" width="688" height="518" key="find.popup/0.23.1280.777@0.23.1280.777" timestamp="1591596410184" />
+    <state x="296" y="152" width="688" height="518" key="find.popup/0.23.1280.777@0.23.1280.777" timestamp="1592105742498" />
   </component>
   <component name="masterDetails">
     <states>
